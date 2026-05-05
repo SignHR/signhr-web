@@ -1,0 +1,151 @@
+---
+title: "Why approval workflows fail (and how to fix yours)"
+excerpt: "Approval workflows aren't broken because they're slow. They're broken because they're invisible. Here's how to make yours actually move."
+date: "2026-03-22"
+category: "Guides"
+readTime: "9 min read"
+author:
+  name: "Daniel Park"
+  role: "Head of Engineering"
+  initials: "DP"
+  accent: "blue"
+---
+
+I've spent ten years building software. Roughly three of those years, in aggregate, have been spent debugging approval workflows. Not the engine — the human side. Why didn't this expense get reimbursed? Why is this leave still pending? Why did this offer letter sit for nine days before going out?
+
+The answer is almost always the same. The workflow isn't broken. It's invisible.
+
+Most "broken" approval workflows are working exactly as designed — the design is just terrible. Let's look at why, and what to do about it.
+
+## The four failure modes
+
+Across hundreds of workflows I've seen, problems cluster into four categories:
+
+1. **The approver doesn't know they're an approver.**
+2. **The approver knows, but doesn't know what they're approving.**
+3. **The approver knows, knows what it is, but the request is stuck behind someone else.**
+4. **The approver is on leave and there's no fallback.**
+
+Each one has a fix. None of them is technical. All of them are about visibility.
+
+## Failure mode 1 — The notification gap
+
+The most common workflow failure: a request gets created, an email goes out, the email lands in a folder no one opens. Three weeks later someone follows up.
+
+The fix has three parts:
+
+**Notify in the tool the person actually uses.** If your team lives in Slack, send the notification there. If they live in email, fine — but make the email scannable. The first 80 characters of the subject line should tell the approver what's needed and from whom. Anything that opens with "[ACTION REQUIRED]" gets ignored. Anything that opens with the requester's name and the type of request gets read.
+
+**Reduce the number of notifications.** If your tool sends a separate notification for "request created," "request reviewed," "request approved," "request closed," your approvers tune them all out. Send one notification per event the person actually needs to act on.
+
+**Escalate after 24 hours.** Not 5 days. 24. Because the longer a request sits, the more context decays. After 48 hours, half the people who saw the original notification have forgotten what it was about.
+
+<Callout kind="tip" title="Reminders aren't the same as escalations">
+  A reminder pings the same person again. An escalation routes the
+  request to someone else. After two reminders that don't move the
+  request, escalate. Don't keep nagging — find a different path.
+</Callout>
+
+## Failure mode 2 — The context gap
+
+You get a Slack notification: "Marcus has submitted a leave request — May 8 to May 9. Approve / Reject."
+
+You have no idea who Marcus is.
+
+This is the second-most common failure. The notification has the bare minimum data; the approver needs context to decide.
+
+What "context" means depends on the request type. For leave:
+
+- Who else from the same team is out on those days?
+- What's their leave balance?
+- Are they on probation? Is the leave type allowed?
+- Is there a project deadline that overlaps?
+
+If the system makes the approver leave the notification to gather all of this, half the time they won't bother. The request just sits.
+
+The fix: include enough context in the notification that the approver can decide without leaving it. Most modern tools support rich Slack messages or interactive cards in email. Use them.
+
+## Failure mode 3 — The bottleneck approver
+
+Most workflows have a bottleneck. There's one VP, one HR business partner, one finance director who sits in the middle of half the company's flows.
+
+Two patterns help:
+
+**Parallel approvals where order doesn't matter.** If three people need to sign off and any order works, do them in parallel. Don't make the second person wait for the first.
+
+**Skip on conditions.** If the request is under a threshold, skip the senior approver entirely. If the request is from someone with explicit authority, skip the L+1 step. Most workflow engines support this; few teams use it.
+
+I worked with a 200-person company where their CFO was approving every expense over $50. After we added a rule that auto-approved expenses under $200 if submitted by a manager, his daily approval queue went from 80 items to 12. Same rigor on the things that mattered. Almost no time spent on the things that didn't.
+
+## Failure mode 4 — The vacation problem
+
+Karthik is on leave for two weeks. Every approval routed to him sits.
+
+The fix is policy, not tech. You need three things:
+
+1. **Mandatory delegate-when-out.** If you're on leave, you must set a delegate. The HR system should require it on leave application.
+2. **Auto-routing during the absence.** If a request comes in and the approver is on leave, it goes to the delegate automatically — not after a reminder loop.
+3. **Visibility into the delegation.** When a request is rerouted, both the original approver and the delegate should see why. No mystery.
+
+Most teams skip step 1. So requests pile up, and the team finds out only when someone follows up.
+
+## Failure mode 5 (bonus) — The spreadsheet workflow
+
+Some teams don't have a workflow tool at all. Their "workflow" is:
+
+> "Email the manager, who emails HR, who emails Finance, who replies-all back."
+
+This is a workflow. It's just an unobservable, unauditable, unreliable one.
+
+Symptoms:
+
+- Nobody can tell you the average resolution time, because there's no data.
+- The same request type takes anywhere from 1 day to 3 weeks, depending on which inboxes it bounces through.
+- When a request gets lost, the recovery process is "Slack three different people and hope someone has the thread."
+
+If this is you, fix it before doing anything else. Even a basic ticketing tool is dramatically better than email threads. The worst dedicated workflow tool will outperform the best email-based process, because at least you'll know where things are.
+
+## What good workflows look like
+
+Pick any well-designed workflow you've used. They share a few traits:
+
+- **Status is always visible.** The requester can see exactly where their request is — without asking. The approver can see the queue at a glance.
+- **Actions are one click.** From the notification, not from a separate dashboard.
+- **The reason is always recorded.** When something is approved or rejected, the rationale is captured and visible to everyone in the chain.
+- **Escalations are automatic.** Not "set a calendar reminder to follow up if you don't hear back in three days."
+- **The audit trail is complete.** Every state change, every comment, every escalation — recorded with a timestamp.
+
+Compare this to most internal "workflows" that are still email + spreadsheet. The gap is enormous. And it's not just about speed; it's about trust. When the system is observable, people trust it. When it isn't, every request becomes a personal favor.
+
+## How to audit your own workflows
+
+Spend a Friday afternoon doing this:
+
+1. **List your top five workflows by volume.** Leave, expenses, onboarding, payroll changes, asset requests. Your list will be similar.
+2. **For each, measure the median resolution time.** Not the average — the median. Average gets distorted by outliers.
+3. **For each, find the bottleneck.** Which step takes the longest? Almost always one specific approver or one specific handoff.
+4. **For each, count notifications.** How many emails, Slack pings, and tool notifications does a single request generate? If it's more than three, your team is being trained to ignore them.
+5. **For each, run the audit-trail test.** Pick a closed request from three months ago. Can you reconstruct who did what, when, and why? If not, you have a compliance problem you don't know about.
+
+You'll find one or two workflows are dramatically worse than the rest. Fix those first. Don't try to redesign all five at once.
+
+## The metric to track
+
+There's one metric that captures the health of your approval workflows better than any other: **time to first action**.
+
+How long between a request being submitted and the first approver doing something with it — anything: approving, rejecting, asking a question, escalating?
+
+If your time to first action is under 4 hours, your workflows are healthy.
+If it's between 4 and 24 hours, you have notification gaps.
+If it's between 24 and 72 hours, you have context gaps.
+If it's over 72 hours, you have a bottleneck approver or no escalation.
+
+Fix the cause, not the symptom. Don't just send more reminders.
+
+## A closing thought
+
+The reason most approval workflows fail is the same reason most things in operations fail: they're designed for the rare case, not the common one. Workflows are built around "what if someone tries to expense $50,000?" instead of "what about the 95% of requests that are routine?"
+
+Optimize for the common case. Fast-path the easy stuff. Make the hard cases visible.
+
+Your approvers will thank you. So will everyone waiting for a decision.

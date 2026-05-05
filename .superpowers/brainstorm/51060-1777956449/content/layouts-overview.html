@@ -1,0 +1,202 @@
+<h2>Six hero directions for SignHR</h2>
+<p class="subtitle">Click any that interest you — I'll deepen the ones you pick. Two per priority: conversion, product, brand.</p>
+
+<style>
+  .grid6 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 900px) { .grid6 { grid-template-columns: 1fr; } }
+  .opt {
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 16px;
+    padding: 16px;
+    background: var(--card-bg, #fff);
+    cursor: pointer;
+    transition: all 0.18s ease;
+  }
+  .opt:hover { transform: translateY(-2px); box-shadow: 0 12px 32px -16px rgba(124,77,255,0.25); border-color: rgba(124,77,255,0.4); }
+  .opt.selected { border-color: #7c4dff; box-shadow: 0 0 0 3px rgba(124,77,255,0.15); }
+  .opt-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; margin-bottom: 10px; }
+  .tag-conv { background: rgba(34,197,94,0.12); color: #15803d; }
+  .tag-prod { background: rgba(124,77,255,0.12); color: #6d28d9; }
+  .tag-brand { background: rgba(245,158,11,0.12); color: #b45309; }
+  .opt h3 { font-size: 15px; margin: 0 0 6px; }
+  .opt p { font-size: 12.5px; color: #64748b; margin: 0 0 12px; line-height: 1.5; }
+
+  /* Mini wireframes */
+  .mini { aspect-ratio: 16/9; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 6px; position: relative; overflow: hidden; }
+  .mini .nav { height: 6px; background: #e2e8f0; border-radius: 3px; }
+  .mini .h-line { height: 4px; background: #cbd5e1; border-radius: 2px; }
+  .mini .h-big { height: 8px; background: #475569; border-radius: 2px; }
+  .mini .btn { height: 6px; width: 30px; background: #7c4dff; border-radius: 3px; display: inline-block; }
+  .mini .btn-ghost { height: 6px; width: 26px; background: #e2e8f0; border-radius: 3px; display: inline-block; margin-left: 4px; }
+  .mini .panel { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; padding: 4px; flex: 1; }
+
+  /* A — centered + product mockup (current) */
+  .miniA { align-items: center; text-align: center; }
+  .miniA .h-big { width: 70%; }
+  .miniA .h-line { width: 60%; }
+  .miniA .panel { width: 100%; height: 30px; }
+
+  /* B — split (text left / mockup right) */
+  .miniB { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 10px; }
+  .miniB .left { display: flex; flex-direction: column; gap: 5px; justify-content: center; }
+  .miniB .h-big { width: 90%; }
+  .miniB .h-line { width: 70%; }
+  .miniB .right { background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; }
+
+  /* C — interactive product as hero */
+  .miniC { padding: 6px; }
+  .miniC .top-strip { display: flex; gap: 4px; align-items: center; padding: 4px 6px; }
+  .miniC .top-strip .h-line { flex: 1; }
+  .miniC .product { flex: 1; background: #fff; border: 1px solid #e2e8f0; border-radius: 4px; display: grid; grid-template-columns: 30px 1fr; }
+  .miniC .product .sidebar { background: #f8fafc; border-right: 1px solid #e2e8f0; }
+  .miniC .product .main { padding: 4px; display: flex; flex-direction: column; gap: 3px; }
+  .miniC .product .row { height: 5px; background: #f1f5f9; border-radius: 2px; }
+  .miniC .floating { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); background: #1e1e2e; color: #fff; padding: 4px 10px; border-radius: 999px; font-size: 8px; }
+
+  /* D — before/after */
+  .miniD { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; position: relative; }
+  .miniD .before { background: repeating-linear-gradient(45deg, #fef2f2, #fef2f2 4px, #fee2e2 4px, #fee2e2 8px); border: 1px dashed #fca5a5; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 3px; }
+  .miniD .after { background: linear-gradient(135deg, #ede9fe, #f3e8ff); border: 1px solid #c4b5fd; border-radius: 4px; padding: 6px; display: flex; flex-direction: column; gap: 3px; }
+  .miniD .arrow { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); background: #7c4dff; color: #fff; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; }
+  .miniD .h-line { background: #94a3b8; }
+
+  /* E — editorial / magazine */
+  .miniE { padding: 14px; align-items: flex-start; justify-content: center; gap: 4px; }
+  .miniE .label { font-size: 7px; letter-spacing: 0.2em; color: #b45309; text-transform: uppercase; font-weight: 700; }
+  .miniE .h-huge { height: 14px; background: #1e1e2e; border-radius: 2px; width: 95%; }
+  .miniE .h-italic { height: 10px; background: linear-gradient(90deg, #7c4dff, #c084fc); border-radius: 2px; width: 50%; transform: skewX(-6deg); margin: 2px 0; }
+  .miniE .rule { height: 1px; background: #cbd5e1; margin: 6px 0; }
+  .miniE .col2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+
+  /* F — typographic + ticker */
+  .miniF { padding: 10px; align-items: center; text-align: center; justify-content: space-between; }
+  .miniF .h-mega { height: 20px; background: #1e1e2e; border-radius: 2px; width: 92%; }
+  .miniF .h-mega-2 { height: 20px; background: linear-gradient(90deg, #7c4dff, #ec4899); border-radius: 2px; width: 60%; transform: skewX(-4deg); }
+  .miniF .ticker { width: 100%; background: #1e1e2e; padding: 4px 6px; display: flex; gap: 8px; overflow: hidden; border-radius: 2px; }
+  .miniF .ticker .pill { height: 4px; background: rgba(255,255,255,0.4); border-radius: 2px; flex-shrink: 0; }
+</style>
+
+<div class="grid6">
+
+  <div class="opt" data-choice="a-centered" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-conv">Conversion · Safe</span>
+    <h3>A. Centered + product mockup (current)</h3>
+    <p>Eyebrow → big headline → sub → CTAs → wide dashboard below. Tested pattern, easy to A/B against.</p>
+    <div class="mini miniA">
+      <div class="nav" style="width:100%"></div>
+      <div style="height:8px"></div>
+      <div class="h-line" style="width:30%"></div>
+      <div class="h-big"></div>
+      <div class="h-big" style="width:55%"></div>
+      <div class="h-line"></div>
+      <div><span class="btn"></span><span class="btn-ghost"></span></div>
+      <div class="panel"></div>
+    </div>
+  </div>
+
+  <div class="opt" data-choice="b-split" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-conv">Conversion · Fresh</span>
+    <h3>B. Asymmetric split — copy left, live mockup right</h3>
+    <p>Bigger personality than centered. CTAs above the fold. Mockup is companion, not afterthought.</p>
+    <div class="mini miniB">
+      <div class="left">
+        <div class="h-big"></div>
+        <div class="h-big" style="width:65%"></div>
+        <div class="h-line"></div>
+        <div class="h-line" style="width:55%"></div>
+        <div><span class="btn"></span><span class="btn-ghost"></span></div>
+      </div>
+      <div class="right"></div>
+    </div>
+  </div>
+
+  <div class="opt" data-choice="c-interactive" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-prod">Product · Bold</span>
+    <h3>C. Interactive product is the hero</h3>
+    <p>Real-looking SignHR app fills the viewport. Headline floats above as a chrome bar. Visitor sees the product first, copy second.</p>
+    <div class="mini miniC">
+      <div class="top-strip">
+        <div class="h-line" style="width:50%"></div>
+        <span class="btn"></span>
+      </div>
+      <div class="product">
+        <div class="sidebar"></div>
+        <div class="main">
+          <div class="row" style="width:60%"></div>
+          <div class="row"></div>
+          <div class="row" style="width:80%"></div>
+          <div class="row"></div>
+          <div class="row" style="width:40%"></div>
+        </div>
+      </div>
+      <div class="floating">Run your entire HR ✨</div>
+    </div>
+  </div>
+
+  <div class="opt" data-choice="d-comparison" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-prod">Product · Story</span>
+    <h3>D. Before / After comparison</h3>
+    <p>Left: chaos (5 tools, spreadsheet). Right: SignHR. Headline reframes the visitor's pain into the proposition.</p>
+    <div class="mini miniD">
+      <div class="before">
+        <div class="h-line" style="background:#dc2626;width:40%"></div>
+        <div class="h-line" style="width:70%"></div>
+        <div class="h-line" style="width:50%"></div>
+        <div class="h-line" style="width:80%"></div>
+      </div>
+      <div class="after">
+        <div class="h-line" style="background:#7c4dff;width:50%"></div>
+        <div class="h-line" style="background:#a78bfa;width:90%"></div>
+        <div class="h-line" style="background:#a78bfa;width:65%"></div>
+      </div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+
+  <div class="opt" data-choice="e-editorial" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-brand">Brand · Editorial</span>
+    <h3>E. Editorial / magazine layout</h3>
+    <p>Newspaper-style: thin rules, large serif italics, two-column body, drop cap. Feels confident, opinionated, very un-SaaS.</p>
+    <div class="mini miniE">
+      <span class="label">Issue 01 · The HR Field Guide</span>
+      <div class="h-huge"></div>
+      <div class="h-italic"></div>
+      <div class="h-huge" style="width:75%"></div>
+      <div class="rule"></div>
+      <div class="col2">
+        <div>
+          <div class="h-line"></div>
+          <div class="h-line" style="width:80%;margin-top:3px"></div>
+          <div class="h-line" style="width:90%;margin-top:3px"></div>
+        </div>
+        <div>
+          <div class="h-line"></div>
+          <div class="h-line" style="width:70%;margin-top:3px"></div>
+          <div class="h-line" style="width:85%;margin-top:3px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="opt" data-choice="f-typographic" onclick="toggleSelect(this)">
+    <span class="opt-tag tag-brand">Brand · Statement</span>
+    <h3>F. Mega-typographic + live ticker</h3>
+    <p>Headline takes 80% of the screen. Below: a horizontal ticker showing live stats from real customers ("4,219 leaves approved today"). Personality and proof in one.</p>
+    <div class="mini miniF">
+      <div class="h-mega"></div>
+      <div class="h-mega-2"></div>
+      <div class="h-mega" style="width:70%"></div>
+      <div style="display:flex;gap:4px;align-items:center"><span class="btn"></span><span class="btn-ghost"></span></div>
+      <div class="ticker">
+        <div class="pill" style="width:30px"></div>
+        <div class="pill" style="width:50px"></div>
+        <div class="pill" style="width:40px"></div>
+        <div class="pill" style="width:35px"></div>
+        <div class="pill" style="width:45px"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:18px">Click 1–3 directions you want me to develop into full mockups. Or tell me in chat which ones — and what you'd kill.</p>

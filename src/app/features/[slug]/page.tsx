@@ -1,0 +1,208 @@
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { Container } from "@/components/layout/container";
+import { Section } from "@/components/layout/section";
+import { Hero } from "@/components/marketing/hero";
+import { FeatureCard } from "@/components/marketing/feature-card";
+import { Spotlight } from "@/components/marketing/spotlight";
+import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
+import { TestimonialCard } from "@/components/marketing/testimonial-card";
+import { CTABand } from "@/components/marketing/cta-band";
+import { GradientHalo } from "@/components/marketing/gradient-halo";
+import { FloatingMockup } from "@/components/marketing/floating-mockup";
+import { Button } from "@/components/ui/button";
+import {
+  FEATURE_PAGE_SLUGS,
+  getFeaturePage,
+  getRelatedFeatures,
+} from "@/lib/features";
+
+type Props = { params: Promise<{ slug: string }> };
+
+export function generateStaticParams() {
+  return FEATURE_PAGE_SLUGS.map((slug) => ({ slug }));
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+  const page = getFeaturePage(slug);
+  if (!page) return {};
+  const title = `${page.category}`;
+  return {
+    title,
+    description: page.metaDescription,
+    alternates: { canonical: `/features/${slug}` },
+    openGraph: {
+      title: `${title} — SignHR`,
+      description: page.metaDescription,
+      url: `/features/${slug}`,
+      type: "article",
+    },
+  };
+}
+
+export default async function FeatureDetailPage({ params }: Props) {
+  const { slug } = await params;
+  const page = getFeaturePage(slug);
+  if (!page) notFound();
+
+  const related = getRelatedFeatures(slug);
+  const heroVisual = page.spotlights[0]?.mockup ?? { kind: "self-service" };
+
+  return (
+    <>
+      <Hero
+        variant="feature"
+        eyebrow={page.category.toUpperCase()}
+        title={
+          <>
+            {page.hero.title}{" "}
+            {page.hero.titleAccent && (
+              <em className="serif-italic">{page.hero.titleAccent}</em>
+            )}
+          </>
+        }
+        description={page.hero.description}
+        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
+        secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
+      />
+
+      {/* Big hero visual band */}
+      <Section pad="compact" className="-mt-10 md:-mt-16">
+        <Container>
+          <div className="relative">
+            <GradientHalo
+              variant="hero"
+              size="lg"
+              className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+            />
+            <FloatingMockup amplitude={8} duration={7} className="block w-full">
+              <SpotlightMockupView
+                mockup={heroVisual}
+                className="mx-auto w-full max-w-[820px]"
+              />
+            </FloatingMockup>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Capabilities */}
+      <Section pad="standard" surface="muted">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+              What you can do
+            </p>
+            <h2 className="text-display-md mt-4 text-ink">
+              Built for the way HR <em className="serif-italic">actually</em>{" "}
+              works.
+            </h2>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {page.capabilities.map((cap) => (
+              <FeatureCard
+                key={cap.title}
+                icon={cap.icon}
+                title={cap.title}
+                body={cap.body}
+              />
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Spotlights */}
+      {page.spotlights.map((spot, i) => (
+        <Section
+          key={i}
+          pad="standard"
+          surface={i % 2 === 1 ? "muted" : "default"}
+        >
+          <Container>
+            <Spotlight
+              eyebrow={spot.eyebrow}
+              title={
+                <span dangerouslySetInnerHTML={{ __html: spot.title }} />
+              }
+              body={spot.body}
+              bullets={spot.bullets}
+              side={spot.side}
+              visual={<SpotlightMockupView mockup={spot.mockup} />}
+            />
+          </Container>
+        </Section>
+      ))}
+
+      {/* Mini testimonial */}
+      <Section pad="standard">
+        <Container size="md">
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard
+              size="lg"
+              testimonial={{
+                quote: page.testimonial.quote,
+                name: page.testimonial.name,
+                role: page.testimonial.role,
+                company: page.testimonial.company,
+                initials: page.testimonial.avatar,
+                accent: ["purple", "amber", "blue", "green"][
+                  page.testimonial.name.charCodeAt(0) % 4
+                ] as "purple" | "amber" | "blue" | "green",
+              }}
+            />
+          </div>
+        </Container>
+      </Section>
+
+      {/* Related */}
+      {related.length > 0 && (
+        <Section pad="standard" surface="muted">
+          <Container>
+            <div className="flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+                  Works with the rest of SignHR
+                </p>
+                <h2 className="text-display-sm mt-3 text-ink">
+                  Pair with these modules
+                </h2>
+              </div>
+              <Button asChild variant="link">
+                <Link href="/features">
+                  See all features
+                  <ArrowRight className="size-3.5" aria-hidden />
+                </Link>
+              </Button>
+            </div>
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
+              {related.map((m) => (
+                <FeatureCard
+                  key={m.slug}
+                  icon={m.icon}
+                  title={m.name}
+                  body={m.short}
+                  href={m.href}
+                />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      <CTABand
+        eyebrow="GET STARTED"
+        title={
+          <>
+            Try {page.category} on{" "}
+            <em className="serif-italic">your own data</em>
+          </>
+        }
+        body="Two-week free trial on the Growth plan. No credit card. Real humans on support."
+        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
+        secondaryCta={{ label: "Compare plans", href: "/pricing" }}
+      />
+    </>
+  );
+}

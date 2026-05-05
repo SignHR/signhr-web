@@ -1,0 +1,310 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* Enable .dark class as the dark variant trigger */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ─────────────────────────────────────────────────────────────
+   SignHR — Hybrid design system
+   Brand & semantic tokens from .claude/DESIGN_SYSTEM.md (purple).
+   Marketing typography & scale layered on top (Geist + Instrument Serif).
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Brand & semantic tokens (HSL components — used as `hsl(var(--token))`) */
+  --background: 220 14% 96%;
+  --foreground: 230 25% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 230 25% 12%;
+  --primary: 258 58% 56%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 258 30% 96%;
+  --secondary-foreground: 258 40% 30%;
+  --muted: 220 14% 93%;
+  --muted-foreground: 220 10% 46%;
+  --accent: 35 92% 55%;
+  --accent-foreground: 35 95% 20%;
+  --destructive: 0 72% 55%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 220 16% 90%;
+  --input: 220 16% 90%;
+  --ring: 258 58% 56%;
+  --success: 152 56% 46%;
+  --success-foreground: 0 0% 100%;
+  --warning: 35 92% 55%;
+  --warning-foreground: 35 95% 20%;
+  --info: 210 80% 55%;
+  --info-foreground: 0 0% 100%;
+
+  /* Surfaces tuned for marketing site (slightly cleaner than product app) */
+  --surface: 0 0% 100%;
+  --ink: 230 25% 12%;
+  --ink-secondary: 230 18% 28%;
+  --ink-muted: 230 12% 42%;
+
+  /* Brand purple scale (derived from #7C4DFF) */
+  --brand-50: 258 100% 97%;
+  --brand-100: 258 95% 93%;
+  --brand-200: 258 90% 86%;
+  --brand-300: 258 80% 76%;
+  --brand-400: 258 68% 66%;
+  --brand-500: 258 58% 56%;
+  --brand-600: 258 60% 48%;
+  --brand-700: 258 62% 40%;
+  --brand-800: 258 60% 32%;
+  --brand-900: 258 56% 22%;
+
+  /* Radius */
+  --radius: 0.75rem;
+}
+
+/* ─── Dark theme ──────────────────────────────────────────── */
+.dark {
+  --background: 230 22% 8%;
+  --foreground: 210 20% 92%;
+  --card: 230 18% 12%;
+  --card-foreground: 210 20% 92%;
+  --primary: 258 65% 65%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 258 22% 22%;
+  --secondary-foreground: 258 30% 88%;
+  --muted: 230 14% 18%;
+  --muted-foreground: 220 12% 62%;
+  --accent: 35 80% 55%;
+  --accent-foreground: 35 95% 90%;
+  --destructive: 0 62% 52%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 230 14% 22%;
+  --input: 230 14% 22%;
+  --ring: 258 65% 65%;
+  --success: 152 50% 48%;
+  --success-foreground: 0 0% 100%;
+  --warning: 35 80% 55%;
+  --warning-foreground: 35 95% 92%;
+  --info: 210 75% 60%;
+  --info-foreground: 0 0% 100%;
+
+  --surface: 230 18% 12%;
+  --ink: 210 20% 92%;
+  --ink-secondary: 215 16% 78%;
+  --ink-muted: 220 12% 62%;
+
+  /* Brand purple — slightly lifted for dark surfaces */
+  --brand-50: 258 35% 18%;
+  --brand-100: 258 38% 22%;
+  --brand-200: 258 42% 28%;
+  --brand-300: 258 50% 38%;
+  --brand-400: 258 58% 50%;
+  --brand-500: 258 65% 62%;
+  --brand-600: 258 70% 70%;
+  --brand-700: 258 80% 80%;
+  --brand-800: 258 85% 88%;
+  --brand-900: 258 90% 94%;
+}
+
+@theme inline {
+  /* Color tokens — exposed as `bg-background`, `text-foreground`, etc. */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-surface: hsl(var(--surface));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-success: hsl(var(--success));
+  --color-success-foreground: hsl(var(--success-foreground));
+  --color-warning: hsl(var(--warning));
+  --color-warning-foreground: hsl(var(--warning-foreground));
+  --color-info: hsl(var(--info));
+  --color-info-foreground: hsl(var(--info-foreground));
+
+  --color-ink: hsl(var(--ink));
+  --color-ink-secondary: hsl(var(--ink-secondary));
+  --color-ink-muted: hsl(var(--ink-muted));
+
+  --color-brand-50: hsl(var(--brand-50));
+  --color-brand-100: hsl(var(--brand-100));
+  --color-brand-200: hsl(var(--brand-200));
+  --color-brand-300: hsl(var(--brand-300));
+  --color-brand-400: hsl(var(--brand-400));
+  --color-brand-500: hsl(var(--brand-500));
+  --color-brand-600: hsl(var(--brand-600));
+  --color-brand-700: hsl(var(--brand-700));
+  --color-brand-800: hsl(var(--brand-800));
+  --color-brand-900: hsl(var(--brand-900));
+
+  /* Fonts (assigned via next/font in layout.tsx) */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, monospace;
+  --font-serif: var(--font-instrument-serif), "Instrument Serif", "Cambria",
+    "Times New Roman", serif;
+
+  /* Marketing-scale type — used by `text-display-*` utilities below */
+  --text-display-xl: clamp(48px, 7vw, 88px);
+  --text-display-lg: clamp(40px, 6vw, 72px);
+  --text-display-md: clamp(36px, 4.5vw, 56px);
+  --text-display-sm: clamp(28px, 3.5vw, 40px);
+
+  /* Container & radii */
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+}
+
+/* ─── Base layer ──────────────────────────────────────────── */
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    font-feature-settings:
+      "ss01" on,
+      "cv11" on;
+  }
+  ::selection {
+    background-color: hsl(var(--brand-200));
+    color: hsl(var(--brand-900));
+  }
+}
+
+/* ─── Marketing utilities ─────────────────────────────────── */
+@utility text-display-xl {
+  font-size: var(--text-display-xl);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+@utility text-display-lg {
+  font-size: var(--text-display-lg);
+  line-height: 1.06;
+  letter-spacing: -0.022em;
+  font-weight: 600;
+}
+@utility text-display-md {
+  font-size: var(--text-display-md);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+@utility text-display-sm {
+  font-size: var(--text-display-sm);
+  line-height: 1.15;
+  letter-spacing: -0.018em;
+  font-weight: 600;
+}
+
+/* Headline italic accent — pair with <em> inside a <Headline> */
+@utility serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Marquee animation (logo cloud) */
+@keyframes marquee-x {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@utility animate-marquee {
+  animation: marquee-x 38s linear infinite;
+}
+
+/* Soft float (hero mockup) */
+@keyframes soft-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@utility animate-float {
+  animation: soft-float 6s ease-in-out infinite;
+}
+
+/* Conic glow used behind hero pill / mockup edge */
+@keyframes conic-spin {
+  to {
+    --angle: 360deg;
+  }
+}
+
+/* Dim heavy gradient halos in dark mode — they otherwise blow out */
+.dark [data-halo],
+.dark [class*="bg-[radial-gradient"] {
+  opacity: 0.55;
+}
+
+/* Reduced motion: pause our custom marketing animations */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-float {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Focus ring — global default */
+@layer base {
+  :focus-visible {
+    outline: none;
+  }
+}
+@utility focus-ring {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Prose tweaks (used on blog post body) */
+@layer base {
+  .prose-signhr {
+    --tw-prose-body: hsl(var(--ink-secondary));
+    --tw-prose-headings: hsl(var(--ink));
+    --tw-prose-links: hsl(var(--brand-600));
+    --tw-prose-bold: hsl(var(--ink));
+    --tw-prose-quotes: hsl(var(--ink));
+    --tw-prose-quote-borders: hsl(var(--brand-300));
+    --tw-prose-counters: hsl(var(--ink-muted));
+    --tw-prose-bullets: hsl(var(--brand-400));
+    --tw-prose-hr: hsl(var(--border));
+    --tw-prose-th-borders: hsl(var(--border));
+    --tw-prose-td-borders: hsl(var(--border));
+    --tw-prose-code: hsl(var(--ink));
+  }
+}
