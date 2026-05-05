@@ -39,7 +39,7 @@ export function HeroHome({
         <div className="relative grid items-center gap-12 py-20 md:gap-12 md:py-24 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
           <div className="min-w-0">
             <StatusPill />
-            <h1 className="mt-5 max-w-[13ch] text-balance font-semibold leading-[0.98] tracking-[-0.035em] text-white text-[clamp(44px,5.6vw,88px)]">
+            <h1 className="mt-5 max-w-[13ch] text-balance font-semibold leading-[0.98] tracking-[-0.035em] text-white text-[clamp(44px,5.6vw,88px)] [&_em]:bg-[linear-gradient(135deg,hsl(var(--brand-300))_0%,hsl(var(--accent-pink)/0.85)_60%,hsl(var(--accent-pink))_100%)] [&_em]:bg-clip-text [&_em]:text-transparent [&_em]:font-serif [&_em]:not-italic [&_em]:italic">
               {title}
             </h1>
             <p className="mt-6 max-w-[46ch] text-pretty text-[17px] leading-[1.6] text-white/70 md:text-[18px]">
