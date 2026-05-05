@@ -4,8 +4,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { GradientHalo } from "@/components/marketing/gradient-halo";
-import { FloatingMockup } from "@/components/marketing/floating-mockup";
-import { DashboardMockup } from "@/components/marketing/dashboard-mockup";
+import { HeroHome } from "@/components/marketing/hero-home";
 import { cn } from "@/lib/utils";
 
 interface HeroProps {
@@ -22,7 +21,7 @@ interface HeroProps {
 
 /**
  * Hero — three variants:
- *   - home: centered headline + sub + CTAs over a wide dashboard mockup below
+ *   - home: delegates to <HeroHome /> (dark split layout with product mockup)
  *   - feature: centered headline + sub + CTAs (deep-dive pages add their own visual)
  *   - generic: same as feature, slightly smaller display size
  */
@@ -37,7 +36,17 @@ export function Hero({
   visual,
   className,
 }: HeroProps) {
-  const isHome = variant === "home";
+  if (variant === "home") {
+    return (
+      <HeroHome
+        title={title}
+        description={description}
+        primaryCta={primaryCta}
+        secondaryCta={secondaryCta}
+        className={className}
+      />
+    );
+  }
 
   return (
     <section
@@ -46,7 +55,6 @@ export function Hero({
         className,
       )}
     >
-      {/* Halos */}
       <GradientHalo
         variant="hero"
         size="xl"
@@ -70,11 +78,7 @@ export function Hero({
           <h1
             className={cn(
               "mt-6 text-balance text-ink",
-              isHome
-                ? "text-display-xl"
-                : variant === "feature"
-                  ? "text-display-lg"
-                  : "text-display-md",
+              variant === "feature" ? "text-display-lg" : "text-display-md",
             )}
           >
             {title}
@@ -98,7 +102,7 @@ export function Hero({
                 <Button asChild size="lg" variant="secondary">
                   <Link href={secondaryCta.href}>
                     {secondaryCta.label}
-                    {!isHome && <ArrowRight className="size-4" aria-hidden />}
+                    <ArrowRight className="size-4" aria-hidden />
                   </Link>
                 </Button>
               )}
@@ -110,40 +114,8 @@ export function Hero({
           )}
         </div>
 
-        {/* Visual band — wide, centered, below the headline */}
-        {isHome && (
-          <div
-            className="relative mx-auto mt-16 md:mt-20"
-            style={{ perspective: "2000px" }}
-          >
-            {/* Soft glow under the mockup */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-12 -bottom-12 -z-10 h-40 rounded-[60%] bg-gradient-to-t from-brand-300/30 via-brand-200/20 to-transparent blur-2xl"
-            />
-            <FloatingMockup amplitude={10} duration={7} className="block w-full">
-              <div
-                className="mx-auto w-full max-w-[1080px]"
-                style={{
-                  transform: "rotateX(2deg)",
-                  transformStyle: "preserve-3d",
-                }}
-              >
-                <DashboardMockup className="w-full" />
-              </div>
-            </FloatingMockup>
-            {/* Bottom fade so the mockup blends into the next section */}
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-x-0 -bottom-2 h-24 bg-gradient-to-b from-transparent to-background"
-            />
-          </div>
-        )}
-
-        {visual && !isHome && (
-          <div className="relative mx-auto mt-16 w-full max-w-3xl">
-            {visual}
-          </div>
+        {visual && (
+          <div className="relative mx-auto mt-16 w-full max-w-3xl">{visual}</div>
         )}
       </Container>
     </section>

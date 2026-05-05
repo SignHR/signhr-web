@@ -131,10 +131,6 @@ export default function HomePage() {
       {/* 1. Hero */}
       <Hero
         variant="home"
-        eyebrow={{
-          label: "New: Asset Management is live",
-          href: "/changelog",
-        }}
         title={
           <>
             Run your <span className="font-sans">entire HR</span>{" "}
@@ -144,7 +140,6 @@ export default function HomePage() {
         description="The all-in-one HRMS for teams of 20 to 500. Onboarding to offboarding, attendance to payroll, in one elegant platform your people will actually want to log into."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
-        trust="No credit card required · Set up in 10 minutes"
       />
 
       {/* 2. Logo cloud */}
