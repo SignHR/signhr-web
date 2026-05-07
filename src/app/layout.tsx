@@ -2,10 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import {
-  ThemeProvider,
-  NO_FLASH_SCRIPT,
-} from "@/components/theme/theme-provider";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -92,10 +89,6 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
-      <head>
-        {/* Inline no-flash script — must run before paint to set .dark class */}
-        <script dangerouslySetInnerHTML={{ __html: NO_FLASH_SCRIPT }} />
-      </head>
       <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
         <ThemeProvider>
           <a
