@@ -54,6 +54,11 @@
   --brand-800: 258 60% 32%;
   --brand-900: 258 56% 22%;
 
+  /* Hero canvas — intentionally dark in both themes */
+  --hero-dark: 240 25% 6%;
+  /* Accent pink — used by hero-home halo and headline italic gradient */
+  --accent-pink: 332 79% 58%;
+
   /* Radius */
   --radius: 0.75rem;
 }
@@ -100,6 +105,10 @@
   --brand-700: 258 80% 80%;
   --brand-800: 258 85% 88%;
   --brand-900: 258 90% 94%;
+
+  /* Hero canvas — same as light theme; hero stays dark in both modes */
+  --hero-dark: 240 25% 6%;
+  --accent-pink: 332 79% 58%;
 }
 
 @theme inline {
@@ -143,6 +152,9 @@
   --color-brand-700: hsl(var(--brand-700));
   --color-brand-800: hsl(var(--brand-800));
   --color-brand-900: hsl(var(--brand-900));
+
+  --color-hero-dark: hsl(var(--hero-dark));
+  --color-accent-pink: hsl(var(--accent-pink));
 
   /* Fonts (assigned via next/font in layout.tsx) */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
@@ -266,7 +278,8 @@
 /* Reduced motion: pause our custom marketing animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-float {
+  .animate-float,
+  .animate-hero-ticker {
     animation: none !important;
   }
   *,
@@ -307,4 +320,22 @@
     --tw-prose-td-borders: hsl(var(--border));
     --tw-prose-code: hsl(var(--ink));
   }
+}
+
+@layer utilities {
+  @keyframes hero-ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-hero-ticker {
+    animation: hero-ticker-scroll 50s linear infinite;
+  }
+  /* Reduced-motion handling lives in the global @media block earlier in this
+     file (alongside .animate-marquee and .animate-float) so all marketing
+     animations pause via the same rule. */
 }

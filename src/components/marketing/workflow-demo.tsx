@@ -47,8 +47,8 @@ const STEPS: Step[] = [
     kind: "manager",
     actor: "Karthik R.",
     role: "Engineering manager",
-    label: "Approved in Slack",
-    detail: "One-tap approve · no app switch",
+    label: "Approved by manager",
+    detail: "One-tap approve from inbox or mobile",
     timestamp: "10:16 AM",
     icon: UserCheck,
   },
@@ -249,7 +249,7 @@ export function WorkflowDemo({ className }: { className?: string }) {
         </ol>
 
         {/* Preview panel */}
-        <div className="relative min-h-[320px] bg-gradient-to-br from-muted/30 via-card to-brand-50/40 px-6 py-8 md:px-10">
+        <div className="relative min-h-[320px] bg-gradient-to-br from-muted/30 via-card to-brand-500/10 px-6 py-8 md:px-10">
           <div className="mb-3 flex items-center justify-between">
             <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-ink-muted">
               Preview
@@ -315,27 +315,25 @@ function Preview({ step }: { step: Step }) {
       );
     case "manager":
       return (
-        <PreviewCard title="#leave-requests" badge="Slack">
+        <PreviewCard title="Approval inbox" badge="Pending">
           <div className="flex gap-3">
-            <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-brand-500 text-[13px] font-semibold text-primary-foreground">
-              S
+            <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-brand-100 text-[12px] font-semibold text-brand-700">
+              P
             </span>
             <div className="min-w-0 flex-1">
-              <div className="flex items-baseline gap-2">
-                <span className="text-[13px] font-semibold text-ink">
-                  SignHR
-                </span>
-                <span className="rounded bg-muted px-1 text-[9px] font-medium uppercase tracking-wide text-ink-muted">
-                  App
-                </span>
-                <span className="font-mono text-[10px] text-ink-muted">
+              <div className="flex items-baseline justify-between gap-2">
+                <p className="text-[13px] text-ink-secondary">
+                  <span className="font-semibold text-ink">Priya Menon</span>{" "}
+                  requested{" "}
+                  <span className="font-medium text-ink">2 days</span> casual
+                  leave
+                </p>
+                <span className="shrink-0 font-mono text-[10px] text-ink-muted">
                   10:14 AM
                 </span>
               </div>
-              <p className="mt-1 text-[13px] text-ink-secondary">
-                <span className="font-medium text-ink">Priya Menon</span>{" "}
-                requested <span className="font-medium text-ink">2 days</span>{" "}
-                of casual leave (May 8 – May 9).
+              <p className="mt-1 text-[12px] text-ink-muted">
+                Fri, May 8 → Sat, May 9 · routed for your approval
               </p>
               <div className="mt-3 flex gap-2">
                 <button
@@ -355,7 +353,7 @@ function Preview({ step }: { step: Step }) {
                   type="button"
                   className="inline-flex h-7 items-center rounded-md border border-border bg-card px-3 text-[12px] font-medium text-ink-secondary"
                 >
-                  Discuss
+                  Comment
                 </button>
               </div>
             </div>
@@ -430,7 +428,7 @@ function Preview({ step }: { step: Step }) {
           <div className="mt-4 space-y-2">
             <NotificationRow
               icon={MessageSquare}
-              text="Posted to #design-team"
+              text="Design team notified in-app"
             />
             <NotificationRow icon={Calendar} text="Added to Google Calendar" />
             <NotificationRow

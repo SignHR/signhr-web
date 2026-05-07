@@ -79,7 +79,7 @@ const TEMPLATES = [
 
 const CAT_COLORS: Record<string, string> = {
   Hiring: "bg-brand-50 text-brand-700",
-  Policy: "bg-amber-100 text-amber-700",
+  Policy: "bg-warning/15 text-warning",
   Onboarding: "bg-success/10 text-success",
   Offboarding: "bg-info/10 text-info",
   Performance: "bg-rose-100 text-rose-700",
@@ -101,7 +101,7 @@ export default function TemplatesPage() {
 
       <Section pad="standard" className="-mt-12">
         <Container size="md">
-          <div className="rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-50/40 to-card p-8 text-center">
+          <div className="rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-8 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               Get the full pack
             </p>

@@ -9,7 +9,6 @@ import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
 import { Container } from "@/components/layout/container";
 import { MobileMenu } from "@/components/layout/mobile-menu";
-import { ThemeToggle } from "@/components/theme/theme-toggle";
 import {
   PRIMARY_NAV,
   FEATURE_MODULES,
@@ -43,8 +42,8 @@ export function Navbar() {
         className={cn(
           "sticky top-0 z-50 w-full transition-all duration-300",
           scrolled
-            ? "border-b border-border/60 bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/65"
-            : "border-b border-transparent bg-background/0",
+            ? "border-b border-white/10 bg-hero-dark/70 backdrop-blur-xl supports-[backdrop-filter]:bg-hero-dark/55"
+            : "border-b border-transparent bg-transparent",
         )}
       >
         <Container>
@@ -64,8 +63,8 @@ export function Navbar() {
                           <Link
                             href={item.href!}
                             className={cn(
-                              "rounded-lg px-3 py-2 text-[14.5px] font-medium text-ink-secondary transition-colors hover:text-ink hover:bg-muted/60",
-                              pathname === item.href && "text-ink",
+                              "rounded-lg px-3 py-2 text-[14.5px] font-medium text-white/75 transition-colors hover:text-white hover:bg-white/10",
+                              pathname === item.href && "text-white",
                             )}
                           >
                             {item.label}
@@ -78,7 +77,7 @@ export function Navbar() {
                   if (item.type === "mega-features") {
                     return (
                       <NavigationMenu.Item key={item.label}>
-                        <NavigationMenu.Trigger className="group inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[14.5px] font-medium text-ink-secondary transition-colors hover:text-ink hover:bg-muted/60 data-[state=open]:bg-muted/60 data-[state=open]:text-ink">
+                        <NavigationMenu.Trigger className="group inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[14.5px] font-medium text-white/75 transition-colors hover:text-white hover:bg-white/10 data-[state=open]:bg-white/10 data-[state=open]:text-white">
                           {item.label}
                           <ChevronDown
                             className="size-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180"
@@ -95,7 +94,7 @@ export function Navbar() {
                   if (item.type === "mega-resources") {
                     return (
                       <NavigationMenu.Item key={item.label}>
-                        <NavigationMenu.Trigger className="group inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[14.5px] font-medium text-ink-secondary transition-colors hover:text-ink hover:bg-muted/60 data-[state=open]:bg-muted/60 data-[state=open]:text-ink">
+                        <NavigationMenu.Trigger className="group inline-flex items-center gap-1 rounded-lg px-3 py-2 text-[14.5px] font-medium text-white/75 transition-colors hover:text-white hover:bg-white/10 data-[state=open]:bg-white/10 data-[state=open]:text-white">
                           {item.label}
                           <ChevronDown
                             className="size-3.5 transition-transform duration-200 group-data-[state=open]:rotate-180"
@@ -128,8 +127,12 @@ export function Navbar() {
             </NavigationMenu.Root>
 
             <div className="hidden items-center gap-2 lg:flex">
-              <ThemeToggle />
-              <Button asChild variant="ghost" size="sm">
+              <Button
+                asChild
+                variant="ghost"
+                size="sm"
+                className="text-white/80 hover:bg-white/10 hover:text-white"
+              >
                 <Link href="/contact">Login</Link>
               </Button>
               <Button asChild size="sm">
@@ -141,12 +144,11 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 lg:hidden">
-              <ThemeToggle />
               <button
                 type="button"
                 onClick={() => setMobileOpen(true)}
                 aria-label="Open menu"
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-card text-ink transition-colors hover:bg-muted"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/15 bg-white/5 text-white backdrop-blur transition-colors hover:bg-white/10"
               >
                 <Menu className="size-5" aria-hidden />
               </button>

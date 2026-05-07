@@ -285,7 +285,7 @@ export default function DevPage() {
                 <em className="serif-italic">the upgrade</em> it deserves?
               </>
             }
-            body="Two-week free trial. No credit card. Real humans on support."
+            body="3-month free trial. No credit card. Real humans on support."
             primaryCta={{ label: "Book a demo", href: "/book-demo" }}
             secondaryCta={{ label: "Start free trial", href: "/book-demo" }}
           />

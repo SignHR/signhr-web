@@ -27,7 +27,7 @@ const RESOURCES = [
     icon: FileText,
     title: "Templates",
     body: "Free, copy-able templates: offer letters, leave policies, exit checklists, and 14 more.",
-    accent: "bg-amber-100 text-amber-700",
+    accent: "bg-warning/15 text-warning",
   },
   {
     href: "/resources/help",

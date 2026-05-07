@@ -40,11 +40,11 @@ export default function CustomersPage() {
         <Container>
           <Link
             href={`/customers/${featured.slug}`}
-            className="group relative block overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-brand-50/60 to-card p-8 transition-all hover:-translate-y-1 hover:shadow-[0_30px_70px_-30px_rgba(124,77,255,0.4)] md:p-12"
+            className="group relative block overflow-hidden rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-8 transition-all hover:-translate-y-1 hover:shadow-[0_30px_70px_-30px_rgba(124,77,255,0.4)] md:p-12"
           >
             <div
               aria-hidden
-              className="absolute -right-20 -top-20 size-72 rounded-full bg-gradient-to-br from-brand-200/40 to-amber-200/30 blur-3xl"
+              className="absolute -right-20 -top-20 size-72 rounded-full bg-gradient-to-br from-brand-500/40 to-accent-pink/20 blur-3xl"
             />
             <div className="relative grid gap-8 lg:grid-cols-2 lg:gap-12">
               <div>

@@ -83,7 +83,7 @@ export default async function BookDemoPage({ searchParams }: PageProps) {
               ))}
             </ul>
 
-            <figure className="mt-12 rounded-2xl border border-brand-200 bg-brand-50/40 p-6">
+            <figure className="mt-12 rounded-2xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-6">
               <div className="flex items-center gap-1 text-amber-500" aria-hidden>
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star key={i} className="size-3.5 fill-current" />

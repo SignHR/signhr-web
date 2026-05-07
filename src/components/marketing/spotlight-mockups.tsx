@@ -345,7 +345,7 @@ function Onboarding({ className }: { className?: string }) {
     { label: "Documents uploaded", done: true },
     { label: "Bank details verified", done: true },
     { label: "Laptop assigned", done: true },
-    { label: "Slack & Google access", done: false, current: true },
+    { label: "Google & SSO access", done: false, current: true },
     { label: "Day-one welcome call", done: false },
     { label: "Buddy intro lunch", done: false },
   ];
@@ -435,7 +435,7 @@ function Offboarding({ className }: { className?: string }) {
             { label: "Resignation accepted", who: "People Ops", done: true },
             { label: "Knowledge transfer", who: "Engineering", done: true },
             { label: "Asset return — laptop, badge", who: "IT", done: false },
-            { label: "Revoke SSO + Slack", who: "IT", done: false },
+            { label: "Revoke SSO + Google", who: "IT", done: false },
             { label: "Final settlement preview", who: "Payroll", done: false },
             { label: "Experience letter", who: "People Ops", done: false },
           ].map((row) => (
@@ -592,7 +592,7 @@ function Workflow({ className }: { className?: string }) {
           <WorkflowNode
             badge="4"
             title="Notify & sync calendar"
-            meta="Slack · Google · Outlook"
+            meta="Google · Outlook · SMS"
             tone="success"
           />
         </div>

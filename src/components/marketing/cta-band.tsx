@@ -35,7 +35,7 @@ export function CTABand({
     >
       {variant === "gradient" && (
         <>
-          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-50 via-background to-amber-50/60" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-br from-brand-500/15 via-background to-brand-500/10" />
           <GradientHalo
             variant="hero"
             size="xl"

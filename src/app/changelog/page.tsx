@@ -79,7 +79,7 @@ const RELEASES: Release[] = [
       },
       {
         kind: "fix",
-        title: "Slack notification deduplication",
+        title: "Approval notification deduplication",
         body: "Approval reminders no longer fire twice when a request is reassigned in the same minute.",
       },
     ],

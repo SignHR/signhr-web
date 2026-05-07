@@ -19,7 +19,7 @@ import { PRICING_TIERS, COMPARISON_GROUPS, PRICING_FAQ } from "@/lib/pricing";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple per-employee pricing. 14-day free trial on every plan, no credit card. Starter, Growth, and Enterprise tiers from $3/employee/month.",
+    "Simple per-employee pricing. 3-month free trial on every plan, no credit card. Starter, Growth, and Enterprise tiers from $3/employee/month.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -66,7 +66,7 @@ const PRODUCT_LD = {
   "@type": "Product",
   name: "SignHR",
   description:
-    "All-in-one HRMS for growing teams. Per-employee pricing with a 14-day free trial.",
+    "All-in-one HRMS for growing teams. Per-employee pricing with a 3-month free trial.",
   brand: { "@type": "Brand", name: "SignHR" },
   offers: PRICING_TIERS.filter((t) => t.annual !== null).map((t) => ({
     "@type": "Offer",
@@ -95,7 +95,7 @@ export default function PricingPage() {
             <em className="serif-italic">No surprises.</em>
           </>
         }
-        description="Pay per active employee. Free 14-day trial on every plan. Cancel anytime — your data leaves with you."
+        description="Pay per active employee. Free 3-month trial on every plan. Cancel anytime — your data leaves with you."
       />
 
       <Section pad="standard" className="-mt-12">
@@ -181,7 +181,7 @@ export default function PricingPage() {
         eyebrow="GET STARTED"
         title={
           <>
-            Try it free for 14 days.{" "}
+            Try it free for 3 months.{" "}
             <em className="serif-italic">Card never asked for.</em>
           </>
         }

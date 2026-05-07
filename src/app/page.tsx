@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import {
   Users,
   CalendarDays,
@@ -20,15 +21,10 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { SITE_URL } from "@/lib/utils";
 import { Hero } from "@/components/marketing/hero";
 import { Spotlight } from "@/components/marketing/spotlight";
-import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { FeatureCard } from "@/components/marketing/feature-card";
-import { TestimonialCard } from "@/components/marketing/testimonial-card";
-import { StatNumber } from "@/components/marketing/stat-number";
-import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { CTABand } from "@/components/marketing/cta-band";
 import { WorkflowDemo } from "@/components/marketing/workflow-demo";
 import { PricingCard } from "@/components/marketing/pricing-card";
-import { LOGO_NAMES, TESTIMONIALS, STATS, INTEGRATIONS } from "@/lib/testimonials";
 import { PRICING_TIERS } from "@/lib/pricing";
 
 const PILLARS = [
@@ -96,7 +92,7 @@ const ORG_LD = {
   "@type": "Organization",
   name: "SignHR",
   url: SITE_URL,
-  logo: `${SITE_URL}/opengraph-image`,
+  logo: `${SITE_URL}/logo.webp`,
   description:
     "All-in-one HRMS for growing teams. Onboarding, attendance, leave, payroll, and offboarding in one platform.",
   sameAs: [
@@ -128,43 +124,25 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={[ORG_LD, SITE_LD]} />
-      {/* 1. Hero */}
+      {/* Hero */}
       <Hero
         variant="home"
-        eyebrow={{
-          label: "New: Asset Management is live",
-          href: "/changelog",
-        }}
         title={
           <>
-            Run your <span className="font-sans">entire HR</span>{" "}
-            <em className="serif-italic">without</em> the chaos.
+            Run your <span className="font-sans">entire HR</span> without the{" "}
+            <em className="serif-italic">chaos</em>.
           </>
         }
         description="The all-in-one HRMS for teams of 20 to 500. Onboarding to offboarding, attendance to payroll, in one elegant platform your people will actually want to log into."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
-        trust="No credit card required · Set up in 10 minutes"
       />
 
-      {/* 2. Logo cloud */}
-      <Section pad="compact" className="border-y border-border/60 bg-muted/30">
-        <Container>
-          <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-            Trusted by 500+ growing teams
-          </p>
-          <div className="mt-6">
-            <LogoMarquee names={LOGO_NAMES} />
-          </div>
-        </Container>
-      </Section>
-
-      {/* 3. Problem → Solution */}
+      {/* Problem → Solution */}
       <Section pad="standard">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="brand">From → To</Badge>
-            <h2 className="text-display-md mt-5 text-ink">
+            <h2 className="text-display-md mt-5 text-balance text-ink">
               You shouldn&apos;t need <em className="serif-italic">five tools</em>{" "}
               and a spreadsheet to run HR.
             </h2>
@@ -181,14 +159,14 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 4. Core platform pillars */}
+      {/* Core platform pillars */}
       <Section pad="standard" surface="muted">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               Platform pillars
             </p>
-            <h2 className="text-display-md mt-4 text-ink">
+            <h2 className="text-display-md mt-4 text-balance text-ink">
               Five products. <em className="serif-italic">One</em> rhythm.
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
@@ -209,7 +187,7 @@ export default function HomePage() {
             ))}
             <Link
               href="/features"
-              className="group flex flex-col justify-between rounded-2xl border border-dashed border-brand-300 bg-gradient-to-br from-brand-50/40 to-transparent p-6 md:p-7 transition-all hover:border-brand-400 hover:from-brand-50/80"
+              className="group flex flex-col justify-between rounded-2xl border border-dashed border-brand-500/40 bg-gradient-to-br from-brand-500/10 to-transparent p-6 md:p-7 transition-all hover:border-brand-500/70 hover:from-brand-500/20"
             >
               <div>
                 <span className="flex size-10 items-center justify-center rounded-xl bg-brand-100 text-brand-700">
@@ -219,7 +197,7 @@ export default function HomePage() {
                   Plus 4 more modules
                 </h3>
                 <p className="mt-2 text-[15px] text-ink-secondary">
-                  Onboarding, offboarding, asset management, attendance —
+                  Onboarding, offboarding, asset management, performance —
                   every part of the lifecycle.
                 </p>
               </div>
@@ -232,7 +210,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 5. Feature spotlights */}
+      {/* Feature spotlights */}
       <Section pad="standard">
         <Container>
           <Spotlight
@@ -252,10 +230,17 @@ export default function HomePage() {
             bullets={[
               "Branded offer letters generated from templates",
               "E-signatures + document collection in the same flow",
-              "Auto-creates Slack, Google, and Notion accounts",
+              "Auto-creates Google, Notion, and SSO accounts",
             ]}
             side="right"
-            visual={<SpotlightMockupView mockup={{ kind: "onboarding" }} />}
+            visual={
+              <SpotlightImage
+                src="/assets/onboarding.webp"
+                alt="SignHR onboarding flow"
+                width={1535}
+                height={1025}
+              />
+            }
           />
         </Container>
       </Section>
@@ -277,7 +262,14 @@ export default function HomePage() {
               "Auto-regularization for missed punches",
             ]}
             side="left"
-            visual={<SpotlightMockupView mockup={{ kind: "attendance" }} />}
+            visual={
+              <SpotlightImage
+                src="/assets/check-in-out.webp"
+                alt="SignHR attendance dashboard with check-in and check-out timeline"
+                width={1536}
+                height={1024}
+              />
+            }
           />
         </Container>
       </Section>
@@ -294,103 +286,41 @@ export default function HomePage() {
             body="Multi-step, multi-approver, conditional, parallel — the workflow engine handles whatever your real process actually looks like, without the consultant fees."
             bullets={[
               "Visual builder, no code, sandbox to test",
-              "Slack, email, in-app — approve where you already are",
+              "Approve from email, mobile, or the inbox — wherever you are",
               "Smart escalations when approvers are out",
             ]}
             side="right"
-            visual={<SpotlightMockupView mockup={{ kind: "workflow" }} />}
+            visual={
+              <SpotlightImage
+                src="/assets/approval-flow.webp"
+                alt="SignHR visual approval workflow builder"
+                width={1201}
+                height={1310}
+              />
+            }
           />
         </Container>
       </Section>
 
-      {/* 6. Live workflow demo */}
+      {/* Live workflow demo */}
       <Section pad="standard" surface="muted">
         <Container>
           <WorkflowDemo />
         </Container>
       </Section>
 
-      {/* 7. Stats band */}
-      <Section pad="standard" surface="gradient">
-        <Container>
-          <div className="grid gap-12 md:grid-cols-4 md:gap-6">
-            {STATS.map((s) => (
-              <StatNumber
-                key={s.label}
-                value={s.value}
-                suffix={s.suffix}
-                label={s.label}
-                decimals={s.value % 1 !== 0 ? 1 : 0}
-              />
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* 8. Testimonials */}
-      <Section pad="standard">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              Stories from the field
-            </p>
-            <h2 className="text-display-md mt-4 text-ink">
-              The reviews you can&apos;t fake — because they came from{" "}
-              <em className="serif-italic">people we hadn&apos;t met</em>.
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {TESTIMONIALS.map((t) => (
-              <TestimonialCard key={t.name} testimonial={t} />
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Button asChild variant="link">
-              <Link href="/customers">
-                Read full case studies
-                <ArrowRight className="size-3.5" aria-hidden />
-              </Link>
-            </Button>
-          </div>
-        </Container>
-      </Section>
-
-      {/* 9. Integrations strip */}
-      <Section pad="standard" surface="muted">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              Plays nicely with your stack
-            </p>
-            <h2 className="text-display-sm mt-4 text-ink">
-              Connect to the tools your team already lives in.
-            </h2>
-          </div>
-          <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8">
-            {INTEGRATIONS.map((name) => (
-              <li
-                key={name}
-                className="flex h-16 items-center justify-center rounded-xl border border-border bg-card text-sm font-medium text-ink-muted transition-colors hover:border-ink-muted hover:text-ink"
-              >
-                {name}
-              </li>
-            ))}
-          </ul>
-        </Container>
-      </Section>
-
-      {/* 10. Pricing teaser */}
+      {/* Pricing teaser */}
       <Section pad="standard">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               Pricing
             </p>
-            <h2 className="text-display-md mt-4 text-ink">
+            <h2 className="text-display-md mt-4 text-balance text-ink">
               Simple pricing. <em className="serif-italic">No surprises.</em>
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
-              Per-employee, billed monthly or annually. 14-day free trial on
+              Per-employee, billed monthly or annually. 3-month free trial on
               every plan, no card required.
             </p>
           </div>
@@ -410,7 +340,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 11. Blog teaser */}
+      {/* Blog teaser */}
       <Section pad="standard" surface="muted">
         <Container>
           <div className="flex items-end justify-between gap-6">
@@ -452,7 +382,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* 12. Final CTA */}
+      {/* Final CTA */}
       <CTABand
         eyebrow="GET STARTED"
         title={
@@ -461,7 +391,7 @@ export default function HomePage() {
             <em className="serif-italic">the upgrade</em> it deserves?
           </>
         }
-        body="Set up in 10 minutes. 14-day free trial on the Growth plan. No credit card."
+        body="Set up in 10 minutes. 3-month free trial on the Growth plan. No credit card."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
       />
@@ -469,11 +399,36 @@ export default function HomePage() {
   );
 }
 
+function SpotlightImage({
+  src,
+  alt,
+  width,
+  height,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-25px_rgba(45,30,90,0.25)]">
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="block h-auto w-full"
+      />
+    </div>
+  );
+}
+
 function BeforePanel() {
   const items: Array<{ icon: React.ComponentType<{ className?: string }>; text: string }> = [
     { icon: FileSpreadsheet, text: "Three spreadsheets that disagree on headcount" },
     { icon: Mail, text: "Leave requests buried in 14 email threads" },
-    { icon: MessagesSquare, text: "Slack DMs at 9pm asking for payslips" },
+    { icon: MessagesSquare, text: "Late-night DMs asking for payslips" },
     { icon: X, text: "Day-one onboarding done by hand, every time" },
   ];
   return (
@@ -485,8 +440,8 @@ function BeforePanel() {
       </div>
       <h3 className="text-display-sm mt-4 text-ink">The HR you have</h3>
       <ul className="mt-5 space-y-3.5">
-        {items.map((it, i) => (
-          <li key={i} className="flex items-start gap-3 text-[15px] text-ink-secondary">
+        {items.map((it) => (
+          <li key={it.text} className="flex items-start gap-3 text-[15px] text-ink-secondary">
             <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive">
               <it.icon className="size-3" aria-hidden />
             </span>
@@ -501,15 +456,15 @@ function BeforePanel() {
 function AfterPanel() {
   const items = [
     "One workspace. Every employee, document, and policy in sync.",
-    "Leave applied in two taps. Manager approves from Slack.",
-    "Payroll run end-to-end in under thirty minutes.",
+    "Leave applied in two taps. Manager approves in one click.",
+    "Payroll run end-to-end in under ten minutes.",
     "Day-one onboarding kicks off the moment they sign.",
   ];
   return (
-    <div className="relative overflow-hidden rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-50/70 to-card p-7">
+    <div className="relative overflow-hidden rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-7">
       <div
         aria-hidden
-        className="absolute -right-12 -top-12 size-48 rounded-full bg-gradient-to-br from-brand-300/30 to-amber-200/30 blur-3xl"
+        className="absolute -right-12 -top-12 size-48 rounded-full bg-gradient-to-br from-brand-500/40 to-accent-pink/20 blur-3xl"
       />
       <div className="flex items-center gap-2">
         <span className="inline-flex h-7 items-center rounded-full bg-brand-100 px-2.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700">
@@ -518,8 +473,8 @@ function AfterPanel() {
       </div>
       <h3 className="text-display-sm mt-4 text-ink">The HR you want</h3>
       <ul className="mt-5 space-y-3.5">
-        {items.map((it, i) => (
-          <li key={i} className="flex items-start gap-3 text-[15px] text-ink">
+        {items.map((it) => (
+          <li key={it} className="flex items-start gap-3 text-[15px] text-ink">
             <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
               <Check className="size-3" aria-hidden />
             </span>
