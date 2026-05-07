@@ -67,7 +67,7 @@ export function Spotlight({
         <div className="relative">
           <div
             aria-hidden
-            className="absolute -inset-6 -z-10 rounded-[28px] bg-gradient-to-br from-brand-100/60 via-transparent to-amber-100/40 blur-2xl"
+            className="absolute -inset-6 -z-10 rounded-[28px] bg-gradient-to-br from-brand-500/20 via-transparent to-accent-pink/15 blur-2xl"
           />
           {visual}
         </div>

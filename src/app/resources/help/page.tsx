@@ -60,7 +60,7 @@ const COMMON = [
   },
   {
     q: "How does support work?",
-    a: "Email and in-app chat on every plan. Starter gets 24h first response, Growth gets 4h, Enterprise gets a dedicated CSM with a Slack channel. Real engineers, not chatbots.",
+    a: "Email and in-app chat on every plan. Starter gets 24h first response, Growth gets 4h, Enterprise gets a dedicated CSM with a private channel. Real engineers, not chatbots.",
   },
   {
     q: "Can I customize the interface for my team?",

@@ -37,7 +37,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "My favorite part is what didn't happen — no support tickets, no Slack messages asking 'how do I apply leave', no missing payslips at month end.",
+      "My favorite part is what didn't happen — no support tickets, no late-night messages asking 'how do I apply leave', no missing payslips at month end.",
     name: "Aisha Patel",
     role: "Head of HR",
     company: "Hooli India",
@@ -69,7 +69,6 @@ export const STATS = [
 ] as const;
 
 export const INTEGRATIONS = [
-  "Slack",
   "Google Workspace",
   "Microsoft 365",
   "Zoom",

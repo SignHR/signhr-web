@@ -26,7 +26,7 @@ export function Section({
         surface === "muted" && "bg-muted/40",
         surface === "ink" && "bg-ink text-white",
         surface === "gradient" &&
-          "bg-gradient-to-br from-brand-50 via-background to-amber-50/40",
+          "bg-gradient-to-br from-brand-500/15 via-background to-brand-500/10",
         className,
       )}
       {...props}

@@ -64,7 +64,7 @@ function Cell({ value, highlight }: { value: boolean | string; highlight?: boole
     <td
       className={cn(
         "px-5 py-3.5 text-center text-ink-secondary",
-        highlight && "bg-brand-50/40",
+        highlight && "bg-brand-500/10",
       )}
     >
       {value === true && (

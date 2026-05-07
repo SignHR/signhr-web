@@ -278,7 +278,8 @@
 /* Reduced motion: pause our custom marketing animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
-  .animate-float {
+  .animate-float,
+  .animate-hero-ticker {
     animation: none !important;
   }
   *,
@@ -319,4 +320,22 @@
     --tw-prose-td-borders: hsl(var(--border));
     --tw-prose-code: hsl(var(--ink));
   }
+}
+
+@layer utilities {
+  @keyframes hero-ticker-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-hero-ticker {
+    animation: hero-ticker-scroll 50s linear infinite;
+  }
+  /* Reduced-motion handling lives in the global @media block earlier in this
+     file (alongside .animate-marquee and .animate-float) so all marketing
+     animations pause via the same rule. */
 }

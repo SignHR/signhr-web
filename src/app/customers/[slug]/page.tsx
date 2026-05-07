@@ -181,7 +181,7 @@ function PullQuote({
 }) {
   return (
     <figure
-      className={`relative rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-50/60 to-card p-8 ${className ?? ""}`}
+      className={`relative rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-8 ${className ?? ""}`}
     >
       <Quote className="absolute right-6 top-6 size-8 text-brand-200" aria-hidden />
       <blockquote className="text-display-sm text-ink">

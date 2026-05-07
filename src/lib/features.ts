@@ -42,6 +42,8 @@ export type Spotlight = {
   bullets: string[];
   side: "left" | "right";
   mockup: SpotlightMockup;
+  /** Optional real-image override; takes precedence over the synthetic mockup. */
+  image?: { src: string; alt: string; width: number; height: number };
 };
 
 export type SpotlightMockup =
@@ -63,6 +65,8 @@ export type FeaturePage = {
     title: string;
     titleAccent?: string;
     description: string;
+    /** Image rendered in the big hero visual band. Falls back to the first spotlight's image/mockup when omitted. */
+    image?: { src: string; alt: string; width: number; height: number };
   };
   metaDescription: string;
   capabilities: Capability[];
@@ -86,6 +90,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "for everyone",
       description:
         "Profiles, contracts, documents, and org charts that always match reality. Your HR data stops living in five different spreadsheets.",
+      image: {
+        src: "/assets/employee.webp",
+        alt: "SignHR core HRMS workspace — profile, schedule, and org chart in one view",
+        width: 1536,
+        height: 1024,
+      },
     },
     metaDescription:
       "A modern HRIS for growing teams. Profiles, documents, org charts, and audit trails that finally agree with each other.",
@@ -133,6 +143,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "right",
         mockup: { kind: "profile" },
+        image: {
+          src: "/assets/employee-profile.webp",
+          alt: "SignHR employee profile screen",
+          width: 1545,
+          height: 1018,
+        },
       },
       {
         eyebrow: "ORG CHART",
@@ -145,6 +161,30 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "left",
         mockup: { kind: "org-chart" },
+        image: {
+          src: "/assets/org-chart.webp",
+          alt: "SignHR live org chart",
+          width: 1692,
+          height: 930,
+        },
+      },
+      {
+        eyebrow: "SCHEDULES",
+        title: "Every team's rhythm in one place",
+        body: "Working hours, locations, and shift patterns live alongside the profile — so payroll, attendance, and the org chart all agree on who's working when.",
+        bullets: [
+          "Working hours and time-zone aware schedules",
+          "Location and shift pattern per employee",
+          "Single source for payroll, attendance, and reporting",
+        ],
+        side: "right",
+        mockup: { kind: "leave-calendar" },
+        image: {
+          src: "/assets/schedule-attendance.webp",
+          alt: "SignHR work schedule view with shifts and locations",
+          width: 1536,
+          height: 1024,
+        },
       },
     ],
     testimonial: {
@@ -268,7 +308,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: CheckCircle2,
         title: "One-click approvals",
-        body: "Slack, email, or in-app — managers approve in seconds with full context.",
+        body: "Email, mobile, or in-app — managers approve in seconds with full context.",
       },
       {
         icon: Bell,
@@ -285,7 +325,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         eyebrow: "REQUEST",
         title: "Two taps to time off",
-        body: "Pick your dates. See your balance. Hit submit. Your manager gets a Slack ping with everything they need to decide.",
+        body: "Pick your dates. See your balance. Hit submit. Your manager gets a notification with everything they need to decide.",
         bullets: [
           "Live balance with carry-forward visible",
           "Half-day and hourly leave supported",
@@ -338,7 +378,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: Receipt,
         title: "Payslips that explain themselves",
-        body: "Beautiful, downloadable, and clear. No more 'what is this deduction' Slack threads.",
+        body: "Beautiful, downloadable, and clear. No more 'what is this deduction' message threads.",
       },
       {
         icon: ClipboardCheck,
@@ -438,7 +478,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: CheckCircle2,
         title: "Day-one ready",
-        body: "Email, Slack, asset assignment all triggered the moment they accept the offer.",
+        body: "Email, accounts, asset assignment all triggered the moment they accept the offer.",
       },
     ],
     spotlights: [
@@ -459,7 +499,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         title: "A first day that doesn't feel like a fire drill",
         body: "Their laptop is ready. Their accounts work. Their schedule is in their inbox. Their manager has a one-pager. They feel welcome — because the system did the boring work.",
         bullets: [
-          "Auto-create accounts in Slack, Google, Notion",
+          "Auto-create accounts in Google, Notion, and SSO",
           "First-week schedule with intro meetings",
           "Buddy program assignment",
         ],
@@ -503,7 +543,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: KeyRound,
         title: "IT access removal",
-        body: "Revoke Slack, Google, Notion, and SSO with one click on the last working day.",
+        body: "Revoke Google, Notion, and SSO with one click on the last working day.",
       },
       {
         icon: Receipt,
@@ -565,7 +605,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       title: "Your team,",
       titleAccent: "empowered",
       description:
-        "Eighty percent of HR tickets are answers people could find themselves. Self-service in SignHR is so good, your team would rather use it than ping you on Slack.",
+        "Eighty percent of HR tickets are answers people could find themselves. Self-service in SignHR is so good, your team would rather use it than file a ticket.",
     },
     metaDescription:
       "An employee self-service portal that actually gets used. Profile, requests, payslips, documents — all in one mobile-friendly place.",
@@ -629,7 +669,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
     ],
     testimonial: {
       quote:
-        "My HR Slack channel went from 60 messages a day to about 5. The portal is doing the work I used to do at 9pm.",
+        "Inbound HR questions went from 60 a day to about 5. The portal is doing the work I used to do at 9pm.",
       name: "Aisha Patel",
       role: "Head of HR",
       company: "Hooli India",
@@ -677,7 +717,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       },
       {
         icon: CheckCircle2,
-        title: "Slack, email, in-app",
+        title: "Email, mobile, in-app",
         body: "Approve where you already are. Bring the work to people, not the other way around.",
       },
     ],
@@ -699,7 +739,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         title: "Approvals that take seconds",
         body: "All the context, none of the clicking. Approvers see what they need, decide, and move on.",
         bullets: [
-          "One-click approve from email or Slack",
+          "One-click approve from email or mobile",
           "Bulk approve when patterns repeat",
           "Delegate to a backup with one toggle",
         ],

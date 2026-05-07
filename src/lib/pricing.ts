@@ -46,7 +46,7 @@ export const PRICING_TIERS: PricingTier[] = [
       "Multi-step approval workflows",
       "Asset management",
       "Onboarding + offboarding flows",
-      "Slack + Google integration",
+      "Google + SSO integration",
       "Priority support (4h response)",
     ],
   },
@@ -232,7 +232,7 @@ export const COMPARISON_GROUPS: ComparisonGroup[] = [
 export const PRICING_FAQ = [
   {
     q: "Is there a free trial?",
-    a: "Yes — 14 days, no credit card. You can invite your whole team and use every feature on the Growth plan during the trial.",
+    a: "Yes — 3 months, no credit card. You can invite your whole team and use every feature on the Growth plan during the trial.",
   },
   {
     q: "Can I switch plans later?",

@@ -121,7 +121,7 @@ export default function FeaturesHubPage() {
                 Integrations
               </p>
               <p className="mt-2 text-[15px] text-ink-secondary">
-                Plays nicely with Slack, Google Workspace, Microsoft 365, Zoom,
+                Plays nicely with Google Workspace, Microsoft 365, Zoom,
                 Notion, Linear, GitHub, Stripe, Razorpay, QuickBooks, Tally,
                 Cleartax, Okta, Jira, and Zapier.
               </p>
@@ -142,7 +142,7 @@ export default function FeaturesHubPage() {
             <em className="serif-italic">Calmer</em> Mondays.
           </>
         }
-        body="Set up in 10 minutes. 14-day free trial. No credit card."
+        body="Set up in 10 minutes. 3-month free trial. No credit card."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "Compare plans", href: "/pricing" }}
       />

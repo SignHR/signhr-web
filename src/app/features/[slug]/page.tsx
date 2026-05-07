@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -49,7 +50,9 @@ export default async function FeatureDetailPage({ params }: Props) {
   if (!page) notFound();
 
   const related = getRelatedFeatures(slug);
-  const heroVisual = page.spotlights[0]?.mockup ?? { kind: "self-service" };
+  const firstSpot = page.spotlights[0];
+  const heroVisual = firstSpot?.mockup ?? { kind: "self-service" };
+  const heroImage = page.hero.image ?? firstSpot?.image;
 
   return (
     <>
@@ -79,10 +82,17 @@ export default async function FeatureDetailPage({ params }: Props) {
               className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
             />
             <FloatingMockup amplitude={8} duration={7} className="block w-full">
-              <SpotlightMockupView
-                mockup={heroVisual}
-                className="mx-auto w-full max-w-[820px]"
-              />
+              {heroImage ? (
+                <SpotlightImage
+                  {...heroImage}
+                  className="mx-auto w-full max-w-[1200px]"
+                />
+              ) : (
+                <SpotlightMockupView
+                  mockup={heroVisual}
+                  className="mx-auto w-full max-w-[1200px]"
+                />
+              )}
             </FloatingMockup>
           </div>
         </Container>
@@ -129,7 +139,13 @@ export default async function FeatureDetailPage({ params }: Props) {
               body={spot.body}
               bullets={spot.bullets}
               side={spot.side}
-              visual={<SpotlightMockupView mockup={spot.mockup} />}
+              visual={
+                spot.image ? (
+                  <SpotlightImage {...spot.image} />
+                ) : (
+                  <SpotlightMockupView mockup={spot.mockup} />
+                )
+              }
             />
           </Container>
         </Section>
@@ -199,10 +215,39 @@ export default async function FeatureDetailPage({ params }: Props) {
             <em className="serif-italic">your own data</em>
           </>
         }
-        body="Two-week free trial on the Growth plan. No credit card. Real humans on support."
+        body="3-month free trial on the Growth plan. No credit card. Real humans on support."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "Compare plans", href: "/pricing" }}
       />
     </>
+  );
+}
+
+function SpotlightImage({
+  src,
+  alt,
+  width,
+  height,
+  className,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-25px_rgba(45,30,90,0.25)] ${className ?? ""}`}
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        className="block h-auto w-full"
+      />
+    </div>
   );
 }

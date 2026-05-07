@@ -156,7 +156,7 @@ export default function AboutPage() {
                 The team
               </p>
               <h2 className="text-display-sm mt-3 text-ink">
-                Nine humans, one Slack channel.
+                Nine humans, one shared inbox.
               </h2>
             </div>
             <Badge variant="outline">Bengaluru · Berlin</Badge>
@@ -201,7 +201,7 @@ export default function AboutPage() {
       {/* Careers */}
       <Section pad="standard" id="careers">
         <Container>
-          <div className="grid gap-8 rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-50/40 to-card p-10 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:p-14">
+          <div className="grid gap-8 rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-10 lg:grid-cols-[1.2fr_1fr] lg:items-center lg:p-14">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
                 Join us

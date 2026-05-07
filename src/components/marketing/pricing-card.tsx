@@ -20,7 +20,7 @@ export function PricingCard({ tier, billing, className }: PricingCardProps) {
       className={cn(
         "relative flex h-full flex-col rounded-2xl border bg-card p-7 transition-all",
         tier.highlight
-          ? "border-brand-300 bg-gradient-to-b from-brand-50/60 to-card shadow-[0_30px_60px_-30px_rgba(124,77,255,0.45)] ring-1 ring-brand-200"
+          ? "border-brand-500/40 bg-gradient-to-b from-brand-500/15 via-brand-500/5 to-transparent shadow-[0_30px_60px_-30px_rgba(124,77,255,0.45)] ring-1 ring-brand-500/30"
           : "border-border hover:border-ink-muted",
         className,
       )}

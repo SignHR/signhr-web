@@ -102,7 +102,7 @@ export default async function BlogPostPage({ params }: Props) {
             <AuthorCard author={post.author} />
           </div>
 
-          <div className="mt-16 max-w-[760px] rounded-3xl border border-brand-200 bg-brand-50/40 p-8 text-center">
+          <div className="mt-16 max-w-[760px] rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-8 text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
               Stay in the loop
             </p>
