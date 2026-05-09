@@ -42,10 +42,9 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-7">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-7">
             <FooterColumn label="Product" links={FOOTER_NAV.product} />
             <FooterColumn label="Company" links={FOOTER_NAV.company} />
-            <FooterColumn label="Resources" links={FOOTER_NAV.resources} />
             <FooterColumn label="Legal" links={FOOTER_NAV.legal} />
           </div>
         </div>

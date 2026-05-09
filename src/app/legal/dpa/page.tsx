@@ -72,42 +72,38 @@ export default function DPAPage() {
         <tbody>
           <tr>
             <td>Amazon Web Services (AWS)</td>
-            <td>Cloud infrastructure & storage</td>
-            <td>Mumbai, Dublin, Virginia</td>
+            <td>Cloud infrastructure & S3 storage</td>
+            <td>Mumbai, India</td>
           </tr>
           <tr>
-            <td>Stripe</td>
+            <td>Hostinger</td>
+            <td>Cloud infrastructure</td>
+            <td>Mumbai, India</td>
+          </tr>
+          <tr>
+            <td>Razorpay</td>
             <td>Payment processing</td>
-            <td>USA / EU</td>
+            <td>India</td>
           </tr>
           <tr>
             <td>Resend</td>
             <td>Transactional email delivery</td>
-            <td>USA</td>
+            <td>Global</td>
           </tr>
           <tr>
-            <td>PostHog</td>
-            <td>Privacy-respecting product analytics</td>
-            <td>EU</td>
-          </tr>
-          <tr>
-            <td>Sentry</td>
-            <td>Error monitoring</td>
-            <td>EU</td>
-          </tr>
-          <tr>
-            <td>Cloudflare</td>
-            <td>CDN & DDoS protection</td>
-            <td>Global edge</td>
+            <td>Brevo</td>
+            <td>Email delivery</td>
+            <td>Global</td>
           </tr>
         </tbody>
       </table>
 
       <h2>6. International transfers</h2>
       <p>
-        Where data is transferred outside its origin region, we use Standard
-        Contractual Clauses (SCCs) approved by the European Commission, plus
-        supplementary measures as described in the EDPB recommendations.
+        As a platform built for India, we prioritize local data residency.
+        All primary workspace data is hosted in Mumbai, India. Where data is
+        processed by global sub-processors, we ensure compliance with the
+        Digital Personal Data Protection (DPDP) Act, 2023.
       </p>
 
       <h2>7. Security commitments</h2>
@@ -116,6 +112,11 @@ export default function DPAPage() {
         including:
       </p>
       <ul>
+        <li>
+          <strong>Data Isolation</strong> — We use a separate database for
+          every organization to ensure strict data isolation and enhanced
+          security.
+        </li>
         <li>
           <strong>Encryption</strong> — TLS 1.3 for data in transit, AES-256
           for data at rest. Customer-managed encryption keys available on
@@ -130,20 +131,16 @@ export default function DPAPage() {
           staff. SSO available for customers on Enterprise plans.
         </li>
         <li>
-          <strong>Network security</strong> — Private networks, WAF, DDoS
-          protection via Cloudflare.
+          <strong>Network security</strong> — Private networks, WAF, and DDoS
+          protection.
         </li>
         <li>
           <strong>Monitoring</strong> — 24/7 automated security monitoring
           with on-call rotation.
         </li>
         <li>
-          <strong>Backups</strong> — Daily automated backups with 30-day
+          <strong>Backups</strong> — Daily automated backups with 7-day
           retention. Quarterly restore testing.
-        </li>
-        <li>
-          <strong>Compliance</strong> — SOC 2 Type II certified annually.
-          ISO 27001 in progress.
         </li>
       </ul>
 

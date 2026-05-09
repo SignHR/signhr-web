@@ -11,7 +11,7 @@ import { getAllPosts, getFeaturedPost } from "@/lib/blog";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Field notes on modern HR — strategy, compliance, product, culture, and the occasional rant about spreadsheets.",
+    "Field notes on modern HR in India — EPF compliance, workplace culture, payroll strategy, and the occasional rant about spreadsheets.",
   alternates: { canonical: "/blog" },
 };
 
@@ -27,10 +27,10 @@ export default function BlogIndexPage() {
         title={
           <>
             Honest writing about{" "}
-            <em className="serif-italic">modern HR</em>
+            <em className="serif-italic">modern HR in India</em>
           </>
         }
-        description="Strategy, compliance, product, culture. No leverage. No synergy. Just things we've learned and things we're still figuring out."
+        description="EPF compliance, payroll strategy, and building culture in Indian startups. No fluff. Just things we've learned and things we're still figuring out."
       />
 
       {featured && (
@@ -58,7 +58,7 @@ export default function BlogIndexPage() {
               <em className="serif-italic">No fluff.</em>
             </h2>
             <p className="mx-auto mt-4 max-w-md text-[15px] text-ink-secondary">
-              Field notes, product updates, and the occasional template.
+              Field notes, product updates, and the occasional template for Indian HR teams.
               Unsubscribe in one click — we won&apos;t make it hard.
             </p>
             <div className="mx-auto mt-6 max-w-sm">

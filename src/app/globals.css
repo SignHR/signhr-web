@@ -305,21 +305,19 @@
 }
 
 /* Prose tweaks (used on blog post body) */
-@layer base {
-  .prose-signhr {
-    --tw-prose-body: hsl(var(--ink-secondary));
-    --tw-prose-headings: hsl(var(--ink));
-    --tw-prose-links: hsl(var(--brand-600));
-    --tw-prose-bold: hsl(var(--ink));
-    --tw-prose-quotes: hsl(var(--ink));
-    --tw-prose-quote-borders: hsl(var(--brand-300));
-    --tw-prose-counters: hsl(var(--ink-muted));
-    --tw-prose-bullets: hsl(var(--brand-400));
-    --tw-prose-hr: hsl(var(--border));
-    --tw-prose-th-borders: hsl(var(--border));
-    --tw-prose-td-borders: hsl(var(--border));
-    --tw-prose-code: hsl(var(--ink));
-  }
+@utility prose-signhr {
+  --tw-prose-body: hsl(var(--ink-secondary));
+  --tw-prose-headings: hsl(var(--ink));
+  --tw-prose-links: hsl(var(--brand-600));
+  --tw-prose-bold: hsl(var(--ink));
+  --tw-prose-quotes: hsl(var(--ink));
+  --tw-prose-quote-borders: hsl(var(--brand-300));
+  --tw-prose-counters: hsl(var(--ink-muted));
+  --tw-prose-bullets: hsl(var(--brand-400));
+  --tw-prose-hr: hsl(var(--border));
+  --tw-prose-th-borders: hsl(var(--border));
+  --tw-prose-td-borders: hsl(var(--border));
+  --tw-prose-code: hsl(var(--ink));
 }
 
 @layer utilities {

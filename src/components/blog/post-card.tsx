@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { BlogPost } from "@/lib/blog-types";
 import { formatDate } from "@/lib/blog-types";
 import { cn } from "@/lib/utils";
@@ -30,8 +31,8 @@ export function PostCard({
           className,
         )}
       >
-        <div className="relative">
-          <CoverArt accent={post.author.accent} variant="feature" />
+        <div className="relative overflow-hidden rounded-3xl">
+          <CoverArt slug={post.slug} variant="feature" />
         </div>
         <div className="flex flex-col justify-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
@@ -59,7 +60,7 @@ export function PostCard({
         className,
       )}
     >
-      <CoverArt accent={post.author.accent} />
+      <CoverArt slug={post.slug} />
       <div className="flex flex-1 flex-col p-6">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700">
           {post.category}
@@ -111,31 +112,43 @@ export function Avatar({
   );
 }
 
+const SLUG_IMAGES: Record<string, string> = {
+  "compliance-basics-growing-teams": "/images/blog/compliance.png",
+  "employee-handbook-guide": "/images/blog/handbook.png",
+  "honest-cost-of-hr-spreadsheets": "/images/blog/spreadsheets.png",
+  "hr-tech-stack-2026": "/images/blog/tech_stack.png",
+  "leave-policies-that-scale": "/images/blog/leave_policies.png",
+  "migration-guide": "/images/blog/migration.png",
+  "offboarding-managers-guide": "/images/blog/offboarding.png",
+  "onboarding-checklist-30-days": "/images/blog/onboarding.png",
+  "remote-first-attendance": "/images/blog/attendance.png",
+  "why-approval-workflows-fail": "/images/blog/workflows.png",
+};
+
 function CoverArt({
-  accent,
+  slug,
   variant = "grid",
 }: {
-  accent: string;
+  slug: string;
   variant?: "grid" | "feature";
 }) {
+  const imgSrc = SLUG_IMAGES[slug] || "/images/blog/strategy.png";
+
   return (
     <div
       aria-hidden
       className={cn(
-        "relative overflow-hidden rounded-2xl bg-gradient-to-br",
-        ACCENT[accent] ?? ACCENT.purple,
-        variant === "grid" ? "h-44 rounded-b-none" : "aspect-[4/3] md:aspect-[16/12]",
+        "relative overflow-hidden rounded-2xl",
+        variant === "grid" ? "h-48 rounded-b-none" : "aspect-[4/3] md:aspect-[16/12] w-full",
       )}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,_rgba(255,255,255,0.4),_transparent_55%)]" />
-      <div className="absolute right-4 top-4 flex size-9 items-center justify-center rounded-xl bg-white/30 backdrop-blur-md">
-        <span className="size-3 rounded-full bg-white/80" />
-      </div>
-      <div className="absolute bottom-4 left-4 right-4 grid grid-cols-3 gap-2">
-        <div className="h-1.5 rounded-full bg-white/40" />
-        <div className="h-1.5 rounded-full bg-white/30" />
-        <div className="h-1.5 rounded-full bg-white/20" />
-      </div>
+      <Image
+        src={imgSrc}
+        alt=""
+        fill
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+      />
+      <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-ink/5 dark:ring-white/10" />
     </div>
   );
 }

@@ -175,7 +175,6 @@ export const PRIMARY_NAV: Array<{
   { label: "Features", type: "mega-features" },
   { label: "Pricing", href: "/pricing", type: "link" },
   { label: "Customers", href: "/customers", type: "link" },
-  { label: "Resources", type: "mega-resources" },
   { label: "Contact", href: "/contact", type: "link" },
 ];
 
@@ -190,15 +189,9 @@ export const FOOTER_NAV = {
   company: [
     { label: "About", href: "/about" },
     { label: "Customers", href: "/customers" },
+    { label: "Blog", href: "/blog" },
     { label: "Careers", href: "/about#careers" },
     { label: "Contact", href: "/contact" },
-  ],
-  resources: [
-    { label: "Blog", href: "/blog" },
-    { label: "Guides", href: "/resources/guides" },
-    { label: "Help", href: "/resources/help" },
-    { label: "Templates", href: "/resources/templates" },
-    { label: "API docs", href: "/resources" },
   ],
   legal: [
     { label: "Privacy", href: "/legal/privacy" },
