@@ -171,11 +171,12 @@ export const PRIMARY_NAV: Array<{
   href?: string;
   type: "link" | "mega-features" | "mega-resources";
 }> = [
+  { label: "Home", href: "/", type: "link" },
   { label: "Features", type: "mega-features" },
   { label: "Pricing", href: "/pricing", type: "link" },
   { label: "Customers", href: "/customers", type: "link" },
   { label: "Resources", type: "mega-resources" },
-  { label: "Blog", href: "/blog", type: "link" },
+  { label: "Contact", href: "/contact", type: "link" },
 ];
 
 export const FOOTER_NAV = {

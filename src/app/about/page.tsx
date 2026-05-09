@@ -222,9 +222,9 @@ export default function AboutPage() {
                   </Link>
                 </Button>
                 <Button asChild variant="secondary">
-                  <a href="mailto:hello@signhr.example.com">
+                  <a href="mailto:info@signhr.io">
                     <Mail className="size-4" aria-hidden />
-                    hello@signhr.example.com
+                    info@signhr.io
                   </a>
                 </Button>
               </div>

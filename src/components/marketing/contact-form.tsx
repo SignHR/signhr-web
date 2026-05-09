@@ -29,14 +29,27 @@ export function ContactForm() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<Values>({
     resolver: zodResolver(schema),
     defaultValues: { topic: "General question" },
   });
 
-  const onSubmit = async (_data: Values) => {
-    await new Promise((r) => setTimeout(r, 600));
+  const onSubmit = async (data: Values) => {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    if (!res.ok) {
+      setError("root", {
+        message:
+          "Couldn't send your message. Please try again, or email info@signhr.io.",
+      });
+      throw new Error("send-failed");
+    }
   };
 
   if (isSubmitSuccessful) {
@@ -106,6 +119,15 @@ export function ContactForm() {
           )}
         />
       </Field>
+
+      {errors.root && (
+        <p
+          role="alert"
+          className="rounded-[10px] border border-destructive/30 bg-destructive/5 px-3 py-2 text-[13px] text-destructive"
+        >
+          {errors.root.message}
+        </p>
+      )}
 
       <Button type="submit" size="lg" disabled={isSubmitting} className="w-full">
         {isSubmitting ? (

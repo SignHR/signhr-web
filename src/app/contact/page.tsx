@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail, MapPin, MessageCircle, Briefcase } from "lucide-react";
+import { Mail, MapPin, MessageCircle } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { ContactForm } from "@/components/marketing/contact-form";
@@ -11,24 +11,25 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contact" },
 };
 
+const WHATSAPP_NUMBER = "+91 73570 24516";
+const WHATSAPP_LINK = `https://wa.me/${WHATSAPP_NUMBER.replace(/[^\d]/g, "")}`;
+
 const CHANNELS = [
   {
     icon: Mail,
-    label: "General",
-    value: "hello@signhr.example.com",
+    label: "Email",
+    value: "info@signhr.io",
+    href: "mailto:info@signhr.io",
     note: "Replies within 4 hours, Mon–Fri.",
   },
   {
     icon: MessageCircle,
-    label: "Customer support",
-    value: "help@signhr.example.com",
-    note: "Faster from in-app chat if you're already on the platform.",
-  },
-  {
-    icon: Briefcase,
-    label: "Sales & partnerships",
-    value: "sales@signhr.example.com",
-    note: "Tell us your team size and what you're considering.",
+    label: "WhatsApp",
+    value: WHATSAPP_NUMBER,
+    href:
+      WHATSAPP_LINK +
+      "?text=Hi%20SignHR%20Team,%20I%20have%20a%20question%20or%20need%20support",
+    note: "Quick questions, demo requests — Mon–Sat, 10am–7pm IST.",
   },
 ];
 
@@ -52,32 +53,37 @@ export default function ContactPage() {
             </p>
 
             <ul className="mt-10 space-y-4">
-              {CHANNELS.map((c) => (
-                <li
-                  key={c.label}
-                  className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5"
-                >
-                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
-                    <c.icon className="size-5" aria-hidden />
-                  </span>
-                  <div>
-                    <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
-                      {c.label}
-                    </p>
-                    <p className="mt-1 text-[15px] font-medium text-ink">
-                      <a
-                        href={`mailto:${c.value}`}
-                        className="text-brand-700 hover:text-brand-800"
-                      >
-                        {c.value}
-                      </a>
-                    </p>
-                    <p className="mt-1 text-[13px] text-ink-secondary">
-                      {c.note}
-                    </p>
-                  </div>
-                </li>
-              ))}
+              {CHANNELS.map((c) => {
+                const isExternal = c.href.startsWith("http");
+                return (
+                  <li
+                    key={c.label}
+                    className="flex items-start gap-4 rounded-2xl border border-border bg-card p-5"
+                  >
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-600">
+                      <c.icon className="size-5" aria-hidden />
+                    </span>
+                    <div>
+                      <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+                        {c.label}
+                      </p>
+                      <p className="mt-1 text-[15px] font-medium text-ink">
+                        <a
+                          href={c.href}
+                          target={isExternal ? "_blank" : undefined}
+                          rel={isExternal ? "noopener noreferrer" : undefined}
+                          className="text-brand-700 hover:text-brand-800"
+                        >
+                          {c.value}
+                        </a>
+                      </p>
+                      <p className="mt-1 text-[13px] text-ink-secondary">
+                        {c.note}
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
             </ul>
 
             <div className="mt-10 rounded-2xl border border-border bg-muted/30 p-6">
@@ -87,12 +93,12 @@ export default function ContactPage() {
                 </span>
                 <div>
                   <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
-                    Office
+                    Address
                   </p>
                   <p className="mt-0.5 text-[14.5px] text-ink">
-                    SignHR Technologies, 4th Floor,
+                    21, Patel Marg, Prajapati Vihar, Mansarovar,
                     <br />
-                    Indiranagar, Bengaluru 560038, India
+                    Jaipur, Rajasthan 302020 India
                   </p>
                 </div>
               </div>

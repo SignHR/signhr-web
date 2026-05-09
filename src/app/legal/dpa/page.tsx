@@ -181,7 +181,7 @@ export default function DPAPage() {
       <h2>12. Contact</h2>
       <p>
         DPA-related questions go to{" "}
-        <a href="mailto:dpo@signhr.example.com">dpo@signhr.example.com</a>.
+        <a href="mailto:info@signhr.io">info@signhr.io</a>.
       </p>
     </>
   );

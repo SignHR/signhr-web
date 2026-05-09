@@ -4,7 +4,7 @@ import { Check, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import type { PricingTier } from "@/lib/pricing";
+import { PRICING_CURRENCY, type PricingTier } from "@/lib/pricing";
 
 interface PricingCardProps {
   tier: PricingTier;
@@ -46,7 +46,9 @@ export function PricingCard({ tier, billing, className }: PricingCardProps) {
           </p>
         ) : (
           <p className="flex items-baseline gap-1.5">
-            <span className="font-mono text-[15px] text-ink-muted">$</span>
+            <span className="font-mono text-[20px] text-ink-muted">
+              {PRICING_CURRENCY.symbol}
+            </span>
             <span className="font-mono text-[44px] font-semibold tracking-tight text-ink">
               {price}
             </span>

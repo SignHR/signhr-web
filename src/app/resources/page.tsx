@@ -51,7 +51,7 @@ const RESOURCES = [
     accent: "bg-brand-50 text-brand-600",
   },
   {
-    href: "https://api.signhr.example.com",
+    href: "https://api.signhr.io",
     icon: Code,
     title: "API docs",
     body: "REST API, webhooks, and SDK references for building on top of SignHR.",

@@ -19,7 +19,7 @@ import { PRICING_TIERS, COMPARISON_GROUPS, PRICING_FAQ } from "@/lib/pricing";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple per-employee pricing. 3-month free trial on every plan, no credit card. Starter, Growth, and Enterprise tiers from $3/employee/month.",
+    "Simple per-employee pricing in INR. 3-month free trial on every plan, no credit card. Starter, Growth, and Enterprise tiers from ₹8/employee/month.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -72,11 +72,11 @@ const PRODUCT_LD = {
     "@type": "Offer",
     name: t.name,
     price: t.annual,
-    priceCurrency: "USD",
+    priceCurrency: "INR",
     priceSpecification: {
       "@type": "UnitPriceSpecification",
       price: t.annual,
-      priceCurrency: "USD",
+      priceCurrency: "INR",
       unitText: "per employee per month",
     },
     availability: "https://schema.org/InStock",

@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         SignHR is an HR management platform built and operated by SignHR
         Technologies Pvt. Ltd., a company incorporated in India with its
         registered office at Indiranagar, Bengaluru 560038. For privacy
-        questions, write to <a href="mailto:privacy@signhr.example.com">privacy@signhr.example.com</a>.
+        questions, write to <a href="mailto:info@signhr.io">info@signhr.io</a>.
       </p>
 
       <h2>2. What data we collect</h2>
@@ -103,7 +103,7 @@ export default function PrivacyPage() {
         Depending on the jurisdiction, you may have rights to access, correct,
         delete, or port your personal data; to object to processing; or to
         withdraw consent. To exercise these rights, write to{" "}
-        <a href="mailto:privacy@signhr.example.com">privacy@signhr.example.com</a>{" "}
+        <a href="mailto:info@signhr.io">info@signhr.io</a>{" "}
         — we respond within 30 days.
       </p>
       <p>
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
       <h2>12. Contact</h2>
       <p>
         Questions, concerns, or complaints? Reach our Data Protection Officer
-        at <a href="mailto:dpo@signhr.example.com">dpo@signhr.example.com</a>.
+        at <a href="mailto:info@signhr.io">info@signhr.io</a>.
         EU residents may also lodge a complaint with their local data
         protection authority.
       </p>

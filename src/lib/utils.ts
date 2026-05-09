@@ -6,7 +6,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://signhr.example.com";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://signhr.io";
 
 export function absoluteUrl(path = "/") {
   return `${SITE_URL.replace(/\/$/, "")}${path.startsWith("/") ? path : `/${path}`}`;

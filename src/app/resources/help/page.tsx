@@ -147,7 +147,7 @@ export default function HelpCenterPage() {
               <div>
                 <p className="text-[16px] font-semibold text-ink">Email support</p>
                 <p className="mt-1 text-[14px] text-ink-secondary">
-                  help@signhr.example.com — typical response in 4 hours.
+                  info@signhr.io — typical response in 4 hours.
                 </p>
               </div>
             </Link>

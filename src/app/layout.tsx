@@ -26,7 +26,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://signhr.example.com";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://signhr.io";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -89,7 +89,10 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >
-      <body className="flex min-h-screen flex-col bg-background text-foreground antialiased">
+      <body
+        suppressHydrationWarning
+        className="flex min-h-screen flex-col bg-background text-foreground antialiased"
+      >
         <ThemeProvider>
           <a
             href="#main"

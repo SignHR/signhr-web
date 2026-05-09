@@ -2,8 +2,8 @@ export type PricingTier = {
   id: "starter" | "growth" | "enterprise";
   name: string;
   tagline: string;
-  monthly: number | null; // per employee per month, USD; null = custom
-  annual: number | null; // per employee per month billed annually
+  monthly: number | null; // per employee per month, INR; null = custom
+  annual: number | null; // per employee per month billed annually, INR
   highlight?: boolean;
   ctaLabel: string;
   ctaHref: string;
@@ -11,13 +11,18 @@ export type PricingTier = {
   features: string[];
 };
 
+export const PRICING_CURRENCY = {
+  code: "INR",
+  symbol: "₹",
+} as const;
+
 export const PRICING_TIERS: PricingTier[] = [
   {
     id: "starter",
     name: "Starter",
     tagline: "For lean teams getting out of spreadsheets.",
-    monthly: 4,
-    annual: 3,
+    monthly: 10,
+    annual: 8,
     ctaLabel: "Start free trial",
     ctaHref: "/book-demo?plan=starter",
     features: [
@@ -33,8 +38,8 @@ export const PRICING_TIERS: PricingTier[] = [
     id: "growth",
     name: "Growth",
     tagline: "Most popular for scaling teams of 25 to 250.",
-    monthly: 7,
-    annual: 6,
+    monthly: 19,
+    annual: 15,
     highlight: true,
     badge: "Most popular",
     ctaLabel: "Start free trial",
@@ -248,7 +253,7 @@ export const PRICING_FAQ = [
   },
   {
     q: "What payment methods do you accept?",
-    a: "Credit card, ACH, UPI, and bank transfer for annual contracts. Enterprise customers can pay against an invoice on net-30 terms.",
+    a: "UPI, credit/debit card, net banking, and bank transfer (NEFT/RTGS) for annual contracts. Enterprise customers can pay against a GST invoice on net-30 terms.",
   },
   {
     q: "Is my data secure?",

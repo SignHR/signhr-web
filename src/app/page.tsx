@@ -103,7 +103,7 @@ const ORG_LD = {
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer support",
-    email: "help@signhr.example.com",
+    email: "info@signhr.io",
     availableLanguage: ["English"],
   },
 };
