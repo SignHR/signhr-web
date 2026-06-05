@@ -6,6 +6,10 @@ import { ThemeProvider } from "@/components/theme/theme-provider";
 import { DemoDialogProvider } from "@/components/marketing/demo-dialog";
 import { PreFooterCta } from "@/components/marketing/pre-footer-cta";
 import { TestimonialsSection } from "@/components/marketing/testimonials-section";
+import { OpenPanelComponent } from "@openpanel/nextjs";
+import { ClickTracker } from "@/components/analytics/click-tracker";
+import { PageViewTracker } from "@/components/analytics/page-view-tracker";
+import { MarketingScripts } from "@/components/analytics/marketing-scripts";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -96,6 +100,17 @@ export default function RootLayout({
         suppressHydrationWarning
         className="flex min-h-screen flex-col bg-background text-foreground antialiased"
       >
+        <OpenPanelComponent
+          apiUrl={process.env.NEXT_PUBLIC_OPENPANEL_API_URL}
+          scriptUrl={process.env.NEXT_PUBLIC_OPENPANEL_SCRIPT_URL}
+          clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID!}
+          trackScreenViews={false}
+          trackAttributes={true}
+          trackOutgoingLinks={true}
+        />
+        <PageViewTracker />
+        <ClickTracker />
+        <MarketingScripts />
         <ThemeProvider>
           <DemoDialogProvider>
             <a

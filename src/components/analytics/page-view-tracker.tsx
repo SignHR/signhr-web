@@ -1,0 +1,36 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { useOpenPanel } from "@openpanel/nextjs";
+import { pageName, pageUrl } from "@/lib/analytics";
+
+/**
+ * Fires a descriptive page-view event on initial load and on every App Router
+ * route change — e.g. "screen view: Features / Ask Hr - features/ask-hr" — with
+ * the friendly page name and page url as properties. This replaces the SDK's
+ * generic auto screen-view (disabled via `trackScreenViews={false}` in the
+ * layout) so page visits read descriptively in OpenPanel. Mounted once in the
+ * root layout.
+ */
+export function PageViewTracker() {
+  const { track } = useOpenPanel();
+  const pathname = usePathname();
+  const lastTracked = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!pathname || lastTracked.current === pathname) return;
+    lastTracked.current = pathname;
+
+    const pageNameValue = pageName(pathname);
+    const pageUrlValue = pageUrl(pathname);
+
+    track(`screen view: ${pageNameValue} - ${pageUrlValue}`, {
+      page_name: pageNameValue,
+      page_url: pageUrlValue,
+      page: pathname,
+    });
+  }, [pathname, track]);
+
+  return null;
+}

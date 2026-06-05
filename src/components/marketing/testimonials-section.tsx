@@ -25,7 +25,7 @@ export function TestimonialsSection() {
   }
 
   return (
-    <Section pad="standard" surface="muted">
+    <Section pad="standard" surface="muted" data-section="Testimonials">
       <Container>
         <div className="mx-auto max-w-2xl text-center">
           <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { ArrowRight, CheckCircle2, Clock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useOpenPanel } from "@openpanel/nextjs";
 import { DEMO_SIZES, setDemoCooldown, submitLead, type LeadResult } from "@/lib/leads";
 
 const schema = z.object({
@@ -40,11 +41,20 @@ export function DemoForm({ plan }: DemoFormProps) {
     resolver: zodResolver(schema),
     defaultValues: { size: "26-100" },
   });
+  const { track } = useOpenPanel();
 
   const onSubmit = async (data: Values) => {
     const res = await submitLead({ ...data, plan });
     setResult(res);
-    if (res.status === "ok") setDemoCooldown();
+    if (res.status === "ok") {
+      setDemoCooldown();
+      track("demo_lead", {
+        email: data.email,
+        company: data.company,
+        size: data.size,
+        plan: plan ?? null,
+      });
+    }
   };
 
   if (result?.status === "ok") {

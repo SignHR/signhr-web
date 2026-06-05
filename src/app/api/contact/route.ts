@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { opServer } from "@/lib/openpanel";
 
 const TOPICS = [
   "General question",
@@ -95,6 +96,13 @@ ${message}
     const detail = await res.text().catch(() => "");
     console.error("[contact] Resend send failed", res.status, detail);
     return Response.json({ error: "Failed to send email" }, { status: 502 });
+  }
+
+  // Conversion event — failure-tolerant so it can never break the submission.
+  try {
+    await opServer.track("contact_submit", { email, topic });
+  } catch (err) {
+    console.error("[contact] openpanel track failed:", err);
   }
 
   return Response.json({ ok: true });

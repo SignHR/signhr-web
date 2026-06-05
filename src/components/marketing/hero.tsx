@@ -49,6 +49,7 @@ export function Hero({
 
   return (
     <section
+      data-section="Hero"
       className={cn(
         "relative isolate overflow-hidden bg-hero-dark text-white pb-20 pt-12 md:pb-28 md:pt-20",
         className,

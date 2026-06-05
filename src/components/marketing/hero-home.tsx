@@ -32,6 +32,7 @@ export function HeroHome({
 }: HeroHomeProps) {
   return (
     <section
+      data-section="Hero"
       className={cn(
         "relative isolate overflow-hidden bg-hero-dark pt-20 pb-16 text-white md:pt-28 md:pb-24",
         className,

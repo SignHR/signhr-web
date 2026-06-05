@@ -29,7 +29,7 @@ export function PreFooterCta() {
   }
 
   return (
-    <Section pad="standard">
+    <Section pad="standard" data-section="Pre-Footer CTA">
       <Container>
         <div className="grid items-center gap-10 rounded-3xl border border-brand-200 bg-gradient-to-br from-brand-100 to-card px-6 py-12 shadow-sm md:px-12 md:py-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           {/* Left: pitch */}

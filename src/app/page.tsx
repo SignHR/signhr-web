@@ -164,7 +164,7 @@ export default function HomePage() {
       />
 
       {/* Logo cloud */}
-      <Section pad="compact" className="border-y border-border/60">
+      <Section pad="compact" data-section="Logo Cloud" className="border-y border-border/60">
         <Container>
           <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
             50+ teams already running on SignHR
@@ -176,7 +176,7 @@ export default function HomePage() {
       </Section>
 
       {/* Problem → Solution */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard" surface="muted" data-section="Problem & Solution">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="brand">From → To</Badge>
@@ -198,7 +198,7 @@ export default function HomePage() {
       </Section>
 
       {/* Core platform pillars */}
-      <Section pad="standard">
+      <Section pad="standard" data-section="Platform Pillars">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
@@ -250,7 +250,7 @@ export default function HomePage() {
       </Section>
 
       {/* Ask HR — flagship AI section */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard" surface="muted" data-section="Ask HR">
         <Container>
           <Spotlight
             eyebrow="ASK HR"
@@ -280,7 +280,7 @@ export default function HomePage() {
       </Section>
 
       {/* Feature spotlights */}
-      <Section pad="standard">
+      <Section pad="standard" data-section="Onboarding">
         <Container>
           <Spotlight
             eyebrow="ONBOARDING"
@@ -314,7 +314,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <Section pad="standard" surface="muted">
+      <Section pad="standard" surface="muted" data-section="Time & Attendance">
         <Container>
           <Spotlight
             eyebrow="TIME & ATTENDANCE"
@@ -343,7 +343,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      <Section pad="standard">
+      <Section pad="standard" data-section="Workflows">
         <Container>
           <Spotlight
             eyebrow="WORKFLOWS"
@@ -372,14 +372,14 @@ export default function HomePage() {
       </Section>
 
       {/* Live workflow demo */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard" surface="muted" data-section="Workflow Demo">
         <Container>
           <WorkflowDemo />
         </Container>
       </Section>
 
       {/* Stats band */}
-      <Section pad="standard">
+      <Section pad="standard" data-section="Stats">
         <Container>
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
             {STATS.map((s) => (
@@ -429,7 +429,7 @@ export default function HomePage() {
       )}
 
       {/* Blog teaser */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard" surface="muted" data-section="Blog">
         <Container>
           <div className="flex items-end justify-between gap-6">
             <div>

@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { ArrowRight, Check, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useOpenPanel } from "@openpanel/nextjs";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
@@ -29,10 +30,12 @@ export function NewsletterSignup({
     formState: { errors, isSubmitting, isSubmitSuccessful },
     reset,
   } = useForm<Values>({ resolver: zodResolver(schema) });
+  const { track } = useOpenPanel();
 
-  const onSubmit = async (_data: Values) => {
+  const onSubmit = async (data: Values) => {
     // Stub — wire to /api/newsletter or Resend later.
     await new Promise((r) => setTimeout(r, 600));
+    track("newsletter_signup", { email: data.email });
     reset({ email: "" });
   };
 
