@@ -32,13 +32,13 @@ export default function FeaturesHubPage() {
         }
         description="Ten modules built to work together, not stitched together — with more on the roadmap. Pick your starting point; the rest is here when you need it."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "See pricing", href: "/pricing" }}
+        secondaryCta={{ label: "Talk to sales", href: "/contact" }}
       />
 
       <Section pad="compact" className="border-y border-border/60 bg-muted/20">
         <Container>
           <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-            500+ teams already running on SignHR
+            50+ teams already running on SignHR
           </p>
           <div className="mt-6">
             <LogoMarquee names={LOGO_NAMES} />

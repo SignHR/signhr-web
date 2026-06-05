@@ -31,9 +31,8 @@ import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { PricingCard } from "@/components/marketing/pricing-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { StatNumber } from "@/components/marketing/stat-number";
-import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { PRICING_TIERS } from "@/lib/pricing";
-import { LOGO_NAMES, STATS, TESTIMONIALS } from "@/lib/testimonials";
+import { LOGO_NAMES, STATS } from "@/lib/testimonials";
 
 const HERO_MODULES = [
   {
@@ -168,7 +167,7 @@ export default function HomePage() {
       <Section pad="compact" className="border-y border-border/60">
         <Container>
           <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-            500+ teams already running on SignHR
+            50+ teams already running on SignHR
           </p>
           <div className="mt-6">
             <LogoMarquee names={LOGO_NAMES} />
@@ -396,45 +395,38 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* Testimonial */}
-      <Section pad="standard" surface="muted">
-        <Container size="md">
-          <div className="mx-auto max-w-2xl">
-            <TestimonialCard size="lg" testimonial={TESTIMONIALS[0]} />
-          </div>
-        </Container>
-      </Section>
-
-      {/* Pricing teaser */}
-      <Section pad="standard">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              Pricing
-            </p>
-            <h2 className="text-display-md mt-4 text-balance text-ink">
-              Simple pricing. <em className="serif-italic">No surprises.</em>
-            </h2>
-            <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
-              Per-employee, billed monthly or annually. 3-month free trial on
-              every plan, no card required.
-            </p>
-          </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-3">
-            {PRICING_TIERS.map((tier) => (
-              <PricingCard key={tier.id} tier={tier} billing="annual" />
-            ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Button asChild variant="secondary" size="md">
-              <Link href="/pricing">
-                Compare every feature
-                <ArrowRight className="size-3.5" aria-hidden />
-              </Link>
-            </Button>
-          </div>
-        </Container>
-      </Section>
+      {/* Pricing teaser — hidden for now; flip the `false` below to re-enable. */}
+      {false && (
+        <Section pad="standard">
+          <Container>
+            <div className="mx-auto max-w-2xl text-center">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+                Pricing
+              </p>
+              <h2 className="text-display-md mt-4 text-balance text-ink">
+                Simple pricing. <em className="serif-italic">No surprises.</em>
+              </h2>
+              <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
+                Per-employee, billed monthly or annually. 3-month free trial on
+                every plan, no card required.
+              </p>
+            </div>
+            <div className="mt-12 grid gap-5 md:grid-cols-3">
+              {PRICING_TIERS.map((tier) => (
+                <PricingCard key={tier.id} tier={tier} billing="annual" />
+              ))}
+            </div>
+            <div className="mt-10 text-center">
+              <Button asChild variant="secondary" size="md">
+                <Link href="/pricing">
+                  Compare every feature
+                  <ArrowRight className="size-3.5" aria-hidden />
+                </Link>
+              </Button>
+            </div>
+          </Container>
+        </Section>
+      )}
 
       {/* Blog teaser */}
       <Section pad="standard" surface="muted">

@@ -21,7 +21,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   LinkedinIcon,
   InstagramIcon,
-  TwitterIcon,
+  GithubIcon,
 } from "@/components/icons/social";
 import { LOGO_NAMES, TESTIMONIALS } from "@/lib/testimonials";
 import { cn } from "@/lib/utils";
@@ -33,28 +33,39 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-// Social hrefs are placeholders ("#") — replace with real profile URLs.
 const LEADERS = [
   {
     name: "Sonu Kumar Sony",
     role: "Founder & CEO",
     initials: "SS",
     grad: "from-violet-300 to-indigo-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
+    socials: {
+      linkedin: "https://www.linkedin.com/in/sonu-kumar-soni-9947a4149/",
+      instagram: "https://www.instagram.com/sonu_sony/",
+      github: "https://github.com/sonusony19",
+    },
   },
   {
     name: "Prem Chand Saini",
     role: "CTO · Head of Engineering",
     initials: "PS",
     grad: "from-amber-300 to-rose-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
+    socials: {
+      linkedin: "https://www.linkedin.com/in/pcsaini/",
+      instagram: "https://www.instagram.com/pcsaini779/",
+      github: "https://github.com/pcsaini",
+    },
   },
   {
     name: "Vidhupriya Agarwal",
     role: "Head of Marketing",
     initials: "VA",
     grad: "from-teal-300 to-emerald-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
+    socials: {
+      linkedin: "https://www.linkedin.com/in/vidhupriya-agrawal/",
+      instagram: "https://www.instagram.com/vidhu_2909/",
+      github: "https://github.com/Vidhupriya2909",
+    },
   },
 ];
 
@@ -265,8 +276,11 @@ export default function AboutPage() {
                   >
                     <InstagramIcon className="size-4" />
                   </SocialLink>
-                  <SocialLink href={m.socials.x} label={`${m.name} on X`}>
-                    <TwitterIcon className="size-4" />
+                  <SocialLink
+                    href={m.socials.github}
+                    label={`${m.name} on GitHub`}
+                  >
+                    <GithubIcon className="size-4" />
                   </SocialLink>
                 </div>
               </div>
@@ -405,6 +419,8 @@ function SocialLink({
     <a
       href={href}
       aria-label={label}
+      target="_blank"
+      rel="noreferrer"
       className="flex size-8 items-center justify-center rounded-lg border border-border text-ink-muted transition-colors hover:border-brand-500/40 hover:bg-brand-50 hover:text-brand-600"
     >
       {children}

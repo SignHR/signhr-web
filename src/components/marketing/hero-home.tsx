@@ -150,7 +150,7 @@ function StatusPill() {
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/60 motion-reduce:hidden" />
         <span className="relative inline-flex size-2 rounded-full bg-emerald-500" />
       </span>
-      <span>Live · trusted by 500+ teams</span>
+      <span>Live · trusted by 50+ teams</span>
     </span>
   );
 }
@@ -192,7 +192,7 @@ function SocialProofRow() {
         <span className="font-semibold text-white">4.8/5</span> across 200+
         reviews
         <span className="mx-1.5 opacity-50">·</span>
-        Loved by <span className="font-semibold text-white">500+</span> growing
+        Loved by <span className="font-semibold text-white">50+</span> growing
         teams
       </p>
     </div>

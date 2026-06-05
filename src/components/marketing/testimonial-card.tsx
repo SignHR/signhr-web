@@ -24,18 +24,15 @@ export function TestimonialCard({
   return (
     <figure
       className={cn(
-        "relative flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-ink-muted",
+        "flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-colors hover:border-ink-muted",
         size === "lg" && "p-8",
         className,
       )}
     >
-      <Quote
-        className="absolute right-5 top-5 size-7 text-brand-100"
-        aria-hidden
-      />
+      <Quote className="size-7 text-brand-400" aria-hidden />
       <blockquote
         className={cn(
-          "flex-1 text-ink-secondary",
+          "mt-4 flex-1 text-ink-secondary",
           size === "lg"
             ? "text-[19px] leading-[1.55]"
             : "text-[16px] leading-relaxed",

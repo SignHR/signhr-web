@@ -121,7 +121,7 @@ export default async function BookDemoPage({ searchParams }: PageProps) {
 
         <div className="mt-20 border-t border-border pt-12">
           <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
-            500+ growing teams already running on SignHR
+            50+ growing teams already running on SignHR
           </p>
           <div className="mt-8">
             <LogoCloud names={LOGO_NAMES} />

@@ -4,8 +4,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { DemoDialogProvider } from "@/components/marketing/demo-dialog";
-import { AutoDemoPopup } from "@/components/marketing/auto-demo-popup";
 import { PreFooterCta } from "@/components/marketing/pre-footer-cta";
+import { TestimonialsSection } from "@/components/marketing/testimonials-section";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -108,9 +108,9 @@ export default function RootLayout({
             <main id="main" className="flex-1">
               {children}
             </main>
+            <TestimonialsSection />
             <PreFooterCta />
             <Footer />
-            <AutoDemoPopup />
           </DemoDialogProvider>
         </ThemeProvider>
       </body>
