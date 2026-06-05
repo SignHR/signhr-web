@@ -7,6 +7,7 @@ import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown, X, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
 import { Button } from "@/components/ui/button";
+import { DemoCta } from "@/components/marketing/demo-cta";
 import {
   PRIMARY_NAV,
   FEATURE_MODULES,
@@ -76,8 +77,9 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
                         <div className="space-y-3 px-3 pb-3 pt-1">
                           {FEATURE_GROUPS.map((group) => {
                             const items = FEATURE_MODULES.filter(
-                              (m) => m.group === group.id,
+                              (m) => m.group === group.id && m.status === "live",
                             );
+                            if (items.length === 0) return null;
                             return (
                               <div key={group.id}>
                                 <p className="px-2 pb-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
@@ -102,6 +104,18 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
                               </div>
                             );
                           })}
+                          <div className="px-1 pt-2">
+                            <p className="px-2 pb-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                              Coming soon
+                            </p>
+                            <div className="flex flex-wrap gap-x-2 gap-y-1 px-2">
+                              {FEATURE_MODULES.filter((m) => m.status === "soon").map((m) => (
+                                <span key={m.slug} className="text-xs text-ink-muted">
+                                  {m.name}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
                           <Link
                             href="/features"
                             className="ml-2 inline-flex items-center gap-1 text-sm font-medium text-brand-600"
@@ -153,12 +167,14 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
           </nav>
 
           <div className="shrink-0 space-y-2 border-t border-border px-6 py-5">
-            <Button asChild size="md" className="w-full">
-              <Link href="/book-demo">
-                Book a demo
-                <ArrowRight className="size-4" aria-hidden />
-              </Link>
-            </Button>
+            <DemoCta
+              size="md"
+              className="w-full"
+              onClick={() => onOpenChange(false)}
+            >
+              Book a demo
+              <ArrowRight className="size-4" aria-hidden />
+            </DemoCta>
             <Button asChild variant="secondary" size="md" className="w-full">
               <Link href="/contact">Login</Link>
             </Button>

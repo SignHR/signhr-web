@@ -12,7 +12,6 @@ import { Hero } from "@/components/marketing/hero";
 import { PricingToggle } from "@/components/marketing/pricing-toggle";
 import { ComparisonTable } from "@/components/marketing/comparison-table";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
-import { CTABand } from "@/components/marketing/cta-band";
 import { JsonLd } from "@/components/seo/json-ld";
 import { PRICING_TIERS, COMPARISON_GROUPS, PRICING_FAQ } from "@/lib/pricing";
 
@@ -176,19 +175,6 @@ export default function PricingPage() {
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            Try it free for 3 months.{" "}
-            <em className="serif-italic">Card never asked for.</em>
-          </>
-        }
-        body="If you outgrow Starter, we'll move you up. If something doesn't fit, we'll move you down. No lock-in, ever."
-        primaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
-        secondaryCta={{ label: "Talk to sales", href: "/book-demo?plan=enterprise" }}
-      />
     </>
   );
 }

@@ -10,14 +10,14 @@ import { GradientHalo } from "@/components/marketing/gradient-halo";
 export const metadata: Metadata = {
   title: "Book a demo",
   description:
-    "30-minute walkthrough with a real engineer. We'll set up a sandbox with your data shape and show you exactly how SignHR fits.",
+    "10-minute walkthrough with a real engineer. We'll set up a sandbox with your data shape and show you exactly how SignHR fits.",
   alternates: { canonical: "/book-demo" },
 };
 
 const POINTS = [
   {
     icon: Clock,
-    title: "30 minutes, no fluff",
+    title: "10 minutes, no fluff",
     body: "We'll show you exactly the modules that fit — and skip the ones that don't.",
   },
   {
@@ -63,7 +63,7 @@ export default async function BookDemoPage({ searchParams }: PageProps) {
               See SignHR <em className="serif-italic">in your context</em>
             </h1>
             <p className="mt-6 max-w-md text-[17px] leading-relaxed text-ink-secondary">
-              Thirty minutes with someone who built the product, not a sales
+              Ten minutes with someone who built the product, not a sales
               rep reading from a deck. We&apos;ll set up a sandbox with your
               data shape and you&apos;ll leave knowing exactly whether
               we&apos;re a fit.
@@ -90,7 +90,7 @@ export default async function BookDemoPage({ searchParams }: PageProps) {
                 ))}
               </div>
               <blockquote className="mt-3 text-[15px] leading-relaxed text-ink">
-                &ldquo;The demo was the most useful 30 minutes I&apos;ve spent
+                &ldquo;The demo was the most useful 10 minutes I&apos;ve spent
                 with an HR vendor in years. They actually understood our
                 multi-entity setup before the call started.&rdquo;
               </blockquote>
@@ -113,7 +113,7 @@ export default async function BookDemoPage({ searchParams }: PageProps) {
                 We&apos;ll reply within one business day with three time slots.
               </p>
               <div className="mt-7">
-                <DemoForm defaultPlan={plan} />
+                <DemoForm plan={plan} />
               </div>
             </div>
           </div>

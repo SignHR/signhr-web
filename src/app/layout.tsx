@@ -3,6 +3,9 @@ import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import { DemoDialogProvider } from "@/components/marketing/demo-dialog";
+import { AutoDemoPopup } from "@/components/marketing/auto-demo-popup";
+import { PreFooterCta } from "@/components/marketing/pre-footer-cta";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -94,17 +97,21 @@ export default function RootLayout({
         className="flex min-h-screen flex-col bg-background text-foreground antialiased"
       >
         <ThemeProvider>
-          <a
-            href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
-          >
-            Skip to content
-          </a>
-          <Navbar />
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <Footer />
+          <DemoDialogProvider>
+            <a
+              href="#main"
+              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-primary-foreground"
+            >
+              Skip to content
+            </a>
+            <Navbar />
+            <main id="main" className="flex-1">
+              {children}
+            </main>
+            <PreFooterCta />
+            <Footer />
+            <AutoDemoPopup />
+          </DemoDialogProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -4,7 +4,9 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Button } from "@/components/ui/button";
 import { GradientHalo } from "@/components/marketing/gradient-halo";
+import { DemoCta } from "@/components/marketing/demo-cta";
 import { cn } from "@/lib/utils";
+import { demoHref } from "@/lib/leads";
 
 interface CTABandProps {
   eyebrow?: string;
@@ -15,6 +17,7 @@ interface CTABandProps {
   variant?: "gradient" | "ink";
   className?: string;
 }
+
 
 export function CTABand({
   eyebrow,
@@ -81,28 +84,38 @@ export function CTABand({
             </p>
           )}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            <Button
-              asChild
-              size="lg"
-              variant={variant === "ink" ? "brand" : "primary"}
-            >
-              <Link href={primaryCta.href}>
-                {primaryCta.label}
-                <ArrowRight className="size-4" aria-hidden />
-              </Link>
-            </Button>
-            {secondaryCta && (
-              <Button
-                asChild
-                size="lg"
-                variant={variant === "ink" ? "ghost" : "secondary"}
-                className={
-                  variant === "ink" ? "text-white hover:bg-white/10" : ""
-                }
-              >
-                <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
-              </Button>
-            )}
+            {(() => {
+              const d = demoHref(primaryCta.href);
+              const btnVariant = variant === "ink" ? "brand" : "primary";
+              return d.isDemo ? (
+                <DemoCta size="lg" variant={btnVariant} plan={d.plan}>
+                  {primaryCta.label}
+                  <ArrowRight className="size-4" aria-hidden />
+                </DemoCta>
+              ) : (
+                <Button asChild size="lg" variant={btnVariant}>
+                  <Link href={primaryCta.href}>
+                    {primaryCta.label}
+                    <ArrowRight className="size-4" aria-hidden />
+                  </Link>
+                </Button>
+              );
+            })()}
+            {secondaryCta &&
+              (() => {
+                const d = demoHref(secondaryCta.href);
+                const btnVariant = variant === "ink" ? "ghost" : "secondary";
+                const cls = variant === "ink" ? "text-white hover:bg-white/10" : "";
+                return d.isDemo ? (
+                  <DemoCta size="lg" variant={btnVariant} className={cls} plan={d.plan}>
+                    {secondaryCta.label}
+                  </DemoCta>
+                ) : (
+                  <Button asChild size="lg" variant={btnVariant} className={cls}>
+                    <Link href={secondaryCta.href}>{secondaryCta.label}</Link>
+                  </Button>
+                );
+              })()}
           </div>
         </div>
       </Container>

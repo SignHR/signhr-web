@@ -10,6 +10,7 @@ This is the **public marketing site** for SignHR, separate from the product app.
 - **Zod 4** — `z.email()` (not `z.string().email()`); `z.enum([...])` works the same.
 - **Server-only modules** — `src/lib/blog.ts` reads from `node:fs` and is marked `import "server-only"`. Client components must import types/helpers from `src/lib/blog-types.ts` instead.
 - **set-state-in-effect** lint rule (React 19) flags route-change → close-menu effects. The `Navbar`'s `setMobileOpen(false)` on pathname change has an inline `eslint-disable` with a reason — that's the right pattern when you genuinely need to sync UI to external (router) state.
+- **Demo lead form** posts to the backend at `NEXT_PUBLIC_API_URL` (`/leads`). Local default `https://sign.signhr.test/api`; prod `https://api.signhr.io/api`. CORS on the backend already allows `api/*` from any origin. If the var is unset, `submitLead` returns a friendly "not configured" error instead of throwing.
 
 ## Auto-run rules
 

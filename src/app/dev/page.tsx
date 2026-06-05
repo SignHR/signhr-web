@@ -24,7 +24,6 @@ import { StatNumber } from "@/components/marketing/stat-number";
 import { LogoCloud } from "@/components/marketing/logo-cloud";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { Spotlight } from "@/components/marketing/spotlight";
-import { CTABand } from "@/components/marketing/cta-band";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
 import { PricingCard } from "@/components/marketing/pricing-card";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
@@ -272,39 +271,6 @@ export default function DevPage() {
         <div className="max-w-md space-y-4">
           <NewsletterSignup variant="inline" />
           <NewsletterSignup variant="stacked" />
-        </div>
-      </DevSection>
-
-      <DevSection title="CTABand (gradient)">
-        <div className="-mx-6 md:-mx-8">
-          <CTABand
-            eyebrow="GET STARTED"
-            title={
-              <>
-                Ready to give HR{" "}
-                <em className="serif-italic">the upgrade</em> it deserves?
-              </>
-            }
-            body="3-month free trial. No credit card. Real humans on support."
-            primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-            secondaryCta={{ label: "Start free trial", href: "/book-demo" }}
-          />
-        </div>
-      </DevSection>
-
-      <DevSection title="CTABand (ink)">
-        <div className="-mx-6 md:-mx-8">
-          <CTABand
-            variant="ink"
-            title={
-              <>
-                The HR platform your team will actually want to{" "}
-                <em className="serif-italic">log into</em>
-              </>
-            }
-            primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-            secondaryCta={{ label: "See features", href: "/features" }}
-          />
         </div>
       </DevSection>
 

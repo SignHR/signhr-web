@@ -4,7 +4,6 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
-import { CTABand } from "@/components/marketing/cta-band";
 import { LogoCloud } from "@/components/marketing/logo-cloud";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { CASE_STUDIES } from "@/lib/customers";
@@ -146,18 +145,6 @@ export default function CustomersPage() {
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="JOIN THEM"
-        title={
-          <>
-            Be the next story.{" "}
-            <em className="serif-italic">It starts with a 30-min call.</em>
-          </>
-        }
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "See pricing", href: "/pricing" }}
-      />
     </>
   );
 }

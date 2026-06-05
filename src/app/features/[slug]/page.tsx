@@ -10,7 +10,6 @@ import { FeatureCard } from "@/components/marketing/feature-card";
 import { Spotlight } from "@/components/marketing/spotlight";
 import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
-import { CTABand } from "@/components/marketing/cta-band";
 import { GradientHalo } from "@/components/marketing/gradient-halo";
 import { FloatingMockup } from "@/components/marketing/floating-mockup";
 import { Button } from "@/components/ui/button";
@@ -52,7 +51,10 @@ export default async function FeatureDetailPage({ params }: Props) {
   const related = getRelatedFeatures(slug);
   const firstSpot = page.spotlights[0];
   const heroVisual = firstSpot?.mockup ?? { kind: "self-service" };
-  const heroImage = page.hero.image ?? firstSpot?.image;
+  // Hero band uses an explicit hero.image only (no auto-fallback to the first
+  // spotlight's image) — so a spotlight can have its own image without it being
+  // pulled up into the hero band.
+  const heroImage = page.hero.image;
 
   return (
     <>
@@ -127,8 +129,10 @@ export default async function FeatureDetailPage({ params }: Props) {
       {page.spotlights.map((spot, i) => (
         <Section
           key={i}
+          id={spot.anchor}
           pad="standard"
           surface={i % 2 === 1 ? "muted" : "default"}
+          className={spot.anchor ? "scroll-mt-24" : undefined}
         >
           <Container>
             <Spotlight
@@ -206,19 +210,6 @@ export default async function FeatureDetailPage({ params }: Props) {
           </Container>
         </Section>
       )}
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            Try {page.category} on{" "}
-            <em className="serif-italic">your own data</em>
-          </>
-        }
-        body="3-month free trial on the Growth plan. No credit card. Real humans on support."
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Compare plans", href: "/pricing" }}
-      />
     </>
   );
 }
@@ -238,7 +229,7 @@ function SpotlightImage({
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-25px_rgba(45,30,90,0.25)] ${className ?? ""}`}
+      className={`overflow-hidden rounded-2xl bg-card shadow-[0_30px_60px_-25px_rgba(45,30,90,0.25)] ${className ?? ""}`}
     >
       <Image
         src={src}

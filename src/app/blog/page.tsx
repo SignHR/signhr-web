@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
-import { CTABand } from "@/components/marketing/cta-band";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 import { PostCard } from "@/components/blog/post-card";
 import { BlogIndexClient } from "@/components/blog/blog-index-client";
@@ -67,18 +66,6 @@ export default function BlogIndexPage() {
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            Reading about HR is fun.{" "}
-            <em className="serif-italic">Doing it well</em> is even more fun.
-          </>
-        }
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "See pricing", href: "/pricing" }}
-      />
     </>
   );
 }

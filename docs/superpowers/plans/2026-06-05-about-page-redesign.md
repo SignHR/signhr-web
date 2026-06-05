@@ -1,3 +1,53 @@
+# About Page Redesign — Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Replace the `/about` page in `signhr-web` with a 9-section, story-led "About" page grounded in SignHR's real origin (built by SignatureTech), real mission/values, and a real 3-person leadership row — composed entirely from the existing design system.
+
+**Architecture:** Single server-component file (`src/app/about/page.tsx`) fully rewritten. It composes existing marketing/layout components (`Hero`, `Section`, `Container`, `StatNumber`, `LogoMarquee`, `TestimonialCard`, `CTABand`, `Badge`) plus inline data arrays and small inline card markup. No new shared components, no new tokens, no other files touched.
+
+**Tech Stack:** Next.js 16 (App Router, RSC), React 19, TypeScript (strict), Tailwind CSS v4, lucide-react v1, Motion (via existing client components).
+
+**Spec:** `docs/superpowers/specs/2026-06-05-about-page-redesign-design.md`
+
+---
+
+## Conventions for this plan (read first)
+
+**Verification model — NOT unit-test TDD.** `signhr-web` has no test runner (its only scripts are `dev`/`build`/`lint`/`start`), and a static marketing page does not warrant introducing one (YAGNI). Per `CLAUDE.md`/`DESIGN.md`, the established verification for UI work is:
+- `pnpm lint` → clean
+- `pnpm build` → 0 errors / 0 warnings
+- visual check at **375 / 768 / 1024 / 1440**
+
+These are the "tests" for every task below.
+
+**No commits.** Per the repo's `CLAUDE.md` ("Never `git commit` until explicitly asked"), **no task commits**. The final task stages changes with `git add` only; the human commits later. If executed by subagents, the subagent stages with `git add` and the controller waits for the user.
+
+**Auto-run:** if `pnpm dev` shows a compile error after an edit, restart it (`CLAUDE.md` rule). No config files change here, so no forced restarts are expected.
+
+---
+
+## File structure
+
+- **Modify (full rewrite):** `src/app/about/page.tsx` — the entire `/about` route. One file, one responsibility (render the About page). This is the only file changed.
+- **Read-only references** (already verified — do not modify):
+  - `src/components/marketing/hero.tsx` — `Hero` renders the dark canvas + `primaryCta`/`secondaryCta`; styles its own `<em>` (serif + gradient).
+  - `src/components/marketing/cta-band.tsx` — `CTABand`; `primaryCta` to `/book-demo` auto-opens the demo modal.
+  - `src/components/layout/section.tsx` — `surface="ink"` ⇒ `bg-ink text-white`; `surface="muted"` ⇒ `bg-muted/40`.
+  - `src/components/marketing/stat-number.tsx` — `StatNumber({ value, suffix, label, decimals })`, count-up.
+  - `src/lib/testimonials.ts` — `LOGO_NAMES`, `TESTIMONIALS` (placeholder data reused for the Proof section).
+  - `src/lib/nav.ts` — `FOOTER_NAV.company` "Careers" → `/about#careers` (the anchor this page must preserve).
+
+---
+
+## Task 1: Rewrite `src/app/about/page.tsx`
+
+**Files:**
+- Modify (replace entire file): `src/app/about/page.tsx`
+
+- [ ] **Step 1: Replace the file with the complete implementation below**
+
+```tsx
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
@@ -17,12 +67,8 @@ import { Hero } from "@/components/marketing/hero";
 import { StatNumber } from "@/components/marketing/stat-number";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
+import { CTABand } from "@/components/marketing/cta-band";
 import { Badge } from "@/components/ui/badge";
-import {
-  LinkedinIcon,
-  InstagramIcon,
-  TwitterIcon,
-} from "@/components/icons/social";
 import { LOGO_NAMES, TESTIMONIALS } from "@/lib/testimonials";
 import { cn } from "@/lib/utils";
 
@@ -33,36 +79,32 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-// Social hrefs are placeholders ("#") — replace with real profile URLs.
 const LEADERS = [
   {
     name: "Sonu Kumar Sony",
     role: "Founder & CEO",
     initials: "SS",
     grad: "from-violet-300 to-indigo-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
   },
   {
     name: "Prem Chand Saini",
     role: "CTO · Head of Engineering",
     initials: "PS",
     grad: "from-amber-300 to-rose-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
   },
   {
     name: "Vidhupriya Agarwal",
     role: "Head of Marketing",
     initials: "VA",
     grad: "from-teal-300 to-emerald-400",
-    socials: { linkedin: "#", instagram: "#", x: "#" },
   },
 ];
 
 const ABOUT_STATS = [
-  { value: 1, suffix: "", label: "day to set up, not a quarter" },
-  { value: 5, suffix: "+", label: "tools replaced by one platform" },
-  { value: 3, suffix: "", label: "months free — no card" },
-  { value: 2, suffix: "", label: "weeks between releases" },
+  { value: 1, suffix: " day", label: "average setup, not a quarter" },
+  { value: 5, suffix: "+", label: "disconnected tools, replaced" },
+  { value: 3, suffix: " months", label: "free, no card" },
+  { value: 2, suffix: " weeks", label: "between releases" },
 ];
 
 const TRUST: Array<{ icon: LucideIcon; title: string; body: string }> = [
@@ -92,7 +134,7 @@ const VALUES: Array<{ icon: LucideIcon; title: string; body: string }> = [
   {
     icon: Sparkles,
     title: "Ship in plain English",
-    body: 'Our changelog reads like a friend telling you what\'s new. No “leveraging synergies.” Just what shipped, and why.',
+    body: "Our changelog reads like a friend telling you what's new. No “leveraging synergies.” Just what shipped, and why.",
   },
   {
     icon: Heart,
@@ -116,12 +158,11 @@ export default function AboutPage() {
     <>
       {/* 1 · Hero */}
       <Hero
-        eyebrow={{ label: "Our Story" }}
+        eyebrow="OUR STORY"
         title={
           <>
-            Growing the team is the fun part. Running HR for it shouldn&apos;t
-            be{" "}
-            <em>the hard part.</em>
+            Growing the team is the fun part.{" "}
+            <em>Running HR for it</em> shouldn&apos;t be the hard part.
           </>
         }
         description="SignHR is the all-in-one HR platform for Indian teams of 20 to 500 — onboarding, attendance, leave and payroll-ready, in one calm place. We built it at SignatureTech after watching client after client fight a pile of disconnected tools."
@@ -182,18 +223,14 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 3 · Mission — always-dark band (bg-hero-dark stays dark in BOTH themes;
-          surface="ink" would invert to light in dark mode and break white text) */}
-      <Section
-        pad="standard"
-        className="border-y border-white/10 bg-hero-dark text-white"
-      >
+      {/* 3 · Mission */}
+      <Section pad="standard" surface="ink">
         <Container size="md">
           <div className="text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-300">
               Our mission
             </p>
-            <h2 className="text-display-md mx-auto mt-5 max-w-[24ch] text-balance text-white [&_em]:font-serif [&_em]:italic [&_em]:text-accent-pink">
+            <h2 className="text-display-md mx-auto mt-5 max-w-[24ch] text-balance text-white [&_em]:font-serif [&_em]:italic [&_em]:text-brand-300">
               Make running HR feel <em>calm</em> — for every growing team, not
               just the ones who can afford an enterprise suite.
             </h2>
@@ -207,8 +244,8 @@ export default function AboutPage() {
         </Container>
       </Section>
 
-      {/* 4 · Leadership (also hosts the #careers anchor for the footer link) */}
-      <Section pad="standard" id="careers">
+      {/* 4 · Leadership */}
+      <Section pad="standard">
         <Container>
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
@@ -221,20 +258,7 @@ export default function AboutPage() {
             </div>
             <Badge variant="outline">SignatureTech</Badge>
           </div>
-
-          {/* Big team image — external stock photo (swap the src for a real
-              team/office photo when you have one) */}
-          <div className="mt-10 overflow-hidden rounded-3xl bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element -- external stock photo; next/image would need a next.config remote domain + a dev-server restart */}
-            <img
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80"
-              alt="The SignHR team collaborating"
-              loading="lazy"
-              className="aspect-[16/7] w-full object-cover"
-            />
-          </div>
-
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {LEADERS.map((m) => (
               <div
                 key={m.name}
@@ -252,36 +276,9 @@ export default function AboutPage() {
                   {m.name}
                 </p>
                 <p className="text-[13px] text-ink-muted">{m.role}</p>
-                <div className="mt-4 flex items-center gap-2">
-                  <SocialLink
-                    href={m.socials.linkedin}
-                    label={`${m.name} on LinkedIn`}
-                  >
-                    <LinkedinIcon className="size-4" />
-                  </SocialLink>
-                  <SocialLink
-                    href={m.socials.instagram}
-                    label={`${m.name} on Instagram`}
-                  >
-                    <InstagramIcon className="size-4" />
-                  </SocialLink>
-                  <SocialLink href={m.socials.x} label={`${m.name} on X`}>
-                    <TwitterIcon className="size-4" />
-                  </SocialLink>
-                </div>
               </div>
             ))}
           </div>
-          <p className="mt-10 text-[14px] text-ink-muted">
-            We&apos;re a small team, and we&apos;re hiring —{" "}
-            <Link
-              href="/contact"
-              className="font-medium text-brand-600 underline-offset-4 hover:underline"
-            >
-              get in touch
-            </Link>
-            .
-          </p>
         </Container>
       </Section>
 
@@ -388,26 +385,124 @@ export default function AboutPage() {
           </div>
         </Container>
       </Section>
+
+      {/* 9 · Closing CTA + careers anchor (footer /about#careers links here) */}
+      <div id="careers">
+        <CTABand
+          variant="gradient"
+          title={
+            <>
+              See SignHR on <em className="serif-italic">your own</em>{" "}
+              team&apos;s data.
+            </>
+          }
+          body="A 20-minute demo, or start free for three months — no card, no pressure."
+          primaryCta={{ label: "Book a demo", href: "/book-demo" }}
+          secondaryCta={{ label: "See pricing", href: "/pricing" }}
+        />
+        <Container>
+          <p className="mx-auto -mt-12 max-w-xl pb-20 text-center text-[14px] text-ink-muted md:-mt-16 md:pb-28">
+            We&apos;re a small team, and we&apos;re hiring —{" "}
+            <Link
+              href="/contact"
+              className="font-medium text-brand-600 underline-offset-4 hover:underline"
+            >
+              get in touch
+            </Link>
+            .
+          </p>
+        </Container>
+      </div>
     </>
   );
 }
+```
 
-function SocialLink({
-  href,
-  label,
-  children,
-}: {
-  href: string;
-  label: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      aria-label={label}
-      className="flex size-8 items-center justify-center rounded-lg border border-border text-ink-muted transition-colors hover:border-brand-500/40 hover:bg-brand-50 hover:text-brand-600"
-    >
-      {children}
-    </a>
-  );
-}
+- [ ] **Step 2: Lint**
+
+Run: `cd signhr-web && pnpm lint`
+Expected: no errors, no warnings.
+If it flags an unused import, remove that import. (All imports above are used: `Badge` in Leadership, `Link` in the careers line, every icon in `TRUST`/`VALUES`.)
+
+- [ ] **Step 3: Build (type-check + production build)**
+
+Run: `cd signhr-web && pnpm build`
+Expected: compiles, 0 errors / 0 warnings; `/about` listed as a static route.
+**If the build errors on an unknown icon import**, that name isn't exported in lucide-react v1 — replace it with the nearest equivalent and re-run: `Lock`→`Shield`, `ScrollText`→`FileText`, `KeyRound`→`Key`, `DatabaseBackup`→`Database`. (Update both the `import` line and the `TRUST` array.)
+
+---
+
+## Task 2: Visual & responsive verification
+
+**Files:** none (inspection only).
+
+- [ ] **Step 1: Start the dev server**
+
+Run: `cd signhr-web && pnpm dev` → open `http://localhost:3000/about`.
+
+- [ ] **Step 2: Verify all 9 sections render in order with the right copy**
+
+Top → bottom: (1) dark Hero with eyebrow "OUR STORY", gradient `em` on "Running HR for it", two CTAs; (2) Origin prose ending "did Monday get calmer?" + Sonu's signature; (3) **dark** Mission band, "calm" in brand serif italic; (4) Leadership — 3 cards (Sonu / Prem / Vidhupriya) with gradient-initial avatars + "SignatureTech" badge; (5) Stats — 1 day / 5+ / 3 months / 2 weeks (count-up on scroll); (6) Proof — logo marquee + one testimonial; (7) Trust — 4 icon cards on muted bg; (8) Values — 4 cards; (9) gradient CTA band + "we're hiring → get in touch" line.
+
+- [ ] **Step 3: Check breakpoints 375 / 768 / 1024 / 1440**
+
+- 375: Leadership stacks 1-col; Stats 2-col; Trust 1-col; Values 1-col; no horizontal scroll; Hero headline doesn't overflow.
+- 768: Leadership 2-col; Stats 4-col; Trust 2-col; Values 2-col.
+- 1024 / 1440: Leadership 3-col; Trust 4-col; content centered within `max-w` containers.
+- **Tune the careers line spacing** (the `-mt-12 / -mt-16` pull): it should read as a quiet aside attached to the CTA block, not floating. Adjust the negative margin if it overlaps or gaps oddly at any width.
+
+- [ ] **Step 4: Reduced motion**
+
+In the browser, enable "Reduce motion" (or emulate it in devtools) and reload `/about`. Expected: the Stats show final values immediately (no count-up) and the logo marquee is static — no errors.
+
+---
+
+## Task 3: Cross-cutting checks + stage (no commit)
+
+**Files:** stage `src/app/about/page.tsx`.
+
+- [ ] **Step 1: Footer `#careers` anchor resolves**
+
+From `/about`, click the footer's **Careers** link (it points to `/about#careers`). Expected: the page scrolls to the closing CTA block (the `<div id="careers">`). This is the only consumer of that anchor (`FOOTER_NAV.company` in `src/lib/nav.ts`).
+
+- [ ] **Step 2: Banned-words check**
+
+Run: `cd signhr-web && grep -niE "synergy|leverage|seamless|robust|holistic|empower|unlock" src/app/about/page.tsx`
+Expected: **no matches** (the word "synergies" appears only inside curly quotes as an example of what NOT to say — confirm that single line is the deliberate `“leveraging synergies”` value and nothing else matches).
+Note: that line contains "leveraging synergies" intentionally as a banned-phrase joke. If grep flags it, confirm it is that exact line and leave it; fix any other match.
+
+- [ ] **Step 3: Final lint + build**
+
+Run: `cd signhr-web && pnpm lint && pnpm build`
+Expected: lint clean; build 0 errors / 0 warnings.
+
+- [ ] **Step 4: Stage the change (DO NOT COMMIT)**
+
+Run: `cd signhr-web && git add src/app/about/page.tsx`
+Then **stop**. Per `CLAUDE.md`, the human reviews and commits. Do not run `git commit` or `git push`.
+
+---
+
+## Self-review
+
+**1. Spec coverage** — every spec section maps to code in Task 1:
+- §6.1 Hero ✓ · §6.2 Origin + signature ✓ · §6.3 Mission (ink) ✓ · §6.4 Leadership (3 real) ✓ · §6.5 Stats (1/5+/3/2) ✓ · §6.6 Proof (marquee + quote) ✓ · §6.7 Trust (4 items) ✓ · §6.8 Values (4) ✓ · §6.9 CTA + careers `id` ✓
+- Metadata (§7) ✓ · banned-words gate (§8) → Task 3 Step 2 ✓ · `id="careers"` (acceptance) → Task 3 Step 1 ✓ · responsive (§10) → Task 2 Step 3 ✓ · reduced motion (§10) → Task 2 Step 4 ✓
+- Removed content (INVESTORS, 8-person team, fictional origin): the full-file replace in Task 1 deletes all of it ✓
+
+**2. Placeholder scan** — no "TBD"/"TODO" in the plan; the only placeholders are the *content* placeholders the spec intends (LOGO_NAMES/TESTIMONIALS in Proof), which are real, imported values rendering real components.
+
+**3. Type consistency** — `LEADERS`/`ABOUT_STATS`/`TRUST`/`VALUES` shapes match their `.map()` usage; `StatNumber` props (`value`/`suffix`/`label`/`decimals`) match `stat-number.tsx`; `CTABand`/`Hero` prop objects (`{ label, href }`) match their interfaces; `TestimonialCard`/`LogoMarquee` usage matches the home page's working usage.
+
+**4. Out of scope confirmed** — no new components, no token changes, no other files; placeholders/claims-to-verify (real logos, traction stats, security cert, headshots) are left for the human per spec §9.
+
+---
+
+## Execution handoff
+
+Plan complete. Two execution options:
+
+1. **Subagent-Driven (recommended)** — dispatch a fresh subagent for Task 1, review the diff, then Tasks 2–3. Subagent stages with `git add` only; I wait for you before any commit.
+2. **Inline Execution** — I execute the tasks in this session with a checkpoint after Task 1's build passes.
+
+Either way: **no commit happens without your explicit go-ahead.**

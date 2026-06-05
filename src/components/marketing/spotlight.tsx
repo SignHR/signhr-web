@@ -1,5 +1,6 @@
 import * as React from "react";
-import { Check } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface SpotlightProps {
@@ -9,6 +10,7 @@ interface SpotlightProps {
   bullets?: string[];
   side?: "left" | "right";
   visual: React.ReactNode;
+  cta?: { label: string; href: string };
   className?: string;
 }
 
@@ -23,6 +25,7 @@ export function Spotlight({
   bullets,
   side = "right",
   visual,
+  cta,
   className,
 }: SpotlightProps) {
   return (
@@ -56,6 +59,15 @@ export function Spotlight({
               </li>
             ))}
           </ul>
+        )}
+        {cta && (
+          <Link
+            href={cta.href}
+            className="mt-7 inline-flex items-center gap-1.5 text-[15px] font-semibold text-brand-600 transition-colors hover:text-brand-700"
+          >
+            {cta.label}
+            <ArrowRight className="size-4" aria-hidden />
+          </Link>
         )}
       </div>
       <div

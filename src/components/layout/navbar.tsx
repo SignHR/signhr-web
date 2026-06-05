@@ -15,6 +15,7 @@ import {
   FEATURE_GROUPS,
   RESOURCE_LINKS,
 } from "@/lib/nav";
+import { DemoCta } from "@/components/marketing/demo-cta";
 import { cn } from "@/lib/utils";
 
 export function Navbar() {
@@ -135,12 +136,10 @@ export function Navbar() {
               >
                 <Link href="/contact">Login</Link>
               </Button>
-              <Button asChild size="sm">
-                <Link href="/book-demo">
-                  Book a demo
-                  <ArrowRight className="size-3.5" aria-hidden />
-                </Link>
-              </Button>
+              <DemoCta size="sm">
+                Book a demo
+                <ArrowRight className="size-3.5" aria-hidden />
+              </DemoCta>
             </div>
 
             <div className="flex items-center gap-2 lg:hidden">
@@ -163,12 +162,15 @@ export function Navbar() {
 }
 
 function FeaturesMega() {
-  const groups = FEATURE_GROUPS.filter((g) => g.id !== "operations");
+  const soon = FEATURE_MODULES.filter((m) => m.status === "soon");
   return (
-    <div className="w-[760px] bg-card">
-      <div className="grid grid-cols-3 gap-1 p-3">
-        {groups.map((group) => {
-          const items = FEATURE_MODULES.filter((m) => m.group === group.id);
+    <div className="w-[1040px] max-w-[95vw] bg-card">
+      <div className="grid grid-cols-4 gap-2 p-4">
+        {FEATURE_GROUPS.map((group) => {
+          const items = FEATURE_MODULES.filter(
+            (m) => m.group === group.id && m.status === "live",
+          );
+          if (items.length === 0) return null;
           return (
             <div key={group.id} className="p-3">
               <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
@@ -201,11 +203,16 @@ function FeaturesMega() {
         })}
       </div>
       <div className="flex items-center justify-between gap-4 border-t border-border bg-muted/30 px-6 py-4">
-        <div>
-          <p className="text-sm font-medium text-ink">Asset Management</p>
-          <p className="text-xs text-ink-muted">
-            Track every laptop, badge, and license.
-          </p>
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+            Coming soon
+          </span>
+          {soon.map((m, i) => (
+            <span key={m.slug} className="text-xs text-ink-muted">
+              {m.name}
+              {i < soon.length - 1 && <span className="px-1 text-ink-muted/40">·</span>}
+            </span>
+          ))}
         </div>
         <NavigationMenu.Link asChild>
           <Link

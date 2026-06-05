@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Users,
+  Clock,
   CalendarDays,
   Wallet,
   GitBranch,
@@ -12,6 +13,9 @@ import {
   Mail,
   FileSpreadsheet,
   MessagesSquare,
+  UserPlus,
+  Bot,
+  Laptop,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
@@ -22,41 +26,63 @@ import { SITE_URL } from "@/lib/utils";
 import { Hero } from "@/components/marketing/hero";
 import { Spotlight } from "@/components/marketing/spotlight";
 import { FeatureCard } from "@/components/marketing/feature-card";
-import { CTABand } from "@/components/marketing/cta-band";
 import { WorkflowDemo } from "@/components/marketing/workflow-demo";
+import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { PricingCard } from "@/components/marketing/pricing-card";
+import { LogoMarquee } from "@/components/marketing/logo-marquee";
+import { StatNumber } from "@/components/marketing/stat-number";
+import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { PRICING_TIERS } from "@/lib/pricing";
+import { LOGO_NAMES, STATS, TESTIMONIALS } from "@/lib/testimonials";
 
-const PILLARS = [
+const HERO_MODULES = [
+  {
+    icon: Bot,
+    title: "Ask HR",
+    body: "Your company's own AI HR — answers from live data & policy.",
+    href: "/features/ask-hr",
+  },
   {
     icon: Users,
-    title: "Core HRMS",
-    body: "One source of truth — profiles, contracts, org chart, audit trail.",
+    title: "Employee Management",
+    body: "Profiles, records & lifecycle — the data hub everything flows from.",
     href: "/features/core-hrms",
   },
   {
+    icon: Clock,
+    title: "Attendance & Check-In/Out",
+    body: "Web, mobile, GPS & geofenced punches.",
+    href: "/features/time-attendance",
+  },
+  {
     icon: CalendarDays,
-    title: "Time & Leave",
-    body: "Attendance, schedules, and leave in one rhythm. Mobile-first.",
+    title: "Leave Management",
+    body: "Policies, balances & one-tap approvals.",
     href: "/features/leave-management",
   },
   {
-    icon: Wallet,
-    title: "Payroll",
-    body: "Configurable structures, statutory built in, payslips your team understands.",
-    href: "/features/payroll",
+    icon: UserPlus,
+    title: "Easy Onboarding",
+    body: "Offer → docs → day one, in minutes.",
+    href: "/features/onboarding",
   },
   {
     icon: GitBranch,
-    title: "Workflows",
-    body: "Visual approval engine. Conditional, parallel, sequential — all no-code.",
+    title: "Approval Workflows",
+    body: "Multi-level chains for every request.",
     href: "/features/workflows",
   },
   {
-    icon: Sparkles,
-    title: "Self-service",
-    body: "Eighty percent of HR tickets become self-serve. Mobile portal your team will use.",
-    href: "/features/self-service",
+    icon: Wallet,
+    title: "Payroll-ready",
+    body: "We compute the inputs; your payroll engine pays out.",
+    href: "/features/payroll",
+  },
+  {
+    icon: Laptop,
+    title: "Asset Management",
+    body: "Know who has what — assign & track every device.",
+    href: "/features/assets",
   },
 ];
 
@@ -129,26 +155,39 @@ export default function HomePage() {
         variant="home"
         title={
           <>
-            Run your <span className="font-sans">entire HR</span> without the{" "}
-            <em className="serif-italic">chaos</em>.
+            The world&apos;s first <em className="serif-italic">AI-powered</em>{" "}
+            HRMS.
           </>
         }
-        description="The all-in-one HRMS for teams of 20 to 500. Onboarding to offboarding, attendance to payroll, in one elegant platform your people will actually want to log into."
+        description="Onboarding, attendance, leave and payroll-ready — with your own AI HR built in. One platform for Indian teams of 20 to 500."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
+        secondaryCta={{ label: "Explore", href: "/features" }}
       />
 
+      {/* Logo cloud */}
+      <Section pad="compact" className="border-y border-border/60">
+        <Container>
+          <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
+            500+ teams already running on SignHR
+          </p>
+          <div className="mt-6">
+            <LogoMarquee names={LOGO_NAMES} />
+          </div>
+        </Container>
+      </Section>
+
       {/* Problem → Solution */}
-      <Section pad="standard">
+      <Section pad="standard" surface="muted">
         <Container>
           <div className="mx-auto max-w-3xl text-center">
             <Badge variant="brand">From → To</Badge>
-            <h2 className="text-display-md mt-5 text-balance text-ink">
-              You shouldn&apos;t need <em className="serif-italic">five tools</em>{" "}
-              and a spreadsheet to run HR.
+            <h2 className="text-display-md mx-auto mt-5 max-w-[26ch] text-balance text-ink">
+              Still running HR on{" "}
+              <em className="serif-italic">spreadsheets and WhatsApp</em>?
             </h2>
             <p className="mt-5 text-[17px] leading-relaxed text-ink-secondary">
               Here&apos;s what most growing teams are stuck with — and what HR
-              looks like once you&apos;re on SignHR.
+              looks like once it&apos;s one connected system on SignHR.
             </p>
           </div>
 
@@ -160,23 +199,24 @@ export default function HomePage() {
       </Section>
 
       {/* Core platform pillars */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard">
         <Container>
           <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              Platform pillars
+              The platform
             </p>
             <h2 className="text-display-md mt-4 text-balance text-ink">
-              Five products. <em className="serif-italic">One</em> rhythm.
+              Everything a growing team needs.{" "}
+              <em className="serif-italic">One</em> platform.
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
-              Each pillar handles a chunk of HR. Together they form the
-              calmest version of your operations you&apos;ve ever seen.
+              Each module handles a chunk of HR. Together they form the calmest
+              version of your operations you&apos;ve ever seen.
             </p>
           </div>
 
           <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {PILLARS.map((p) => (
+            {HERO_MODULES.map((p) => (
               <FeatureCard
                 key={p.title}
                 icon={p.icon}
@@ -186,7 +226,7 @@ export default function HomePage() {
               />
             ))}
             <Link
-              href="/features"
+              href="/features#roadmap"
               className="group flex flex-col justify-between rounded-2xl border border-dashed border-brand-500/40 bg-gradient-to-br from-brand-500/10 to-transparent p-6 md:p-7 transition-all hover:border-brand-500/70 hover:from-brand-500/20"
             >
               <div>
@@ -194,19 +234,49 @@ export default function HomePage() {
                   <Sparkles className="size-5" aria-hidden />
                 </span>
                 <h3 className="mt-4 text-[19px] font-semibold tracking-tight text-ink">
-                  Plus 4 more modules
+                  Plus what&apos;s coming
                 </h3>
                 <p className="mt-2 text-[15px] text-ink-secondary">
-                  Onboarding, offboarding, asset management, performance —
-                  every part of the lifecycle.
+                  Recruitment, performance, reports &amp; analytics, and more —
+                  on the roadmap.
                 </p>
               </div>
               <span className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-brand-600">
-                Explore all 9 modules
+                See the roadmap
                 <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
               </span>
             </Link>
           </div>
+        </Container>
+      </Section>
+
+      {/* Ask HR — flagship AI section */}
+      <Section pad="standard" surface="muted">
+        <Container>
+          <Spotlight
+            eyebrow="ASK HR"
+            title={
+              <>
+                Your company&apos;s own <em className="serif-italic">AI HR</em>
+              </>
+            }
+            body={
+              <>
+                Every employee gets an AI HR they can just ask — leave balance,
+                “why did my pay change?”, an unpaid-leave deduction — answered
+                from your live data and policies, with the source cited.
+                Read-only and permission-scoped.
+              </>
+            }
+            bullets={[
+              "Plain-English answers grounded in your data, with the policy cited",
+              "Runs real what-if math on live payroll — shown as an estimate",
+              "Read-only & permission-scoped — it only sees what the employee may see",
+            ]}
+            side="left"
+            cta={{ label: "Explore Ask HR", href: "/features/ask-hr" }}
+            visual={<SpotlightMockupView mockup={{ kind: "ask-hr" }} />}
+          />
         </Container>
       </Section>
 
@@ -309,6 +379,32 @@ export default function HomePage() {
         </Container>
       </Section>
 
+      {/* Stats band */}
+      <Section pad="standard">
+        <Container>
+          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+            {STATS.map((s) => (
+              <StatNumber
+                key={s.label}
+                value={s.value}
+                suffix={s.suffix}
+                label={s.label}
+                decimals={Number.isInteger(s.value) ? 0 : 1}
+              />
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* Testimonial */}
+      <Section pad="standard" surface="muted">
+        <Container size="md">
+          <div className="mx-auto max-w-2xl">
+            <TestimonialCard size="lg" testimonial={TESTIMONIALS[0]} />
+          </div>
+        </Container>
+      </Section>
+
       {/* Pricing teaser */}
       <Section pad="standard">
         <Container>
@@ -375,26 +471,14 @@ export default function HomePage() {
                 <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-secondary">
                   {post.excerpt}
                 </p>
-                <p className="mt-5 text-[12px] text-ink-muted">{post.readTime}</p>
+                <p className="mt-5 text-[12px] text-ink-muted">
+                  {post.readTime}
+                </p>
               </Link>
             ))}
           </div>
         </Container>
       </Section>
-
-      {/* Final CTA */}
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            Ready to give HR{" "}
-            <em className="serif-italic">the upgrade</em> it deserves?
-          </>
-        }
-        body="Set up in 10 minutes. 3-month free trial on the Growth plan. No credit card."
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
-      />
     </>
   );
 }
@@ -411,7 +495,7 @@ function SpotlightImage({
   height: number;
 }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-[0_30px_60px_-25px_rgba(45,30,90,0.25)]">
+    <div className="overflow-hidden">
       <Image
         src={src}
         alt={alt}
@@ -425,8 +509,14 @@ function SpotlightImage({
 }
 
 function BeforePanel() {
-  const items: Array<{ icon: React.ComponentType<{ className?: string }>; text: string }> = [
-    { icon: FileSpreadsheet, text: "Three spreadsheets that disagree on headcount" },
+  const items: Array<{
+    icon: React.ComponentType<{ className?: string }>;
+    text: string;
+  }> = [
+    {
+      icon: FileSpreadsheet,
+      text: "Three spreadsheets that disagree on headcount",
+    },
     { icon: Mail, text: "Leave requests buried in 14 email threads" },
     { icon: MessagesSquare, text: "Late-night DMs asking for payslips" },
     { icon: X, text: "Day-one onboarding done by hand, every time" },
@@ -441,7 +531,10 @@ function BeforePanel() {
       <h3 className="text-display-sm mt-4 text-ink">The HR you have</h3>
       <ul className="mt-5 space-y-3.5">
         {items.map((it) => (
-          <li key={it.text} className="flex items-start gap-3 text-[15px] text-ink-secondary">
+          <li
+            key={it.text}
+            className="flex items-start gap-3 text-[15px] text-ink-secondary"
+          >
             <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-destructive/10 text-destructive">
               <it.icon className="size-3" aria-hidden />
             </span>

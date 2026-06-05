@@ -6,7 +6,6 @@ import {
   Wallet,
   UserPlus,
   UserMinus,
-  Sparkles,
   GitBranch,
   Laptop,
   FileText,
@@ -22,10 +21,15 @@ import {
   Workflow,
   Building2,
   Network,
-  KeyRound,
+  LifeBuoy,
   PackageCheck,
   Boxes,
   ScanLine,
+  Sparkles,
+  Calculator,
+  Quote,
+  BookOpen,
+  UserCog,
 } from "lucide-react";
 import { FEATURE_MODULES } from "./nav";
 
@@ -42,6 +46,8 @@ export type Spotlight = {
   bullets: string[];
   side: "left" | "right";
   mockup: SpotlightMockup;
+  /** Optional id rendered on the spotlight section for deep-linking (e.g. "security", "mobile"). */
+  anchor?: string;
   /** Optional real-image override; takes precedence over the synthetic mockup. */
   image?: { src: string; alt: string; width: number; height: number };
 };
@@ -51,12 +57,20 @@ export type SpotlightMockup =
   | { kind: "attendance" }
   | { kind: "leave-calendar" }
   | { kind: "payroll" }
+  | { kind: "payroll-handoff" }
   | { kind: "onboarding" }
   | { kind: "offboarding" }
   | { kind: "self-service" }
   | { kind: "workflow" }
+  | { kind: "security" }
   | { kind: "assets" }
-  | { kind: "org-chart" };
+  | { kind: "org-chart" }
+  | { kind: "ask-hr" }
+  | { kind: "ask-hr-persona" }
+  | { kind: "ask-hr-math" }
+  | { kind: "ask-hr-private" }
+  | { kind: "doc-request" }
+  | { kind: "doc-vault" };
 
 export type FeaturePage = {
   slug: string;
@@ -82,6 +96,122 @@ export type FeaturePage = {
 };
 
 export const FEATURE_PAGES: Record<string, FeaturePage> = {
+  "ask-hr": {
+    slug: "ask-hr",
+    category: "Ask HR",
+    hero: {
+      title: "Ask HR",
+      titleAccent: "anything.",
+      description:
+        "Every company gets its own AI HR — name it, give it a face, train it on your handbook. Employees just ask, and it answers from your live data and policies, even running the real numbers. Read-only, permission-scoped, and on the record.",
+      image: {
+        src: "/assets/ask-hr.webp",
+        alt: "SignHR Ask HR — an AI assistant answering an employee question",
+        width: 1653,
+        height: 952,
+      },
+    },
+    metaDescription:
+      "Ask HR — your company's own AI HR. Plain-English answers grounded in your live data and policies, real payroll math, a per-company persona, and permission-scoped privacy. Read-only v1.",
+    capabilities: [
+      {
+        icon: Sparkles,
+        title: "Ask in plain English",
+        body: `Leave balance, “why did my pay change?”, notice period — answered from your data, with the policy section cited.`,
+      },
+      {
+        icon: Calculator,
+        title: "Runs the real math",
+        body: `“Unpaid leave Fri–Mon — what's my deduction?” Computed by the same engine that builds your payslips, shown as an estimate.`,
+      },
+      {
+        icon: Quote,
+        title: "Cites every answer",
+        body: "Policy replies quote the handbook; computed replies show the breakdown. Grounded in your sources, never invented.",
+      },
+      {
+        icon: UserCog,
+        title: "Your own AI HR",
+        body: `Set its name, photo, and tone per company — “Ask Maya”, “Ask Raj” — so it feels like your HR, not a generic bot.`,
+      },
+      {
+        icon: BookOpen,
+        title: "Trained on your handbook",
+        body: `Upload your policies and documents; answers stay grounded in your company's actual rules, not the open web.`,
+      },
+      {
+        icon: Shield,
+        title: "Permission-scoped & private",
+        body: "It only ever sees what the asking employee may see — no salary or PII leaks — and your data never trains a model.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "GROUNDED ANSWERS",
+        title: `Your company’s HR, <em class="serif-italic">on call 24/7</em>.`,
+        body: "Employees ask in plain language and get a real answer — from your live HR data and your own policy docs, with the source cited. Not a generic assistant: it reads the real numbers and runs the real math.",
+        bullets: [
+          "Plain-English answers grounded in your data, with the policy section cited.",
+          "Runs real what-ifs — like an unpaid-leave deduction — on your live payroll, shown as an estimate.",
+          "Read-only by design: it answers and deep-links to the right screen, but never changes anything itself.",
+        ],
+        side: "right",
+        mockup: { kind: "ask-hr" },
+      },
+      {
+        eyebrow: "MAKE IT YOURS",
+        title: `An AI HR that’s <em class="serif-italic">unmistakably yours</em>.`,
+        body: "Every company shapes its own assistant — its name, its face, its tone — and grounds it in your actual policies. It speaks for your HR, in your tone.",
+        bullets: [
+          `Set the name, photo, and personality per company — “Ask Maya”, “Ask Raj”.`,
+          "Upload your handbook and policy docs; answers stay grounded in your rules, not the open web.",
+          "Tune its guidelines so it knows what to answer, what to escalate, and how to sound.",
+        ],
+        side: "left",
+        mockup: { kind: "ask-hr-persona" },
+        image: {
+          src: "/assets/ai-settings.webp",
+          alt: "SignHR Ask HR persona settings — name, photo, and tone per company",
+          width: 1168,
+          height: 1346,
+        },
+      },
+      {
+        eyebrow: "REAL MATH",
+        title: `It runs the <em class="serif-italic">actual numbers</em>.`,
+        body: "Ask a what-if and it computes — pulling your penalty rules, leave balance, salary, and the working-day calendar — with the same engine that produces your payslips. The number can’t drift from what payroll would really do.",
+        bullets: [
+          `“If I take unpaid leave Friday to Monday, what’s my deduction?” — answered with the breakdown.`,
+          "Uses the same calculator as real payroll, so the estimate matches the system.",
+          "Always framed as an estimate to confirm with HR — advisory on money, never the final word.",
+        ],
+        side: "right",
+        mockup: { kind: "ask-hr-math" },
+      },
+      {
+        eyebrow: "PRIVATE BY DESIGN",
+        title: `Trust, <em class="serif-italic">built in</em>.`,
+        body: `An HR assistant only earns its place if it’s safe. SignHR’s is permission-scoped by construction, cites its sources, and is an official, on-the-record channel — not a black box.`,
+        bullets: [
+          "Permission-scoped: it can only ever surface what the asking employee is already allowed to see.",
+          "Cites every answer and shows its work, so there’s nothing to take on faith.",
+          "On-the-record and auditable for HR — and your data is never used to train any model.",
+        ],
+        side: "left",
+        mockup: { kind: "ask-hr-private" },
+      },
+    ],
+    testimonial: {
+      quote:
+        "Our people ask it the things they used to email me at 9pm — and it answers correctly, with the policy attached. My inbox finally went quiet.",
+      name: "Sana Kapoor",
+      role: "Head of People",
+      company: "Lumen Labs",
+      avatar: "SK",
+    },
+    related: ["self-service", "payroll", "leave-management"],
+  },
+
   "core-hrms": {
     slug: "core-hrms",
     category: "Core HRMS",
@@ -107,8 +237,13 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       },
       {
         icon: Network,
-        title: "Live org chart",
-        body: "Drag-and-drop reporting lines that update in real time and stay in sync with payroll.",
+        title: "Searchable directory & org chart",
+        body: "A live employee directory and drag-and-drop reporting lines that stay in sync with payroll.",
+      },
+      {
+        icon: Building2,
+        title: "Departments, roles & IDs",
+        body: "Departments, designations, reporting lines, auto-generated employee IDs, and full employment history.",
       },
       {
         icon: FileText,
@@ -119,11 +254,6 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         icon: Shield,
         title: "Field-level permissions",
         body: "HR sees salary, managers don't. Set granular access without writing a single line of code.",
-      },
-      {
-        icon: Building2,
-        title: "Multi-entity ready",
-        body: "Run subsidiaries, regions, and currencies from a single workspace with isolated data.",
       },
       {
         icon: ClipboardCheck,
@@ -186,6 +316,19 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
           height: 1024,
         },
       },
+      {
+        eyebrow: "SECURITY & ACCESS",
+        title: "Access control that's actually granular",
+        anchor: "security",
+        body: "Role-based permissions decide who sees what — down to the field. Every action is logged, and sensitive documents stay locked to the right people.",
+        bullets: [
+          "Role-based access control (RBAC) for admins & managers",
+          "Field-level permissions on sensitive data",
+          "Activity logs and secure document storage",
+        ],
+        side: "left",
+        mockup: { kind: "security" },
+      },
     ],
     testimonial: {
       quote:
@@ -206,14 +349,20 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "Either way, we've got it.",
       description:
         "Punch in from a browser, phone, or kiosk. Geofencing, IP rules, and shift schedules — all in one timesheet that managers can actually approve in under a minute.",
+      image: {
+        src: "/assets/check-in-out.webp",
+        alt: "SignHR attendance dashboard with check-in and check-out timeline",
+        width: 1536,
+        height: 1024,
+      },
     },
     metaDescription:
       "Web, mobile, and kiosk attendance with geofencing, shift scheduling, and timesheet approvals built for hybrid teams.",
     capabilities: [
       {
         icon: Smartphone,
-        title: "Mobile clock-in",
-        body: "iOS and Android apps with geofence, selfie capture, and offline punch sync.",
+        title: "Mobile & biometric clock-in",
+        body: "iOS, Android, kiosk, or biometric device — geofence, selfie capture, and offline punch sync.",
       },
       {
         icon: MapPin,
@@ -226,19 +375,19 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         body: "Rotating shifts, split shifts, night shifts, weekly off cycles — drag, drop, publish.",
       },
       {
+        icon: Clock,
+        title: "Overtime, breaks & half-days",
+        body: "Overtime, break time, late-mark, and half-day rules computed automatically per policy.",
+      },
+      {
         icon: CheckCircle2,
         title: "Auto regularization",
         body: "Missed punches surface to the employee, not the manager's email inbox.",
       },
       {
-        icon: Clock,
+        icon: ClipboardCheck,
         title: "Real-time timesheets",
         body: "Live dashboard of who's in, who's late, who's on leave — across every location.",
-      },
-      {
-        icon: Bell,
-        title: "Smart nudges",
-        body: "Friendly reminders for forgotten clock-outs. No 9pm 'where's your timesheet' messages.",
       },
     ],
     spotlights: [
@@ -253,6 +402,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "right",
         mockup: { kind: "attendance" },
+        image: {
+          src: "/assets/check-in.webp",
+          alt: "SignHR mobile clock-in with selfie and GPS verification",
+          width: 1136,
+          height: 1101,
+        },
       },
       {
         eyebrow: "SCHEDULING",
@@ -265,6 +420,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "left",
         mockup: { kind: "leave-calendar" },
+        image: {
+          src: "/assets/schedules.webp",
+          alt: "SignHR shift scheduling view",
+          width: 1322,
+          height: 1190,
+        },
       },
     ],
     testimonial: {
@@ -286,6 +447,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "for everyone",
       description:
         "Policies that match how you actually work. Balances that update themselves. Approvals that don't bounce around six inboxes. Your team gets a real break.",
+      image: {
+        src: "/assets/leave-management.webp",
+        alt: "SignHR leave management — balances and team calendar",
+        width: 1535,
+        height: 1024,
+      },
     },
     metaDescription:
       "Configurable leave policies, automatic accruals, team calendars, and one-click approvals. Built for hybrid and global teams.",
@@ -293,7 +460,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: CalendarDays,
         title: "Any policy, modeled",
-        body: "Annual, sick, casual, comp-off, sabbatical, menstrual, paternity — all configurable, all auditable.",
+        body: "Annual, sick, casual, comp-off, sabbatical, paternity, and sandwich-leave rules — all configurable, all auditable.",
       },
       {
         icon: Workflow,
@@ -333,6 +500,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "right",
         mockup: { kind: "leave-calendar" },
+        image: {
+          src: "/assets/request.webp",
+          alt: "SignHR leave request with live balance",
+          width: 1426,
+          height: 978,
+        },
       },
       {
         eyebrow: "POLICY",
@@ -345,6 +518,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "left",
         mockup: { kind: "workflow" },
+        image: {
+          src: "/assets/leave-policies.webp",
+          alt: "SignHR leave policy configuration",
+          width: 1129,
+          height: 1393,
+        },
       },
     ],
     testimonial: {
@@ -362,13 +541,19 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
     slug: "payroll",
     category: "Payroll",
     hero: {
-      title: "Transparent compensation,",
+      title: "Payroll-ready,",
       titleAccent: "every cycle",
       description:
-        "Build the salary structure that fits your business. Run payroll in three steps. Send payslips your employees can actually understand. Done before lunch.",
+        "SignHR does the heavy lifting before payday — salary structures, attendance and leave turned into clean payroll inputs, payslip access for your team — then hands off to your payroll or compliance provider. We compute the inputs; you run the payout.",
+      image: {
+        src: "/assets/payroll.webp",
+        alt: "SignHR payroll inputs and salary structure",
+        width: 1615,
+        height: 974,
+      },
     },
     metaDescription:
-      "Configurable salary components, payroll runs, payslips, and statutory compliance — all in a few clicks.",
+      "Payroll support & integration: salary structures, attendance-to-payroll inputs, payslip access, reimbursements, and a clean hand-off to your payroll provider.",
     capabilities: [
       {
         icon: Wallet,
@@ -376,60 +561,66 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         body: "Basic, HRA, allowances, deductions, reimbursements — modeled exactly how you pay.",
       },
       {
+        icon: Layers,
+        title: "Attendance & leave → inputs",
+        body: "LOP, overtime, and approved leave flow straight into payroll inputs — no re-keying.",
+      },
+      {
         icon: Receipt,
-        title: "Payslips that explain themselves",
-        body: "Beautiful, downloadable, and clear. No more 'what is this deduction' message threads.",
+        title: "Payslip access",
+        body: "Employees download payslips and year-to-date summaries from self-service, on any device.",
+      },
+      {
+        icon: Inbox,
+        title: "Expense reimbursement",
+        body: "Claims, approvals, and reimbursements captured and ready to include in the cycle.",
       },
       {
         icon: ClipboardCheck,
-        title: "Statutory built in",
-        body: "PF, ESI, TDS, PT calculated automatically with the right state rules.",
-      },
-      {
-        icon: Layers,
-        title: "Pre-payroll inputs",
-        body: "Attendance, leave, bonuses, and ad-hoc items flow in without manual re-entry.",
-      },
-      {
-        icon: CheckCircle2,
-        title: "Approval workflow",
-        body: "Multi-stage payroll approval with full diff view before money moves.",
+        title: "Statutory-aware inputs",
+        body: "PF, ESI, PT, and TDS amounts computed as inputs — your provider handles the filing.",
       },
       {
         icon: FileText,
-        title: "Reports your CFO loves",
-        body: "Salary register, JV, bank advice, and Form 16 — generated, not assembled.",
+        title: "Export & integration",
+        body: "Clean exports and a tidy hand-off to your third-party payroll or compliance engine.",
       },
     ],
     spotlights: [
       {
-        eyebrow: "RUN",
-        title: "Payroll in three calm steps",
-        body: "Pull inputs. Review the variance. Approve. The system does the rest — including bank file generation and payslip distribution.",
+        eyebrow: "INPUTS",
+        title: "Payroll inputs, computed for you",
+        body: "Pull attendance, leave, LOP, and components into one reviewed sheet. Catch variance against last cycle before anything leaves SignHR.",
         bullets: [
           "Variance flagging vs last cycle",
-          "What-if calculator for one-off changes",
+          "LOP and overtime auto-applied",
           "Audit log for every adjustment",
         ],
         side: "right",
         mockup: { kind: "payroll" },
+        image: {
+          src: "/assets/payroll-settings.webp",
+          alt: "SignHR payroll settings and salary components",
+          width: 2810,
+          height: 1858,
+        },
       },
       {
-        eyebrow: "PAYSLIP",
-        title: "Payslips your team understands",
-        body: "Clear breakdowns, year-to-date totals, tax summaries — and a download button that actually works on a phone.",
+        eyebrow: "HAND-OFF",
+        title: "Your payroll engine, fed cleanly",
+        body: "Export a ready-to-run file or push inputs to your payroll/compliance provider. SignHR owns the prep; your engine owns the payout and filing.",
         bullets: [
-          "Self-service archive of every cycle",
-          "PDF + secure share link",
-          "Customizable with your logo and notes",
+          "Provider-ready export formats",
+          "Payslip access in self-service",
+          "No double data entry",
         ],
         side: "left",
-        mockup: { kind: "self-service" },
+        mockup: { kind: "payroll-handoff" },
       },
     ],
     testimonial: {
       quote:
-        "First payroll I ran end-to-end in 22 minutes. I keep waiting for it to break. It hasn't.",
+        "Our attendance, leave, and components flow straight into payroll inputs now. What used to be three days of spreadsheet reconciliation is a 20-minute review.",
       name: "Faiza Khan",
       role: "Payroll Lead",
       company: "Wayne Enterprises India",
@@ -440,162 +631,94 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
 
   onboarding: {
     slug: "onboarding",
-    category: "Onboarding",
+    category: "Onboarding & Offboarding",
     hero: {
-      title: "First day,",
-      titleAccent: "done in minutes",
+      title: "From first day to final exit,",
+      titleAccent: "handled",
       description:
-        "Send the offer. Collect the documents. Sign the contract. Provision the laptop. All before they've poured their first coffee on day one.",
+        "Send the offer, collect the documents, sign the contract, provision the laptop — and when someone moves on, run the clearance, asset return, and full-and-final without anyone having to remember to start.",
+      image: {
+        src: "/assets/onboarding.webp",
+        alt: "SignHR onboarding checklist and offer flow",
+        width: 1535,
+        height: 1025,
+      },
     },
     metaDescription:
-      "Offer letters, document collection, e-signatures, and welcome flows — onboarding that respects everyone's time.",
+      "Joining to exit in one flow: offer letters, digital joining forms, e-signatures, welcome workflows, clearance checklists, and full-and-final settlement.",
     capabilities: [
       {
         icon: UserPlus,
         title: "Branded offer letters",
-        body: "Templates that match your voice, populated from data, sent in a click.",
+        body: "Templates that match your voice, populated from data, sent in a click — with an approval chain before they go out.",
       },
       {
         icon: FileText,
-        title: "Document collection",
+        title: "Digital joining forms",
         body: "ID proofs, PAN, bank, education — collected through a clean checklist, not 14 emails.",
       },
       {
         icon: ClipboardCheck,
         title: "E-signatures built in",
-        body: "Legally valid contracts signed without a third tool to manage.",
+        body: "Legally valid contracts signed on a phone — no third tool to manage.",
       },
       {
         icon: Workflow,
-        title: "Pre-boarding workflow",
+        title: "Task-based pre-boarding",
         body: "IT, finance, ops, and people-ops tasks routed automatically before day one.",
       },
       {
-        icon: Sparkles,
-        title: "Welcome experience",
-        body: "Personalized landing page with their team, manager, and first-week schedule.",
+        icon: UserMinus,
+        title: "Clearance & exit checklist",
+        body: "Resignation triggers handover, asset return, and IT-access removal — nothing slips.",
       },
       {
-        icon: CheckCircle2,
-        title: "Day-one ready",
-        body: "Email, accounts, asset assignment all triggered the moment they accept the offer.",
+        icon: Receipt,
+        title: "Full & final settlement",
+        body: "Notice pay, leave encashment, and gratuity computed and ready for review before the last day.",
       },
     ],
     spotlights: [
       {
-        eyebrow: "OFFER",
-        title: "From verbal yes to signed contract in hours",
-        body: "Generate the offer from your template, send it for review, push it to the candidate. They sign on their phone and you're already provisioning.",
+        eyebrow: "ONBOARDING",
+        title: "From verbal yes to a great first day",
+        body: "Generate the offer, get it signed on a phone, and let the system provision accounts, assets, and a first-week schedule before they pour their first coffee.",
         bullets: [
           "Template variables for role, comp, location",
-          "Approval chain before the offer goes out",
-          "Signed copies stored automatically",
+          "Auto-create accounts and assign assets",
+          "First-week schedule and buddy assignment",
         ],
         side: "right",
         mockup: { kind: "onboarding" },
+        image: {
+          src: "/assets/onboarding.webp",
+          alt: "SignHR onboarding checklist and offer flow",
+          width: 1536,
+          height: 1024,
+        },
       },
       {
-        eyebrow: "DAY ONE",
-        title: "A first day that doesn't feel like a fire drill",
-        body: "Their laptop is ready. Their accounts work. Their schedule is in their inbox. Their manager has a one-pager. They feel welcome — because the system did the boring work.",
+        eyebrow: "OFFBOARDING",
+        title: "Exits done with dignity",
+        body: "Resignation kicks off a checklist that pulls in every team that needs to act — clearance, asset return, access removal, and a correctly-calculated full-and-final.",
         bullets: [
-          "Auto-create accounts in Google, Notion, and SSO",
-          "First-week schedule with intro meetings",
-          "Buddy program assignment",
+          "Configurable per role, location, and tenure",
+          "Auto-routed to IT, finance, and people-ops",
+          "Live full-and-final preview before the last day",
         ],
         side: "left",
-        mockup: { kind: "workflow" },
+        mockup: { kind: "offboarding" },
       },
     ],
     testimonial: {
       quote:
-        "We used to spend half a day prepping for each new hire. Now it's a checklist that prepares itself. Our last cohort was onboarded in twelve minutes per person.",
+        "We used to spend half a day prepping for each new hire and dread every exit. Now both are checklists that run themselves — our last cohort was onboarded in twelve minutes per person.",
       name: "Marcus Chen",
       role: "People Operations",
       company: "Stark Industries",
       avatar: "MC",
     },
-    related: ["core-hrms", "assets", "workflows"],
-  },
-
-  offboarding: {
-    slug: "offboarding",
-    category: "Offboarding",
-    hero: {
-      title: "Exits done",
-      titleAccent: "with dignity",
-      description:
-        "Notice, handover, asset return, IT access, full-and-final settlement — handled in a single thread that nobody has to remember to start.",
-    },
-    metaDescription:
-      "Structured offboarding workflows that protect data, return assets, and pay people what they're owed — without the awkwardness.",
-    capabilities: [
-      {
-        icon: UserMinus,
-        title: "Notice and handover",
-        body: "Auto-generate handover docs. Transfer projects. Schedule the exit interview.",
-      },
-      {
-        icon: Laptop,
-        title: "Asset return",
-        body: "Track every laptop, badge, and headphone — including who signed for what.",
-      },
-      {
-        icon: KeyRound,
-        title: "IT access removal",
-        body: "Revoke Google, Notion, and SSO with one click on the last working day.",
-      },
-      {
-        icon: Receipt,
-        title: "Final settlement",
-        body: "Notice pay, leave encashment, gratuity, and tax — calculated and approved.",
-      },
-      {
-        icon: FileText,
-        title: "Experience letter",
-        body: "Generated automatically from your template the day they leave.",
-      },
-      {
-        icon: Shield,
-        title: "Data lifecycle",
-        body: "Personal data archived per your retention policy, with full audit trail.",
-      },
-    ],
-    spotlights: [
-      {
-        eyebrow: "WORKFLOW",
-        title: "A respectful exit, end to end",
-        body: "Resignation triggers a checklist that pulls in every team that needs to act. Nothing slips. Nothing awkward gets missed. People leave on a high note.",
-        bullets: [
-          "Configurable per role, location, and tenure",
-          "Auto-routed to IT, finance, and people-ops",
-          "Reminders before, not after, the deadline",
-        ],
-        side: "right",
-        mockup: { kind: "offboarding" },
-      },
-      {
-        eyebrow: "F&F",
-        title: "Full and final, calculated correctly",
-        body: "Notice period adjustments, leave encashment, gratuity eligibility — all computed automatically and ready for review before the last day.",
-        bullets: [
-          "Live preview as inputs change",
-          "Tax-aware computation",
-          "Bank-ready output the same day",
-        ],
-        side: "left",
-        mockup: { kind: "payroll" },
-      },
-    ],
-    testimonial: {
-      quote:
-        "Offboarding used to be the worst week of every month. Now it's a button and a calendar invite for the exit interview. People leave saying nice things about us.",
-      name: "Elena Schmidt",
-      role: "VP People",
-      company: "Massive Dynamic",
-      avatar: "ES",
-    },
-    related: ["assets", "payroll", "workflows"],
+    related: ["core-hrms", "assets", "payroll"],
   },
 
   "self-service": {
@@ -606,6 +729,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "empowered",
       description:
         "Eighty percent of HR tickets are answers people could find themselves. Self-service in SignHR is so good, your team would rather use it than file a ticket.",
+      image: {
+        src: "/assets/self.webp",
+        alt: "SignHR employee self-service portal",
+        width: 1389,
+        height: 839,
+      },
     },
     metaDescription:
       "An employee self-service portal that actually gets used. Profile, requests, payslips, documents — all in one mobile-friendly place.",
@@ -623,7 +752,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       {
         icon: FileText,
         title: "Documents on demand",
-        body: "Payslips, Form 16, address proof, NOC — generated in the moment they're needed.",
+        body: "Payslips, address proof, NOC, and tax summaries — generated in the moment they're needed.",
       },
       {
         icon: Bell,
@@ -631,9 +760,9 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         body: "Smart digests, not 14 emails a day. Quiet hours honored.",
       },
       {
-        icon: Users,
-        title: "Team directory",
-        body: "Searchable, filter by team or location, with profile cards that don't feel creepy.",
+        icon: LifeBuoy,
+        title: "HR Helpdesk",
+        body: "Questions, tickets, and answers in one place — with the docs people need attached.",
       },
       {
         icon: ClipboardCheck,
@@ -651,8 +780,14 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
           "Search across people, policies, and documents",
           "Dark mode for the night-shift folks",
         ],
-        side: "right",
+        side: "left",
         mockup: { kind: "self-service" },
+        image: {
+          src: "/assets/dashboard.webp",
+          alt: "SignHR self-service portal home — personalized dashboard with search",
+          width: 2926,
+          height: 1647,
+        },
       },
       {
         eyebrow: "REQUESTS",
@@ -663,8 +798,58 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
           "Attachments and supporting docs in-thread",
           "Audit trail every step of the way",
         ],
-        side: "left",
+        side: "right",
         mockup: { kind: "workflow" },
+        image: {
+          src: "/assets/request.webp",
+          alt: "SignHR request tracker for leave, documents, and approvals",
+          width: 1426,
+          height: 978,
+        },
+      },
+      {
+        eyebrow: "COLLECT & SIGN",
+        title: 'Ask once. Track everything. <em class="serif-italic">Chase no one.</em>',
+        body: "Ask employees to upload a proof, sign an agreement, or acknowledge a policy — then watch a single dashboard fill in instead of refreshing your inbox. Everything lands on the employee record, verified and stored.",
+        bullets: [
+          "Request the right documents per person, team, or role — PAN, address proof, certificates, a signed offer — and see signed-vs-pending at a glance.",
+          "Read-and-acknowledge sign-off for handbooks and policies, each acknowledgment timestamped and logged — so when a policy changes, you know who's seen it.",
+          "Expiry and renewal reminders for time-bound documents reach the employee before they lapse, and HR verifies each upload before it's filed.",
+        ],
+        side: "left",
+        mockup: { kind: "doc-request" },
+      },
+      {
+        eyebrow: "MY DOCUMENTS",
+        title:
+          'Every payslip, letter, and ID — <em class="serif-italic">one tap away.</em>',
+        body: "Give employees one secure place for their own documents and details. Payslips and letters on demand, IDs and certificates uploaded once, personal details they keep current themselves — with HR holding the lock on what's official.",
+        bullets: [
+          "A personal document vault — payslips, tax summaries, address proof, IDs, certificates — viewable and downloadable on any device, generated the moment they're needed.",
+          "Store a file or just a link, tag it by type, and set an expiry so renewals never sneak up — all surfaced back to HR in one place.",
+          "Self-updated personal details with field-level locks: employees keep contacts and emergency info current, while statutory records stay HR-controlled and audit-logged.",
+        ],
+        side: "right",
+        mockup: { kind: "doc-vault" },
+      },
+      {
+        eyebrow: "MOBILE & PRODUCTIVITY",
+        title: "HR that lives in their pocket",
+        anchor: "mobile",
+        body: "A mobile dashboard with everything today needs — punches, approvals, payslips, announcements — plus push notifications and real-time updates across every location.",
+        bullets: [
+          "Mobile dashboard for employees & managers",
+          "Push notifications and real-time updates",
+          "Multi-location and offline-friendly",
+        ],
+        side: "left",
+        mockup: { kind: "self-service" },
+        image: {
+          src: "/assets/mobile.webp",
+          alt: "SignHR mobile app — dashboard, punches, and push notifications",
+          width: 1386,
+          height: 2996,
+        },
       },
     ],
     testimonial: {
@@ -686,6 +871,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "automated",
       description:
         "Multi-step, multi-approver, conditional, parallel — the workflow engine handles whatever your real process actually looks like, without the consultant fees.",
+      image: {
+        src: "/assets/approval-flow-detailed.webp",
+        alt: "SignHR visual approval workflow builder",
+        width: 2926,
+        height: 1647,
+      },
     },
     metaDescription:
       "A no-code approval engine for every HR process: leave, expenses, onboarding, payroll changes, exits — and anything custom you dream up.",
@@ -733,6 +924,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "right",
         mockup: { kind: "workflow" },
+        image: {
+          src: "/assets/approval-flow.webp",
+          alt: "SignHR approval workflow with multi-step approvers",
+          width: 1201,
+          height: 1310,
+        },
       },
       {
         eyebrow: "APPROVE",
@@ -745,6 +942,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "left",
         mockup: { kind: "self-service" },
+        image: {
+          src: "/assets/request.webp",
+          alt: "SignHR approval — one-click approve from the request",
+          width: 1426,
+          height: 978,
+        },
       },
     ],
     testimonial: {
@@ -766,6 +969,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       titleAccent: "what",
       description:
         "Laptops, monitors, badges, sim cards — every asset assigned, tracked, and returned. The end of 'we think Karthik has it' on resignation day.",
+      image: {
+        src: "/assets/assets.webp",
+        alt: "SignHR asset register with assigned devices",
+        width: 1544,
+        height: 1019,
+      },
     },
     metaDescription:
       "Track every asset across its lifecycle: procurement, assignment, maintenance, return. Built into HR so it actually gets updated.",
@@ -813,6 +1022,12 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
         ],
         side: "right",
         mockup: { kind: "assets" },
+        image: {
+          src: "/assets/asset-details.webp",
+          alt: "SignHR asset detail and assignment history",
+          width: 2535,
+          height: 1995,
+        },
       },
       {
         eyebrow: "RETURN",
@@ -835,7 +1050,7 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       company: "Wayne Enterprises India",
       avatar: "DP",
     },
-    related: ["onboarding", "offboarding", "core-hrms"],
+    related: ["onboarding", "core-hrms"],
   },
 };
 

@@ -10,7 +10,14 @@ import {
   Laptop,
   Plug,
   Building2,
+  FileSignature,
+  BookOpen,
+  Lock,
+  Pencil,
+  Download,
+  Receipt,
 } from "lucide-react";
+import { AskHrChat } from "@/components/marketing/ask-hr-chat";
 import type { SpotlightMockup } from "@/lib/features";
 import { cn } from "@/lib/utils";
 
@@ -37,6 +44,8 @@ export function SpotlightMockupView({
       return <LeaveCalendar className={wrapperClass} />;
     case "payroll":
       return <Payroll className={wrapperClass} />;
+    case "payroll-handoff":
+      return <PayrollHandoff className={wrapperClass} />;
     case "onboarding":
       return <Onboarding className={wrapperClass} />;
     case "offboarding":
@@ -45,10 +54,24 @@ export function SpotlightMockupView({
       return <SelfService className={wrapperClass} />;
     case "workflow":
       return <Workflow className={wrapperClass} />;
+    case "security":
+      return <Security className={wrapperClass} />;
     case "assets":
       return <Assets className={wrapperClass} />;
     case "org-chart":
       return <OrgChart className={wrapperClass} />;
+    case "ask-hr":
+      return <AskHrChat className={wrapperClass} />;
+    case "ask-hr-persona":
+      return <AskHrChat className={wrapperClass} variant="persona" />;
+    case "ask-hr-math":
+      return <AskHrChat className={wrapperClass} variant="math" />;
+    case "ask-hr-private":
+      return <AskHrChat className={wrapperClass} variant="private" />;
+    case "doc-request":
+      return <DocRequest className={wrapperClass} />;
+    case "doc-vault":
+      return <DocVault className={wrapperClass} />;
   }
 }
 
@@ -335,6 +358,85 @@ function PayrollStat({
       >
         {value}
       </p>
+    </div>
+  );
+}
+
+function PayrollHandoff({ className }: { className?: string }) {
+  const channels = [
+    {
+      icon: Download,
+      title: "Bank file (.csv)",
+      meta: "Provider-ready format",
+      tag: "Export",
+    },
+    {
+      icon: Plug,
+      title: "Push to provider",
+      meta: "RazorpayX · Zoho Payroll",
+      tag: "Connected",
+    },
+    {
+      icon: Receipt,
+      title: "Payslips → self-service",
+      meta: "Auto-published to employees",
+      tag: "On",
+    },
+  ];
+  return (
+    <div
+      className={className}
+      role="img"
+      aria-label="Payroll hand-off — export a provider-ready file or push inputs to your payroll provider, with payslips auto-published"
+    >
+      <div className="border-b border-border/60 bg-muted/30 px-4 py-2.5 text-[11px] text-ink-muted">
+        Payroll / April 2026 · Hand-off
+      </div>
+      <div className="p-5">
+        <div className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2.5">
+          <div>
+            <p className="text-[11px] text-ink-muted">Ready to hand off</p>
+            <p className="mt-0.5 font-mono text-[15px] font-semibold text-ink">
+              248 employees · ₹38,42,640
+            </p>
+          </div>
+          <span className="shrink-0 rounded-full bg-success/10 px-2.5 py-1 text-[10px] font-medium text-success">
+            Inputs locked
+          </span>
+        </div>
+
+        <div className="mt-3 space-y-1.5">
+          {channels.map((c) => (
+            <div
+              key={c.title}
+              className="flex items-center gap-3 rounded-lg border border-border bg-card px-3 py-2"
+            >
+              <span className="flex size-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+                <c.icon className="size-3.5" aria-hidden />
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[12px] font-medium text-ink">
+                  {c.title}
+                </p>
+                <p className="text-[10px] text-ink-muted">{c.meta}</p>
+              </div>
+              <span className="shrink-0 rounded-md bg-muted px-2 py-0.5 text-[10px] font-medium text-ink-muted">
+                {c.tag}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 flex items-center gap-2 rounded-xl border border-dashed border-brand-300 bg-brand-50/60 px-3 py-2 text-[10.5px] text-brand-700">
+          <CheckCircle2 className="size-3.5 shrink-0 text-brand-600" aria-hidden />
+          No re-keying — inputs flow straight to your engine.
+        </div>
+
+        <button className="mt-4 inline-flex h-9 w-full items-center justify-center gap-1.5 rounded-xl bg-primary text-[12px] font-medium text-primary-foreground">
+          Push to provider
+          <ArrowRight className="size-3.5" aria-hidden />
+        </button>
+      </div>
     </div>
   );
 }
@@ -645,6 +747,92 @@ function Connector() {
   return <div className="ml-3.5 h-3 w-px bg-border" aria-hidden />;
 }
 
+function Security({ className }: { className?: string }) {
+  const rows: { field: string; access: ("yes" | "no" | "own")[] }[] = [
+    { field: "Salary & comp", access: ["yes", "no", "no"] },
+    { field: "Contracts", access: ["yes", "no", "own"] },
+    { field: "Performance", access: ["yes", "yes", "no"] },
+    { field: "Contact info", access: ["yes", "yes", "yes"] },
+  ];
+  const log = [
+    { who: "Aisha P.", what: "viewed Anita's profile", when: "2m ago" },
+    { who: "Admin", what: "updated role · Manager", when: "1h ago" },
+    { who: "Marcus C.", what: "downloaded payslip", when: "Today" },
+  ];
+  return (
+    <div
+      className={className}
+      role="img"
+      aria-label="Role-based access control — a who-can-see-what permissions matrix, a field-level lock, and an activity log"
+    >
+      <div className="flex items-center gap-2 border-b border-border/60 bg-muted/30 px-4 py-2.5 text-[11px] text-ink-muted">
+        <ShieldCheck className="size-3.5 text-brand-600" aria-hidden />
+        Settings / Roles &amp; access
+      </div>
+      <div className="p-5">
+        <p className="text-[11px] font-semibold text-ink">Who can see what</p>
+        <div className="mt-2 overflow-hidden rounded-xl border border-border">
+          <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr] border-b border-border bg-muted/30 text-[9.5px] font-medium uppercase tracking-wide text-ink-muted">
+            <span className="px-3 py-1.5">Field</span>
+            <span className="py-1.5 text-center">Admin</span>
+            <span className="py-1.5 text-center">Mgr</span>
+            <span className="py-1.5 text-center">Emp</span>
+          </div>
+          {rows.map((r) => (
+            <div
+              key={r.field}
+              className="grid grid-cols-[1.5fr_1fr_1fr_1fr] items-center border-b border-border/50 text-[11px] last:border-0"
+            >
+              <span className="px-3 py-2 font-medium text-ink">{r.field}</span>
+              {r.access.map((a, i) => (
+                <span key={i} className="flex justify-center py-2">
+                  <AccessCell access={a} />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-3 flex items-center gap-2 rounded-xl border border-dashed border-brand-300 bg-brand-50/60 px-3 py-2 text-[10.5px] text-brand-700">
+          <Lock className="size-3.5 shrink-0 text-brand-600" aria-hidden />
+          Salary is field-locked — managers see everything except pay.
+        </div>
+
+        <p className="mt-4 text-[11px] font-semibold text-ink">Activity log</p>
+        <div className="mt-2 space-y-1.5">
+          {log.map((l, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-2 rounded-lg border border-border bg-card px-2.5 py-1.5 text-[10.5px]"
+            >
+              <span className="size-1.5 shrink-0 rounded-full bg-success" />
+              <span className="min-w-0 flex-1 truncate text-ink">
+                <span className="font-medium">{l.who}</span>{" "}
+                <span className="text-ink-muted">{l.what}</span>
+              </span>
+              <span className="shrink-0 font-mono text-[9.5px] text-ink-muted">
+                {l.when}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AccessCell({ access }: { access: "yes" | "no" | "own" }) {
+  if (access === "yes")
+    return <CheckCircle2 className="size-3.5 text-success" aria-hidden />;
+  if (access === "own")
+    return (
+      <span className="rounded bg-brand-50 px-1.5 py-0.5 text-[8.5px] font-semibold text-brand-600">
+        Own
+      </span>
+    );
+  return <Lock className="size-3 text-ink-muted/50" aria-hidden />;
+}
+
 function Assets({ className }: { className?: string }) {
   return (
     <div className={className} role="img" aria-label="Asset register">
@@ -772,6 +960,122 @@ function Node({
         <p className="truncate text-[11px] font-medium text-ink">{name}</p>
         <p className="text-[10px] text-ink-muted">{role}</p>
       </div>
+    </div>
+  );
+}
+
+function DocRequest({ className }: { className?: string }) {
+  const rows = [
+    { icon: FileText, title: "PAN card", who: "Requested from Aanya M.", badge: "Verified", tone: "ok" as const },
+    { icon: FileSignature, title: "Offer letter — sign", who: "Sent to Rohan K.", badge: "Awaiting sign", tone: "warn" as const },
+    { icon: FileText, title: "Address proof", who: "Requested from Priya S.", badge: "Pending", tone: "warn" as const },
+    { icon: BookOpen, title: "Handbook v3 — acknowledge", who: "Sent to 12 people", badge: "9 / 12 done", tone: "info" as const },
+  ];
+  return (
+    <div
+      className={cn(className, "max-w-[420px]")}
+      role="img"
+      aria-label="HR document requests dashboard with signed and pending items"
+    >
+      <div className="flex items-center justify-between border-b border-border/70 bg-gradient-to-b from-card to-muted/30 px-4 py-3">
+        <p className="text-[13px] font-semibold text-ink">Document requests</p>
+        <span className="rounded-full bg-brand-50 px-2.5 py-1 text-[10px] font-semibold text-brand-600">
+          3 pending · 1 signed
+        </span>
+      </div>
+      <div className="space-y-1 p-3">
+        {rows.map((r) => (
+          <div key={r.title} className="flex items-center gap-3 rounded-xl p-2.5 transition-colors hover:bg-muted/40">
+            <span className="flex size-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
+              <r.icon className="size-4" aria-hidden />
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12.5px] font-semibold text-ink">{r.title}</p>
+              <p className="text-[10.5px] text-ink-muted">{r.who}</p>
+            </div>
+            <span
+              className={cn(
+                "shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold",
+                r.tone === "ok" && "bg-success/10 text-success",
+                r.tone === "warn" && "bg-accent/15 text-accent-foreground",
+                r.tone === "info" && "bg-brand-500/10 text-brand-700",
+              )}
+            >
+              {r.badge}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function DocVault({ className }: { className?: string }) {
+  const files = [
+    { title: "Payslip — May 2026", meta: "Generated · PDF", tag: "Payslip" },
+    { title: "PAN card", meta: "Uploaded · verified", tag: "ID" },
+    { title: "Degree certificate", meta: "Link · no expiry", tag: "Cert" },
+    { title: "Address proof", meta: "Uploaded · expires Dec '26", tag: "KYC" },
+  ];
+  return (
+    <div
+      className={cn(className, "max-w-[440px]")}
+      role="img"
+      aria-label="Employee personal document vault and editable details"
+    >
+      <div className="grid grid-cols-[1.25fr_0.75fr]">
+        <div className="border-r border-border/70 p-4">
+          <p className="mb-2.5 text-[12px] font-semibold text-ink">My documents</p>
+          <div className="space-y-2">
+            {files.map((f) => (
+              <div key={f.title} className="flex items-center gap-2.5 rounded-lg border border-border bg-card p-2">
+                <span className="flex h-9 w-7 items-center justify-center rounded bg-gradient-to-br from-brand-50 to-card text-brand-600 ring-1 ring-brand-100">
+                  <FileText className="size-3.5" aria-hidden />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[11.5px] font-semibold text-ink">{f.title}</p>
+                  <p className="text-[9.5px] text-ink-muted">{f.meta}</p>
+                </div>
+                <span className="rounded-full bg-brand-50 px-2 py-0.5 text-[8.5px] font-semibold uppercase tracking-wide text-brand-600">
+                  {f.tag}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="p-4">
+          <p className="mb-2.5 text-[12px] font-semibold text-ink">My details</p>
+          <DetailRow k="Phone" v="+91 98••• ••210" editable />
+          <DetailRow k="Emergency contact" v="Meera (sister)" editable />
+          <DetailRow k="Bank account" v="HDFC ••••4821" locked />
+          <DetailRow k="Designation" v="Sr. Engineer" locked />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DetailRow({
+  k,
+  v,
+  editable,
+  locked,
+}: {
+  k: string;
+  v: string;
+  editable?: boolean;
+  locked?: boolean;
+}) {
+  return (
+    <div className="mb-2.5">
+      <p className="flex items-center gap-1 text-[9px] font-medium uppercase tracking-wide text-ink-muted">
+        {k}
+        {locked && <Lock className="size-2.5 text-accent" aria-hidden />}
+      </p>
+      <p className="mt-0.5 flex items-center gap-1.5 text-[11.5px] font-semibold text-ink">
+        {v}
+        {editable && <Pencil className="size-2.5 text-ink-muted" aria-hidden />}
+      </p>
     </div>
   );
 }

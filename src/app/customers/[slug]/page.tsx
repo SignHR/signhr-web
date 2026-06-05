@@ -5,7 +5,6 @@ import { ArrowLeft, Quote } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
-import { CTABand } from "@/components/marketing/cta-band";
 import { FeatureCard } from "@/components/marketing/feature-card";
 import { CASE_STUDIES, getCaseStudy } from "@/lib/customers";
 import { FEATURE_MODULES } from "@/lib/nav";
@@ -129,18 +128,6 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="START YOURS"
-        title={
-          <>
-            Want a story like {study.company}&apos;s?{" "}
-            <em className="serif-italic">Let&apos;s talk.</em>
-          </>
-        }
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "See pricing", href: "/pricing" }}
-      />
     </>
   );
 }

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
-import { CTABand } from "@/components/marketing/cta-band";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 import { PostHeader } from "@/components/blog/post-header";
 import { Toc } from "@/components/blog/toc";
@@ -123,18 +122,6 @@ export default async function BlogPostPage({ params }: Props) {
           </Container>
         </Section>
       )}
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            See SignHR in action.{" "}
-            <em className="serif-italic">It&apos;s faster than reading.</em>
-          </>
-        }
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "See pricing", href: "/pricing" }}
-      />
     </article>
   );
 }

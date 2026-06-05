@@ -5,56 +5,71 @@ import {
   CalendarDays,
   Wallet,
   UserPlus,
-  UserMinus,
   GitBranch,
   Laptop,
+  Smartphone,
+  ShieldCheck,
+  Briefcase,
+  Target,
+  BarChart3,
+  Megaphone,
+  Plug,
   BookOpen,
   FileText,
   LifeBuoy,
   Sparkles,
   Newspaper,
+  Bot,
 } from "lucide-react";
 
 export type FeatureModule = {
   slug: string;
   name: string;
-  href: string;
+  href: string; // live → "/features/<slug>"; some live modules deep-link into another page; roadmap → "/features#roadmap"
   icon: LucideIcon;
-  group: "core" | "time" | "lifecycle" | "operations";
+  group: "core" | "time" | "lifecycle" | "platform";
+  status: "live" | "soon";
   short: string;
+  roadmapBullets?: string[]; // shown on the /features "On the roadmap" cards
 };
 
 export const FEATURE_MODULES: FeatureModule[] = [
+  // --- core ---
+  {
+    slug: "ask-hr",
+    name: "Ask HR",
+    href: "/features/ask-hr",
+    icon: Bot,
+    group: "core",
+    status: "live",
+    short: "Your company's own AI HR — ask it anything, answered from live data & policy.",
+  },
   {
     slug: "core-hrms",
-    name: "Core HRMS",
+    name: "Core HR",
     href: "/features/core-hrms",
     icon: Users,
     group: "core",
-    short: "One source of truth for everyone on the team.",
+    status: "live",
+    short: "One source of truth — profiles, directory, departments, roles, org chart.",
   },
   {
     slug: "self-service",
-    name: "Self-service",
+    name: "Employee Self-Service",
     href: "/features/self-service",
     icon: Sparkles,
     group: "core",
+    status: "live",
     short: "Your team handles 80% of HR without filing a ticket.",
   },
-  {
-    slug: "workflows",
-    name: "Workflows",
-    href: "/features/workflows",
-    icon: GitBranch,
-    group: "core",
-    short: "Every approval, automated end-to-end.",
-  },
+  // --- time ---
   {
     slug: "time-attendance",
-    name: "Time & Attendance",
+    name: "Attendance & Time",
     href: "/features/time-attendance",
     icon: Clock,
     group: "time",
+    status: "live",
     short: "Punch in. Or don't. Either way, we've got it.",
   },
   {
@@ -63,7 +78,27 @@ export const FEATURE_MODULES: FeatureModule[] = [
     href: "/features/leave-management",
     icon: CalendarDays,
     group: "time",
+    status: "live",
     short: "Time off should be easy for everyone.",
+  },
+  {
+    slug: "workflows",
+    name: "Approval Workflows",
+    href: "/features/workflows",
+    icon: GitBranch,
+    group: "time",
+    status: "live",
+    short: "Every approval, automated end-to-end.",
+  },
+  // --- lifecycle ---
+  {
+    slug: "onboarding",
+    name: "Onboarding & Offboarding",
+    href: "/features/onboarding",
+    icon: UserPlus,
+    group: "lifecycle",
+    status: "live",
+    short: "First day to final exit — handled in minutes.",
   },
   {
     slug: "payroll",
@@ -71,31 +106,86 @@ export const FEATURE_MODULES: FeatureModule[] = [
     href: "/features/payroll",
     icon: Wallet,
     group: "lifecycle",
-    short: "Transparent compensation, every cycle.",
+    status: "live",
+    short: "Payroll-ready — we compute the inputs, your payroll engine pays out.",
   },
   {
-    slug: "onboarding",
-    name: "Onboarding",
-    href: "/features/onboarding",
-    icon: UserPlus,
+    slug: "recruitment",
+    name: "Recruitment & Hiring",
+    href: "/features#roadmap",
+    icon: Briefcase,
     group: "lifecycle",
-    short: "First day, done in minutes.",
+    status: "soon",
+    short: "Source, track & hire — applicant tracking built in.",
+    roadmapBullets: ["Job openings & ATS", "Candidate pipeline & interviews", "Resume & candidate database"],
   },
-  {
-    slug: "offboarding",
-    name: "Offboarding",
-    href: "/features/offboarding",
-    icon: UserMinus,
-    group: "lifecycle",
-    short: "Exits done with dignity and a clean trail.",
-  },
+  // --- platform ---
   {
     slug: "assets",
     name: "Asset Management",
     href: "/features/assets",
     icon: Laptop,
-    group: "operations",
+    group: "platform",
+    status: "live",
     short: "Know who has what — laptops, badges, all of it.",
+  },
+  {
+    slug: "mobile",
+    name: "Mobile & Productivity",
+    href: "/features/self-service#mobile",
+    icon: Smartphone,
+    group: "platform",
+    status: "live",
+    short: "HR in your pocket — dashboard, punches & push notifications.",
+  },
+  {
+    slug: "security",
+    name: "Security & Access",
+    href: "/features/core-hrms#security",
+    icon: ShieldCheck,
+    group: "platform",
+    status: "live",
+    short: "Role-based access, activity logs & secure document storage.",
+  },
+  {
+    slug: "performance",
+    name: "Performance",
+    href: "/features#roadmap",
+    icon: Target,
+    group: "platform",
+    status: "soon",
+    short: "Goals, reviews & feedback that actually land.",
+    roadmapBullets: ["Goals & KPIs", "Reviews & appraisals", "360° feedback"],
+  },
+  {
+    slug: "reports",
+    name: "Reports & Analytics",
+    href: "/features#roadmap",
+    icon: BarChart3,
+    group: "platform",
+    status: "soon",
+    short: "Turn your people data into decisions.",
+    roadmapBullets: ["Workforce analytics", "Department-level reports", "Custom & exportable reports"],
+  },
+  {
+    slug: "communication",
+    name: "Communication & Engagement",
+    href: "/features#roadmap",
+    icon: Megaphone,
+    group: "platform",
+    status: "soon",
+    short: "Keep everyone in the loop, automatically.",
+    roadmapBullets: ["Announcements & alerts", "Birthday & anniversary nudges", "Team updates"],
+  },
+  {
+    slug: "integrations",
+    name: "Integrations",
+    href: "/features#roadmap",
+    icon: Plug,
+    group: "platform",
+    status: "soon",
+    short: "WhatsApp, Slack, biometric, API — connect it all.",
+    roadmapBullets: ["WhatsApp, Email & Calendar", "Slack / Teams", "Biometric devices & REST API"],
   },
 ];
 
@@ -106,23 +196,23 @@ export const FEATURE_GROUPS: Array<{
 }> = [
   {
     id: "core",
-    label: "Core",
-    blurb: "The foundation of your people data and processes.",
+    label: "Core & AI",
+    blurb: "Your people data, self-service, and an AI HR on top.",
   },
   {
     id: "time",
-    label: "Time",
-    blurb: "Attendance, schedules, and leave in one rhythm.",
+    label: "Time & Approvals",
+    blurb: "Attendance, leave, and the approvals they trigger.",
   },
   {
     id: "lifecycle",
     label: "Lifecycle",
-    blurb: "From offer letter to exit interview.",
+    blurb: "From offer letter to final settlement.",
   },
   {
-    id: "operations",
-    label: "Operations",
-    blurb: "Everything that keeps the business running.",
+    id: "platform",
+    label: "Platform",
+    blurb: "The engine, assets, and guardrails under it all.",
   },
 ];
 
@@ -184,7 +274,7 @@ export const FOOTER_NAV = {
     { label: "Pricing", href: "/pricing" },
     { label: "Changelog", href: "/changelog" },
     { label: "Roadmap", href: "/changelog#roadmap" },
-    { label: "Integrations", href: "/features#integrations" },
+    { label: "Integrations", href: "/features#roadmap" },
   ],
   company: [
     { label: "About", href: "/about" },

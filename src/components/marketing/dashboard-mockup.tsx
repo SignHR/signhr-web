@@ -31,14 +31,14 @@ export function DashboardMockup({ className }: DashboardMockupProps) {
       role="img"
       aria-label="SignHR product dashboard preview"
       className={cn(
-        "relative overflow-hidden rounded-[20px] border border-border/80 bg-white",
+        "relative overflow-hidden rounded-[20px] border border-border/80 bg-card",
         "shadow-[0_60px_120px_-40px_rgba(45,30,90,0.40),0_30px_70px_-20px_rgba(45,30,90,0.20)] ring-1 ring-black/[0.04]",
         "select-none",
         className,
       )}
     >
       {/* Browser-style chrome */}
-      <div className="flex items-center justify-between border-b border-border/70 bg-gradient-to-b from-white to-muted/30 px-5 py-3">
+      <div className="flex items-center justify-between border-b border-border/70 bg-gradient-to-b from-card to-muted/30 px-5 py-3">
         <div className="flex items-center gap-2">
           <span className="size-3 rounded-full bg-[#FF5F57]" />
           <span className="size-3 rounded-full bg-[#FEBC2E]" />
@@ -92,6 +92,7 @@ export function DashboardMockup({ className }: DashboardMockupProps) {
               <button
                 type="button"
                 aria-label="Notifications"
+                tabIndex={-1}
                 className="relative flex size-8 items-center justify-center rounded-lg text-ink-muted hover:bg-muted"
               >
                 <Bell className="size-4" aria-hidden />
@@ -224,7 +225,7 @@ function FeatureApproval({ className }: { className?: string }) {
     >
       <div className="flex items-center justify-between">
         <p className="text-[13px] font-semibold text-ink">Approval queue</p>
-        <button className="text-[11.5px] font-medium text-brand-600">
+        <button tabIndex={-1} className="text-[11.5px] font-medium text-brand-600">
           View all
         </button>
       </div>
@@ -240,10 +241,10 @@ function FeatureApproval({ className }: { className?: string }) {
           </p>
           <p className="text-[11.5px] text-ink-muted">May 2 — May 3 · Manager approved</p>
         </div>
-        <button className="rounded-lg bg-success px-3 py-1.5 text-[11.5px] font-semibold text-white shadow-sm">
+        <button tabIndex={-1} className="rounded-lg bg-success px-3 py-1.5 text-[11.5px] font-semibold text-white shadow-sm">
           Approve
         </button>
-        <button className="rounded-lg border border-border px-3 py-1.5 text-[11.5px] font-medium text-ink-muted">
+        <button tabIndex={-1} className="rounded-lg border border-border px-3 py-1.5 text-[11.5px] font-medium text-ink-muted">
           Skip
         </button>
       </div>
@@ -312,20 +313,20 @@ function SparklineCard({ className }: { className?: string }) {
       >
         <defs>
           <linearGradient id="spark-fill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="hsl(258 58% 56%)" stopOpacity="0.32" />
-            <stop offset="100%" stopColor="hsl(258 58% 56%)" stopOpacity="0" />
+            <stop offset="0%" style={{ stopColor: "hsl(var(--brand-500))" }} stopOpacity="0.32" />
+            <stop offset="100%" style={{ stopColor: "hsl(var(--brand-500))" }} stopOpacity="0" />
           </linearGradient>
         </defs>
         <path d={`${path} L220,56 L0,56 Z`} fill="url(#spark-fill)" />
         <path
           d={path}
           fill="none"
-          stroke="hsl(258 58% 56%)"
+          style={{ stroke: "hsl(var(--brand-500))" }}
           strokeWidth="2"
           strokeLinecap="round"
         />
-        <circle cx="216" cy="6" r="3.5" fill="hsl(258 58% 56%)" />
-        <circle cx="216" cy="6" r="6" fill="hsl(258 58% 56%)" fillOpacity="0.18" />
+        <circle cx="216" cy="6" r="3.5" style={{ fill: "hsl(var(--brand-500))" }} />
+        <circle cx="216" cy="6" r="6" style={{ fill: "hsl(var(--brand-500))" }} fillOpacity="0.18" />
       </svg>
 
       <p className="mt-2 text-[11.5px] text-ink-muted">vs 1,209 last week</p>

@@ -5,20 +5,21 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
 import { FeatureCard } from "@/components/marketing/feature-card";
-import { CTABand } from "@/components/marketing/cta-band";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { Button } from "@/components/ui/button";
+import { DemoCta } from "@/components/marketing/demo-cta";
 import { FEATURE_MODULES, FEATURE_GROUPS } from "@/lib/nav";
 import { LOGO_NAMES } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Features",
   description:
-    "Nine modules, one platform. Core HRMS, time, leave, payroll, onboarding, offboarding, workflows, self-service, and assets — all working together.",
+    "Ten modules, one platform — core HR, attendance, leave, onboarding & offboarding, payroll-ready, workflows, self-service, assets, mobile, and security. Plus more on the roadmap.",
   alternates: { canonical: "/features" },
 };
 
 export default function FeaturesHubPage() {
+  const soon = FEATURE_MODULES.filter((m) => m.status === "soon");
   return (
     <>
       <Hero
@@ -29,7 +30,7 @@ export default function FeaturesHubPage() {
             <em className="serif-italic">run your people ops</em>
           </>
         }
-        description="Nine modules built to work together, not stitched together. Pick your starting point — the rest is here when you need it."
+        description="Ten modules built to work together, not stitched together — with more on the roadmap. Pick your starting point; the rest is here when you need it."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "See pricing", href: "/pricing" }}
       />
@@ -48,7 +49,9 @@ export default function FeaturesHubPage() {
       <Section pad="standard">
         <Container>
           {FEATURE_GROUPS.map((group, i) => {
-            const items = FEATURE_MODULES.filter((m) => m.group === group.id);
+            const items = FEATURE_MODULES.filter(
+              (m) => m.group === group.id && m.status === "live",
+            );
             if (items.length === 0) return null;
             return (
               <div
@@ -85,8 +88,62 @@ export default function FeaturesHubPage() {
         </Container>
       </Section>
 
+      {/* On the roadmap */}
+      <Section pad="standard" surface="muted" id="roadmap" className="scroll-mt-24">
+        <Container>
+          <div className="flex flex-wrap items-end justify-between gap-4 border-b border-border pb-5">
+            <div>
+              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+                On the roadmap
+              </p>
+              <h2 className="text-display-sm mt-2 text-ink">
+                Coming soon — and it scales as you grow.
+              </h2>
+            </div>
+            <span className="text-sm text-ink-muted">
+              {soon.length} modules
+            </span>
+          </div>
+
+          <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {soon.map((m) => (
+              <div
+                key={m.slug}
+                className="relative flex h-full flex-col rounded-2xl border border-dashed border-border bg-card/60 p-6 md:p-7"
+              >
+                <span className="absolute right-5 top-5 rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700">
+                  Coming soon
+                </span>
+                <span className="flex size-10 items-center justify-center rounded-xl bg-muted text-ink-muted">
+                  <m.icon className="size-5" aria-hidden />
+                </span>
+                <h3 className="mt-4 text-[19px] font-semibold tracking-tight text-ink">
+                  {m.name}
+                </h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-ink-secondary">
+                  {m.short}
+                </p>
+                {m.roadmapBullets && (
+                  <ul className="mt-4 space-y-2">
+                    {m.roadmapBullets.map((b) => (
+                      <li
+                        key={b}
+                        className="flex items-start gap-2 text-[13.5px] text-ink-muted"
+                      >
+                        <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-brand-400" />
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
       {/* Comparison teaser */}
-      <Section pad="standard" surface="muted" id="integrations">
+      <Section pad="standard">
         <Container>
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -105,47 +162,33 @@ export default function FeaturesHubPage() {
                 so the modules genuinely talk to each other.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <Button asChild>
-                  <Link href="/book-demo">
-                    Book a 30-minute demo
-                    <ArrowRight className="size-4" aria-hidden />
-                  </Link>
-                </Button>
+                <DemoCta>
+                  Book a 10-minute demo
+                  <ArrowRight className="size-4" aria-hidden />
+                </DemoCta>
                 <Button asChild variant="secondary">
                   <Link href="/customers">See customer stories</Link>
                 </Button>
               </div>
             </div>
-            <div className="rounded-3xl border border-border bg-card p-7">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
-                Integrations
-              </p>
-              <p className="mt-2 text-[15px] text-ink-secondary">
-                Plays nicely with Google Workspace, Microsoft 365, Zoom,
-                Notion, Linear, GitHub, Stripe, Razorpay, QuickBooks, Tally,
-                Cleartax, Okta, Jira, and Zapier.
+            <div className="rounded-3xl border border-dashed border-border bg-card p-7">
+              <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-amber-700">
+                On the roadmap
+              </span>
+              <p className="mt-3 text-[15px] text-ink-secondary">
+                WhatsApp, Email, Calendar, Slack/Teams, biometric devices, and
+                payroll software — connectors are on the way, alongside a clean
+                REST API and webhooks.
               </p>
               <p className="mt-4 text-sm text-ink-muted">
-                Plus a clean REST API and webhooks for the things we
-                haven&apos;t shipped a connector for yet.
+                <Link href="/features#roadmap" className="text-brand-600 hover:text-brand-700">
+                  See what&apos;s coming →
+                </Link>
               </p>
             </div>
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            One platform. Nine modules.{" "}
-            <em className="serif-italic">Calmer</em> Mondays.
-          </>
-        }
-        body="Set up in 10 minutes. 3-month free trial. No credit card."
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Compare plans", href: "/pricing" }}
-      />
     </>
   );
 }

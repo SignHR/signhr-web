@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { PRICING_CURRENCY, type PricingTier } from "@/lib/pricing";
+import { DemoCta } from "@/components/marketing/demo-cta";
+import { demoHref } from "@/lib/leads";
 
 interface PricingCardProps {
   tier: PricingTier;
@@ -63,14 +65,24 @@ export function PricingCard({ tier, billing, className }: PricingCardProps) {
         )}
       </div>
 
-      <Button
-        asChild
-        size="md"
-        variant={tier.highlight ? "brand" : "primary"}
-        className="mt-6 w-full"
-      >
-        <Link href={tier.ctaHref}>{tier.ctaLabel}</Link>
-      </Button>
+      {(() => {
+        const d = demoHref(tier.ctaHref);
+        const btnVariant = tier.highlight ? "brand" : "primary";
+        return d.isDemo ? (
+          <DemoCta
+            size="md"
+            variant={btnVariant}
+            className="mt-6 w-full"
+            plan={d.plan}
+          >
+            {tier.ctaLabel}
+          </DemoCta>
+        ) : (
+          <Button asChild size="md" variant={btnVariant} className="mt-6 w-full">
+            <Link href={tier.ctaHref}>{tier.ctaLabel}</Link>
+          </Button>
+        );
+      })()}
 
       <ul className="mt-7 flex-1 space-y-3 border-t border-border pt-6">
         {tier.features.map((f) => (

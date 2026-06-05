@@ -70,7 +70,8 @@
   --card: 230 18% 12%;
   --card-foreground: 210 20% 92%;
   --primary: 258 65% 65%;
-  --primary-foreground: 0 0% 100%;
+  /* Dark-mode primary is a lifted lavender, so the label is dark (not white) to pass WCAG AA (~5:1) on both the resting and lighter hover state. */
+  --primary-foreground: 258 55% 6%;
   --secondary: 258 22% 22%;
   --secondary-foreground: 258 30% 88%;
   --muted: 230 14% 18%;

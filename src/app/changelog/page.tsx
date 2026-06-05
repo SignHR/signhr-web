@@ -4,7 +4,6 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
 import { Badge } from "@/components/ui/badge";
-import { CTABand } from "@/components/marketing/cta-band";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -280,18 +279,6 @@ export default function ChangelogPage() {
           </div>
         </Container>
       </Section>
-
-      <CTABand
-        eyebrow="GET STARTED"
-        title={
-          <>
-            We ship fast.{" "}
-            <em className="serif-italic">See for yourself.</em>
-          </>
-        }
-        primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Read the blog", href: "/blog" }}
-      />
     </>
   );
 }
