@@ -7,6 +7,7 @@ import {
 import { Logo } from "@/components/icons/logo";
 import { Container } from "@/components/layout/container";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
+import { AppBadges } from "@/components/marketing/app-badges";
 import { FOOTER_NAV } from "@/lib/nav";
 
 const SOCIAL = [
@@ -39,6 +40,13 @@ export function Footer() {
               <div className="mt-3">
                 <NewsletterSignup variant="inline" />
               </div>
+            </div>
+
+            <div className="mt-8 max-w-md">
+              <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+                Get the app
+              </p>
+              <AppBadges className="mt-3" platforms={["ios", "android"]} />
             </div>
           </div>
 

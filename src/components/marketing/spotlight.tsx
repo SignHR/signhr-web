@@ -11,6 +11,8 @@ interface SpotlightProps {
   side?: "left" | "right";
   visual: React.ReactNode;
   cta?: { label: string; href: string };
+  /** Extra content rendered in the copy column, below the bullets/CTA. */
+  action?: React.ReactNode;
   className?: string;
 }
 
@@ -26,6 +28,7 @@ export function Spotlight({
   side = "right",
   visual,
   cta,
+  action,
   className,
 }: SpotlightProps) {
   return (
@@ -69,6 +72,7 @@ export function Spotlight({
             <ArrowRight className="size-4" aria-hidden />
           </Link>
         )}
+        {action && <div className="mt-7">{action}</div>}
       </div>
       <div
         className={cn(

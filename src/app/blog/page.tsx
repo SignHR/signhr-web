@@ -5,7 +5,9 @@ import { Hero } from "@/components/marketing/hero";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 import { PostCard } from "@/components/blog/post-card";
 import { BlogIndexClient } from "@/components/blog/blog-index-client";
-import { getAllPosts, getFeaturedPost } from "@/lib/blog";
+import { getAllPosts, getFeaturedPost, getCategories } from "@/lib/blog";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -14,9 +16,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/blog" },
 };
 
-export default function BlogIndexPage() {
-  const posts = getAllPosts();
-  const featured = getFeaturedPost();
+export default async function BlogIndexPage() {
+  const [posts, featured, categories] = await Promise.all([
+    getAllPosts(),
+    getFeaturedPost(),
+    getCategories(),
+  ]);
   const rest = posts.filter((p) => p.slug !== featured?.slug);
 
   return (
@@ -42,7 +47,7 @@ export default function BlogIndexPage() {
 
       <Section pad="standard" surface="muted">
         <Container>
-          <BlogIndexClient posts={rest} />
+          <BlogIndexClient posts={rest} categories={categories} />
         </Container>
       </Section>
 

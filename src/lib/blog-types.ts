@@ -54,3 +54,36 @@ export function formatDate(iso: string) {
     day: "numeric",
   });
 }
+
+/**
+ * Build a table-of-contents from rendered HTML by scanning <h2>/<h3> tags.
+ * The body is HTML (Plate output) — not markdown — so headings are parsed
+ * from tags. Ids are slugified from the text and must match the ids that
+ * ArticleBody injects onto the same headings.
+ */
+export function extractTocFromHtml(html: string): TocEntry[] {
+  const toc: TocEntry[] = [];
+  const re = /<h([23])\b[^>]*>([\s\S]*?)<\/h\1>/gi;
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(html)) !== null) {
+    const level = Number(m[1]);
+    const text = decodeEntities(stripTags(m[2])).trim();
+    if (!text) continue;
+    toc.push({ id: slugify(text), text, level });
+  }
+  return toc;
+}
+
+export function stripTags(s: string): string {
+  return s.replace(/<[^>]*>/g, "");
+}
+
+export function decodeEntities(s: string): string {
+  return s
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&nbsp;/g, " ");
+}

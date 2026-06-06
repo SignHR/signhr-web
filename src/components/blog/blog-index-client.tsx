@@ -2,17 +2,17 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "motion/react";
-import type { BlogPost, BlogCategory } from "@/lib/blog-types";
-import { CATEGORIES } from "@/lib/blog-types";
+import type { BlogPost } from "@/lib/blog-types";
 import { PostCard } from "@/components/blog/post-card";
 import { cn } from "@/lib/utils";
 
 interface BlogIndexClientProps {
   posts: BlogPost[];
+  categories: string[];
 }
 
-export function BlogIndexClient({ posts }: BlogIndexClientProps) {
-  const [filter, setFilter] = React.useState<"All" | BlogCategory>("All");
+export function BlogIndexClient({ posts, categories }: BlogIndexClientProps) {
+  const [filter, setFilter] = React.useState<string>("All");
 
   const filtered =
     filter === "All" ? posts : posts.filter((p) => p.category === filter);
@@ -27,7 +27,7 @@ export function BlogIndexClient({ posts }: BlogIndexClientProps) {
         >
           All
         </FilterChip>
-        {CATEGORIES.map((cat) => {
+        {categories.map((cat) => {
           const count = posts.filter((p) => p.category === cat).length;
           if (count === 0) return null;
           return (

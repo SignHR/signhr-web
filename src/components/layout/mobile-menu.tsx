@@ -6,7 +6,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown, X, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
-import { Button } from "@/components/ui/button";
+import { WorkspaceLoginButton } from "@/components/marketing/workspace-login-dialog";
 import { DemoCta } from "@/components/marketing/demo-cta";
 import {
   PRIMARY_NAV,
@@ -175,9 +175,11 @@ export function MobileMenu({ open, onOpenChange }: MobileMenuProps) {
               Book a demo
               <ArrowRight className="size-4" aria-hidden />
             </DemoCta>
-            <Button asChild variant="secondary" size="md" className="w-full">
-              <Link href="/contact">Login</Link>
-            </Button>
+            <WorkspaceLoginButton
+              variant="secondary"
+              size="md"
+              className="w-full"
+            />
           </div>
         </Dialog.Content>
       </Dialog.Portal>

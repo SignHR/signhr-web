@@ -10,73 +10,74 @@ export type Testimonial = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "We replaced four tools and a spreadsheet with SignHR. Six months in, our HR team has its evenings back and onboarding takes a fraction of the time.",
+      "Our people ask it the things they used to email me at 9pm — and it answers correctly, with the policy attached. My inbox finally went quiet.",
     name: "Anita Reddy",
     role: "Head of People",
-    company: "Vayu Logistics",
+    company: "Vyom Pay",
     initials: "AR",
     accent: "purple",
   },
   {
     quote:
-      "I was skeptical anything could fit how we actually run payroll. SignHR handled our edge cases on the second call — we migrated in three weeks.",
+      "What used to be three days of spreadsheet reconciliation is a 20-minute review — and the numbers finally match reality.",
     name: "Faiza Khan",
     role: "Payroll Lead",
-    company: "Suvarna Retail",
+    company: "Vayu Logistics",
     initials: "FK",
     accent: "amber",
   },
   {
     quote:
-      "Fast product, responsive team, and the audit log saved me in a compliance review. Hard to ask for more from an HR tool.",
-    name: "Rohan Mehta",
-    role: "Co-founder & COO",
-    company: "Nuvora",
-    initials: "RM",
+      "We used to dread every exit. Now joining and leaving are both checklists that run themselves.",
+    name: "Karan Malhotra",
+    role: "People Operations",
+    company: "Meraki Labs",
+    initials: "KM",
     accent: "blue",
   },
   {
     quote:
-      "My favorite part is what didn't happen — no 'how do I apply leave' pings, no missing payslips at month end.",
+      "Warehouse, retail, and office are finally on one system — our managers approve timesheets on their phones over chai.",
     name: "Aisha Patel",
     role: "Head of HR",
-    company: "Maitri Foods",
+    company: "Tilse",
     initials: "AP",
     accent: "green",
   },
   {
     quote:
-      "Setup took an afternoon, not a quarter. Our managers approve leave from WhatsApp now — adoption was instant.",
+      "Setup took an afternoon, not a quarter. Our managers approve leave from their phone now — adoption was instant.",
     name: "Karthik Iyer",
     role: "Operations Director",
-    company: "Pragati Motors",
+    company: "Anvaya",
     initials: "KI",
     accent: "purple",
   },
   {
     quote:
-      "Ask HR quietly answers the questions that used to hit my inbox at 9pm — and the team trusts it because every answer cites the policy.",
+      "Every approval has a paper trail now — my last compliance review was a five-minute export.",
     name: "Vidya Nair",
     role: "People Partner",
-    company: "Tarang Studios",
+    company: "Kavya Health",
     initials: "VN",
     accent: "amber",
   },
 ];
 
-// Fictional, India-flavoured placeholder brands for the logo cloud.
+// Fictional, India-flavoured showcase brands. The six leading names are the
+// case-study companies in lib/customers.ts; the rest add density.
 export const LOGO_NAMES = [
+  "Vyom Pay",
+  "Meraki Labs",
+  "Tilse",
+  "Kavya Health",
+  "Vayu Logistics",
+  "Anvaya",
   "Zolva",
   "Indara Labs",
   "Suvarna Retail",
-  "Vayu Logistics",
-  "Tarang Studios",
-  "Kavya Health",
-  "Brij Traders",
-  "Anvaya",
   "Nuvora",
-  "Maitri Foods",
-  "Pragati Motors",
+  "Brij Traders",
   "Sankalp Tech",
 ] as const;
 

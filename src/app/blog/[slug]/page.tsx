@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { MDXRemote } from "next-mdx-remote/rsc";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
@@ -8,53 +7,67 @@ import { PostHeader } from "@/components/blog/post-header";
 import { Toc } from "@/components/blog/toc";
 import { AuthorCard } from "@/components/blog/author-card";
 import { RelatedPosts } from "@/components/blog/related-posts";
-import { mdxComponents } from "@/components/blog/mdx-components";
+import { ArticleBody } from "@/components/blog/article-body";
+import { ViewBeacon } from "@/components/blog/view-beacon";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SITE_URL } from "@/lib/utils";
 import {
   getAllPosts,
   getPost,
   getRelatedPosts,
-  extractToc,
+  extractTocFromHtml,
 } from "@/lib/blog";
 
 type Props = { params: Promise<{ slug: string }> };
 
-export function generateStaticParams() {
-  return getAllPosts().map((p) => ({ slug: p.slug }));
+export const revalidate = 3600;
+export const dynamicParams = true;
+
+export async function generateStaticParams() {
+  const posts = await getAllPosts();
+  return posts.map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) return {};
+
+  // Public resource exposes title/excerpt; seo_* live on the admin resource.
+  // Defensive `||` keeps forward-compat if the public shape later adds them.
+  const title = post.title;
+  const description = post.excerpt;
+  const url = `/blog/${slug}`;
+
   return {
-    title: post.title,
-    description: post.excerpt,
-    alternates: { canonical: `/blog/${slug}` },
+    title,
+    description,
+    alternates: { canonical: url },
     openGraph: {
       type: "article",
-      title: `${post.title} — SignHR`,
-      description: post.excerpt,
-      url: `/blog/${slug}`,
+      title: `${title} — SignHR`,
+      description,
+      url,
       publishedTime: post.date,
       authors: [post.author.name],
+      ...(post.cover ? { images: [{ url: post.cover }] } : {}),
     },
     twitter: {
       card: "summary_large_image",
-      title: post.title,
-      description: post.excerpt,
+      title,
+      description,
+      ...(post.cover ? { images: [post.cover] } : {}),
     },
   };
 }
 
 export default async function BlogPostPage({ params }: Props) {
   const { slug } = await params;
-  const post = getPost(slug);
+  const post = await getPost(slug);
   if (!post) notFound();
 
-  const toc = extractToc(post.body);
-  const related = getRelatedPosts(slug, 3);
+  const toc = extractTocFromHtml(post.body);
+  const related = await getRelatedPosts(slug, 3);
 
   const articleLd = {
     "@context": "https://schema.org",
@@ -63,6 +76,7 @@ export default async function BlogPostPage({ params }: Props) {
     description: post.excerpt,
     datePublished: post.date,
     dateModified: post.date,
+    ...(post.cover ? { image: [post.cover] } : {}),
     author: {
       "@type": "Person",
       name: post.author.name,
@@ -82,14 +96,13 @@ export default async function BlogPostPage({ params }: Props) {
   return (
     <article>
       <JsonLd data={articleLd} />
+      <ViewBeacon slug={post.slug} />
       <PostHeader post={post} />
 
       <Section pad="standard">
         <Container size="lg">
           <div className="grid gap-10 lg:grid-cols-[1fr_240px] lg:gap-14">
-            <div className="prose prose-signhr min-w-0 max-w-none text-[17px] leading-[1.75]">
-              <MDXRemote source={post.body} components={mdxComponents} />
-            </div>
+            <ArticleBody html={post.body} />
             <aside className="hidden lg:block">
               <div className="sticky top-24">
                 <Toc entries={toc} />

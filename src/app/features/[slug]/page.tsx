@@ -12,6 +12,7 @@ import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { TestimonialCard } from "@/components/marketing/testimonial-card";
 import { GradientHalo } from "@/components/marketing/gradient-halo";
 import { FloatingMockup } from "@/components/marketing/floating-mockup";
+import { AppBadges } from "@/components/marketing/app-badges";
 import { Button } from "@/components/ui/button";
 import {
   FEATURE_PAGE_SLUGS,
@@ -143,6 +144,11 @@ export default async function FeatureDetailPage({ params }: Props) {
               body={spot.body}
               bullets={spot.bullets}
               side={spot.side}
+              action={
+                spot.anchor === "mobile" ? (
+                  <AppBadges platforms={["ios", "android"]} />
+                ) : undefined
+              }
               visual={
                 spot.image ? (
                   <SpotlightImage {...spot.image} />

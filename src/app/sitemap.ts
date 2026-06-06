@@ -23,7 +23,7 @@ const STATIC_ROUTES: Array<{ path: string; priority?: number; changeFreq?: Metad
   { path: "/legal/dpa", priority: 0.3, changeFreq: "yearly" },
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
@@ -49,7 +49,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  const blogEntries: MetadataRoute.Sitemap = getAllPosts().map((p) => ({
+  const posts = await getAllPosts();
+  const blogEntries: MetadataRoute.Sitemap = posts.map((p) => ({
     url: `${SITE_URL}/blog/${p.slug}`,
     lastModified: new Date(p.date),
     changeFrequency: "monthly",

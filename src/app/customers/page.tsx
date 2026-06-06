@@ -4,22 +4,23 @@ import { ArrowRight } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
-import { LogoCloud } from "@/components/marketing/logo-cloud";
-import { TestimonialCard } from "@/components/marketing/testimonial-card";
+import { LogoMarquee } from "@/components/marketing/logo-marquee";
+import { CaseStudyCard } from "@/components/marketing/case-study-card";
+import { CustomersCta } from "@/components/marketing/customers-cta";
 import { CASE_STUDIES } from "@/lib/customers";
-import { TESTIMONIALS, LOGO_NAMES } from "@/lib/testimonials";
-import { cn } from "@/lib/utils";
+import { LOGO_NAMES } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
   title: "Customers",
   description:
-    "Stories from teams that grew with SignHR — from logistics to engineering, from 50 to 500 employees.",
+    "The Indian startups that run on SignHR — from fintech to logistics, from 80 to 800 employees.",
   alternates: { canonical: "/customers" },
 };
 
 export default function CustomersPage() {
   const featured = CASE_STUDIES.find((c) => c.featured) ?? CASE_STUDIES[0];
   const others = CASE_STUDIES.filter((c) => c.slug !== featured.slug);
+  const [lead, ...rest] = others;
 
   return (
     <>
@@ -27,11 +28,11 @@ export default function CustomersPage() {
         eyebrow="CUSTOMER STORIES"
         title={
           <>
-            Stories from teams that{" "}
-            <em className="serif-italic">grew with SignHR</em>
+            The startups that{" "}
+            <em className="serif-italic">run on SignHR</em>
           </>
         }
-        description="From 80 to 800 — these are the people who made the switch and what changed for them."
+        description="From fintech to logistics, from 80 to 800 — the Indian teams that made the switch, and what changed for them."
       />
 
       {/* Featured case study */}
@@ -48,7 +49,7 @@ export default function CustomersPage() {
             <div className="relative grid gap-8 lg:grid-cols-2 lg:gap-12">
               <div>
                 <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-                  Featured story · {featured.industry}
+                  Featured story · {featured.feature}
                 </p>
                 <h2 className="text-display-md mt-4 max-w-[20ch] text-ink">
                   {featured.outcome}
@@ -58,7 +59,10 @@ export default function CustomersPage() {
                 </p>
                 <span className="mt-7 inline-flex items-center gap-1 text-sm font-medium text-brand-700">
                   Read the full story
-                  <ArrowRight className="size-3.5 transition-transform group-hover:translate-x-0.5" />
+                  <ArrowRight
+                    className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                    aria-hidden
+                  />
                 </span>
               </div>
               <div className="grid grid-cols-3 gap-4 self-center">
@@ -79,72 +83,34 @@ export default function CustomersPage() {
         </Container>
       </Section>
 
-      {/* Logo grid */}
+      {/* Editorial grid: one wide lead card + a 2-up of the rest */}
+      <Section pad="standard">
+        <Container>
+          <h2 className="text-display-sm text-ink">All case studies</h2>
+          <div className="mt-10 grid gap-5">
+            {lead && <CaseStudyCard study={lead} variant="wide" />}
+            <div className="grid gap-5 md:grid-cols-2">
+              {rest.map((study) => (
+                <CaseStudyCard key={study.slug} study={study} />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Logo strip */}
       <Section pad="compact" surface="muted">
         <Container>
           <p className="text-center text-[12px] font-semibold uppercase tracking-[0.18em] text-ink-muted">
             More teams running on SignHR
           </p>
-          <div className="mt-8">
-            <LogoCloud names={LOGO_NAMES} />
+          <div className="mt-6">
+            <LogoMarquee names={LOGO_NAMES} />
           </div>
         </Container>
       </Section>
 
-      {/* Other case studies */}
-      <Section pad="standard">
-        <Container>
-          <h2 className="text-display-sm text-ink">All case studies</h2>
-          <div className="mt-10 grid gap-5 md:grid-cols-2">
-            {[featured, ...others].map((study) => (
-              <Link
-                key={study.slug}
-                href={`/customers/${study.slug}`}
-                className={cn(
-                  "group flex flex-col rounded-2xl border border-border bg-card p-7 transition-all hover:-translate-y-1 hover:border-ink-muted hover:shadow-[0_18px_40px_-20px_rgba(45,30,90,0.15)]",
-                )}
-              >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700">
-                  {study.industry} · {study.size}
-                </p>
-                <h3 className="mt-3 text-[20px] font-semibold tracking-tight text-ink group-hover:text-brand-700">
-                  {study.outcome}
-                </h3>
-                <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-secondary">
-                  {study.excerpt}
-                </p>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-sm font-medium text-brand-600">
-                    Read the story →
-                  </span>
-                  <span className="text-[12px] text-ink-muted">
-                    {study.region}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </Section>
-
-      {/* Testimonials */}
-      <Section pad="standard" surface="muted">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              In their words
-            </p>
-            <h2 className="text-display-md mt-4 text-ink">
-              The shorter version, <em className="serif-italic">in quotes</em>
-            </h2>
-          </div>
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {TESTIMONIALS.map((t) => (
-              <TestimonialCard key={t.name} testimonial={t} />
-            ))}
-          </div>
-        </Container>
-      </Section>
+      <CustomersCta />
     </>
   );
 }

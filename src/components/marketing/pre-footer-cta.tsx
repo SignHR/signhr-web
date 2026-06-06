@@ -16,7 +16,8 @@ const USP_POINTS = [
 ];
 
 // Routes that should NOT show the pre-footer CTA.
-const HIDDEN_PREFIXES = ["/book-demo", "/legal"];
+// /customers* ships its own themed CTA (CustomersCta), so suppress the generic one there.
+const HIDDEN_PREFIXES = ["/book-demo", "/legal", "/customers"];
 
 export function PreFooterCta() {
   const pathname = usePathname();

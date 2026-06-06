@@ -30,9 +30,11 @@ import { WorkflowDemo } from "@/components/marketing/workflow-demo";
 import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { PricingCard } from "@/components/marketing/pricing-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
+import { AppDownloadBand } from "@/components/marketing/app-download-band";
 import { StatNumber } from "@/components/marketing/stat-number";
 import { PRICING_TIERS } from "@/lib/pricing";
 import { LOGO_NAMES, STATS } from "@/lib/testimonials";
+import { getAllPosts } from "@/lib/blog";
 
 const HERO_MODULES = [
   {
@@ -85,33 +87,6 @@ const HERO_MODULES = [
   },
 ];
 
-const HOME_BLOG_TEASERS = [
-  {
-    slug: "honest-cost-of-hr-spreadsheets",
-    title: "The honest cost of running HR in spreadsheets",
-    category: "HR Strategy",
-    readTime: "8 min read",
-    excerpt:
-      "Spreadsheets feel free until they don't. Here's the math on what they actually cost — in hours, errors, and risk.",
-  },
-  {
-    slug: "employee-handbook-guide",
-    title: "How to write an employee handbook your team will actually read",
-    category: "Culture",
-    readTime: "11 min read",
-    excerpt:
-      "Most handbooks are 60-page PDFs nobody opens. Here's how to write one your team treats like a useful product.",
-  },
-  {
-    slug: "leave-policies-that-scale",
-    title: "5 leave policies that scale from 10 to 100 employees",
-    category: "Guides",
-    readTime: "7 min read",
-    excerpt:
-      "What worked at 10 will break at 100. Five patterns we see in growing companies that actually hold up.",
-  },
-];
-
 const ORG_LD = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -145,7 +120,10 @@ const SITE_LD = {
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Latest published posts from the CMS for the home-page teaser (newest first).
+  const blogTeasers = (await getAllPosts()).slice(0, 3);
+
   return (
     <>
       <JsonLd data={[ORG_LD, SITE_LD]} />
@@ -395,6 +373,8 @@ export default function HomePage() {
         </Container>
       </Section>
 
+      <AppDownloadBand />
+
       {/* Pricing teaser — hidden for now; flip the `false` below to re-enable. */}
       {false && (
         <Section pad="standard">
@@ -428,7 +408,8 @@ export default function HomePage() {
         </Section>
       )}
 
-      {/* Blog teaser */}
+      {/* Blog teaser — live published posts from the CMS; hidden when none */}
+      {blogTeasers.length > 0 && (
       <Section pad="standard" surface="muted" data-section="Blog">
         <Container>
           <div className="flex items-end justify-between gap-6">
@@ -448,7 +429,7 @@ export default function HomePage() {
             </Button>
           </div>
           <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {HOME_BLOG_TEASERS.map((post) => (
+            {blogTeasers.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
@@ -471,6 +452,7 @@ export default function HomePage() {
           </div>
         </Container>
       </Section>
+      )}
     </>
   );
 }

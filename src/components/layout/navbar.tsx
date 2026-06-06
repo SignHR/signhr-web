@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { ChevronDown, Menu, ArrowRight } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
-import { Button } from "@/components/ui/button";
+import { WorkspaceLoginButton } from "@/components/marketing/workspace-login-dialog";
 import { Container } from "@/components/layout/container";
 import { MobileMenu } from "@/components/layout/mobile-menu";
 import {
@@ -129,14 +129,11 @@ export function Navbar() {
             </NavigationMenu.Root>
 
             <div className="hidden items-center gap-2 lg:flex">
-              <Button
-                asChild
+              <WorkspaceLoginButton
                 variant="ghost"
                 size="sm"
                 className="text-white/80 hover:bg-white/10 hover:text-white"
-              >
-                <Link href="/contact">Login</Link>
-              </Button>
+              />
               <DemoCta size="sm">
                 Book a demo
                 <ArrowRight className="size-3.5" aria-hidden />

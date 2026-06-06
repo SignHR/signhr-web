@@ -6,6 +6,8 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
 import { FeatureCard } from "@/components/marketing/feature-card";
+import { CaseStudyCard } from "@/components/marketing/case-study-card";
+import { CustomersCta } from "@/components/marketing/customers-cta";
 import { CASE_STUDIES, getCaseStudy } from "@/lib/customers";
 import { FEATURE_MODULES } from "@/lib/nav";
 
@@ -41,6 +43,19 @@ export default async function CaseStudyPage({ params }: Props) {
     .map((s) => FEATURE_MODULES.find((m) => m.slug === s))
     .filter(<T,>(x: T | undefined): x is T => Boolean(x));
 
+  // More stories: same sector first, then fill by roster order. Max 3.
+  const related = [
+    ...CASE_STUDIES.filter(
+      (c) => c.slug !== study.slug && c.sector === study.sector,
+    ),
+    ...CASE_STUDIES.filter(
+      (c) => c.slug !== study.slug && c.sector !== study.sector,
+    ),
+  ].slice(0, 3);
+
+  const featureHref =
+    FEATURE_MODULES.find((m) => m.slug === study.featureSlug)?.href ?? "/features";
+
   return (
     <>
       <Section pad="compact" className="border-b border-border">
@@ -57,12 +72,21 @@ export default async function CaseStudyPage({ params }: Props) {
 
       <Section pad="standard">
         <Container size="md">
-          <div className="flex flex-wrap items-center gap-3">
+          <Link
+            href={featureHref}
+            className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700 hover:text-brand-600"
+          >
+            {study.feature}
+          </Link>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
             <Badge variant="brand">{study.company}</Badge>
             <span className="text-sm text-ink-muted">
-              {study.industry} · {study.size} · {study.region}
+              {study.sector} · {study.hq} · {study.size}
             </span>
           </div>
+          <p className="mt-3 text-[13px] font-medium text-ink-muted">
+            Founded {study.founded} · {study.stage}
+          </p>
           <h1 className="text-display-lg mt-6 max-w-[20ch] text-ink">
             {study.outcome}
           </h1>
@@ -128,6 +152,22 @@ export default async function CaseStudyPage({ params }: Props) {
           </div>
         </Container>
       </Section>
+
+      {/* More stories */}
+      {related.length > 0 && (
+        <Section pad="standard">
+          <Container>
+            <h2 className="text-display-sm text-ink">More stories</h2>
+            <div className="mt-8 grid gap-5 md:grid-cols-3">
+              {related.map((c) => (
+                <CaseStudyCard key={c.slug} study={c} />
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
+
+      <CustomersCta />
     </>
   );
 }
@@ -171,12 +211,9 @@ function PullQuote({
       className={`relative rounded-3xl border border-brand-500/30 bg-gradient-to-br from-brand-500/15 via-brand-500/5 to-transparent p-8 ${className ?? ""}`}
     >
       <Quote className="absolute right-6 top-6 size-8 text-brand-200" aria-hidden />
-      <blockquote className="text-display-sm text-ink">
-        “{quote}”
-      </blockquote>
+      <blockquote className="text-display-sm text-ink">&ldquo;{quote}&rdquo;</blockquote>
       <figcaption className="mt-5 text-sm text-ink-secondary">
-        <span className="font-semibold text-ink">{attribution}</span> ·{" "}
-        {role}
+        <span className="font-semibold text-ink">{attribution}</span> · {role}
       </figcaption>
     </figure>
   );
