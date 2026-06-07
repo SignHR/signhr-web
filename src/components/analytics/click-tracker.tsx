@@ -5,11 +5,11 @@ import { useOpenPanel } from "@openpanel/nextjs";
 import { pageName } from "@/lib/analytics";
 
 /**
- * Logs a "Button click" event to OpenPanel for every button / role-button /
+ * Logs a descriptive click event to OpenPanel for every button / role-button /
  * internal-link click, via a single delegated document listener. The event name
- * is the constant "Button click"; the page, section, button label, name, id,
- * type and href ride along as properties, so OpenPanel's event list stays a
- * single entry. Skips elements the SDK already handles: `[data-track]`
+ * embeds the page, section and button label (e.g. "button click: Home - Hero -
+ * Book Demo"); the same values plus name, id, type and href are sent as
+ * properties. Skips elements the SDK already handles: `[data-track]`
  * (trackAttributes) and external links (trackOutgoingLinks). Mounted once in the
  * root layout.
  */
@@ -50,9 +50,12 @@ export function ClickTracker() {
       const pageNameValue = pageName(page);
       const section = resolveSection(el);
 
-      // A single stable event name; the page, section and button label ride
-      // along as properties so OpenPanel's event list stays one entry.
-      track("button_click", {
+      // Event name: "button click: <page> - <section> - <button>".
+      const eventName = `button click: ${[pageNameValue, section, label]
+        .filter(Boolean)
+        .join(" - ")}`;
+
+      track(eventName, {
         page_name: pageNameValue,
         page,
         section: section || undefined,
@@ -65,8 +68,7 @@ export function ClickTracker() {
     }
 
     document.addEventListener("click", onClick, { capture: true });
-    return () =>
-      document.removeEventListener("click", onClick, { capture: true });
+    return () => document.removeEventListener("click", onClick, { capture: true });
   }, [track]);
 
   return null;

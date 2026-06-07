@@ -32,6 +32,7 @@ import { CoreHrCard } from "@/components/marketing/core-hr-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { AppDownloadBand } from "@/components/marketing/app-download-band";
 import { StatNumber } from "@/components/marketing/stat-number";
+import { BlogCover } from "@/components/blog/blog-cover";
 import { LOGO_NAMES, STATS } from "@/lib/testimonials";
 import { getAllPosts } from "@/lib/blog";
 
@@ -428,20 +429,23 @@ export default async function HomePage() {
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
-                className="group flex h-full flex-col rounded-2xl border border-border bg-card p-6 transition-all hover:-translate-y-1 hover:border-ink-muted hover:shadow-[0_18px_40px_-20px_rgba(45,30,90,0.15)]"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-ink-muted hover:shadow-[0_18px_40px_-20px_rgba(45,30,90,0.15)]"
               >
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700">
-                  {post.category}
-                </p>
-                <h3 className="mt-3 text-[18px] font-semibold tracking-tight text-ink group-hover:text-brand-700">
-                  {post.title}
-                </h3>
-                <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-secondary">
-                  {post.excerpt}
-                </p>
-                <p className="mt-5 text-[12px] text-ink-muted">
-                  {post.readTime}
-                </p>
+                <BlogCover post={post} variant="grid" />
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-brand-700">
+                    {post.category}
+                  </p>
+                  <h3 className="mt-3 text-[18px] font-semibold tracking-tight text-ink group-hover:text-brand-700">
+                    {post.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-[14.5px] leading-relaxed text-ink-secondary">
+                    {post.excerpt}
+                  </p>
+                  <p className="mt-5 text-[12px] text-ink-muted">
+                    {post.readTime}
+                  </p>
+                </div>
               </Link>
             ))}
           </div>

@@ -46,24 +46,38 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Slug from query param or JSON body (best-effort; absence means broad revalidation).
-  let slug = req.nextUrl.searchParams.get("slug") ?? undefined;
-  if (!slug) {
-    try {
-      const body = (await req.json()) as { slug?: string } | null;
-      slug = body?.slug ?? undefined;
-    } catch {
-      // No/invalid body — fine, just revalidate broadly.
+  // Affected slug(s) from query param or JSON body. The backend's
+  // WebRevalidator posts `{ slugs: [...] }`; a single `?slug=`/`{ slug }` is
+  // also accepted. Absence is fine — the broad revalidation below still runs.
+  const slugs = new Set<string>();
+  const querySlug = req.nextUrl.searchParams.get("slug");
+  if (querySlug) {
+    slugs.add(querySlug);
+  }
+  try {
+    const body = (await req.json()) as
+      | { slug?: string; slugs?: string[] }
+      | null;
+    if (body?.slug) {
+      slugs.add(body.slug);
     }
+    for (const s of body?.slugs ?? []) {
+      if (typeof s === "string" && s) {
+        slugs.add(s);
+      }
+    }
+  } catch {
+    // No/invalid body — fine, just revalidate broadly.
   }
 
-  // Always revalidate the whole blog listing.
+  // Always revalidate the whole blog listing (and the home-page teasers, which
+  // share the BLOG_TAG fetch).
   revalidateTag(BLOG_TAG, { expire: 0 });
   revalidatePath("/blog");
   revalidatePath("/blog/[slug]", "page");
 
-  // Per-post revalidation when a specific slug is provided.
-  if (slug) {
+  // Per-post revalidation for each affected slug.
+  for (const slug of slugs) {
     revalidateTag(blogPostTag(slug), { expire: 0 });
     revalidatePath(`/blog/${slug}`);
   }

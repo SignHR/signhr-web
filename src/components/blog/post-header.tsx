@@ -6,14 +6,7 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/blog/post-card";
-import { cn } from "@/lib/utils";
-
-const COVER_ACCENT: Record<string, string> = {
-  purple: "from-violet-200 via-fuchsia-200 to-indigo-300",
-  amber: "from-amber-200 via-orange-200 to-rose-300",
-  blue: "from-sky-200 via-cyan-200 to-blue-300",
-  green: "from-teal-200 via-emerald-200 to-lime-300",
-};
+import { BlogCover } from "@/components/blog/blog-cover";
 
 export function PostHeader({ post }: { post: BlogPost }) {
   return (
@@ -54,16 +47,15 @@ export function PostHeader({ post }: { post: BlogPost }) {
           </div>
         </div>
 
-        {/* Cover band */}
-        <div
-          className={cn(
-            "mt-12 aspect-[16/7] overflow-hidden rounded-3xl bg-gradient-to-br ring-1 ring-black/5",
-            COVER_ACCENT[post.author.accent] ?? COVER_ACCENT.purple,
-          )}
-          aria-hidden
-        >
-          <div className="size-full bg-[radial-gradient(ellipse_at_30%_20%,_rgba(255,255,255,0.55),_transparent_55%),radial-gradient(ellipse_at_80%_80%,_rgba(255,255,255,0.35),_transparent_50%)]" />
-        </div>
+        {/* Cover band — only when the post actually has a cover image. */}
+        {post.cover ? (
+          <BlogCover
+            post={post}
+            variant="banner"
+            className="mt-12 rounded-3xl"
+            priority
+          />
+        ) : null}
       </Container>
     </Section>
   );

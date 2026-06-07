@@ -7,7 +7,7 @@ import { PostCard } from "@/components/blog/post-card";
 import { BlogIndexClient } from "@/components/blog/blog-index-client";
 import { getAllPosts, getFeaturedPost, getCategories } from "@/lib/blog";
 
-export const revalidate = 3600;
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Blog",

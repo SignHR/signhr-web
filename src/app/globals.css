@@ -249,6 +249,22 @@
   animation: marquee-x 38s linear infinite;
 }
 
+/* Vertical marquee (testimonial wall) */
+@keyframes marquee-y {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+@utility animate-marquee-y {
+  animation: marquee-y 48s linear infinite;
+}
+@utility animate-marquee-y-reverse {
+  animation: marquee-y 60s linear infinite reverse;
+}
+
 /* Soft float (hero mockup) */
 @keyframes soft-float {
   0%,
@@ -279,6 +295,8 @@
 /* Reduced motion: pause our custom marketing animations */
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee,
+  .animate-marquee-y,
+  .animate-marquee-y-reverse,
   .animate-float,
   .animate-hero-ticker {
     animation: none !important;
@@ -319,6 +337,36 @@
   --tw-prose-th-borders: hsl(var(--border));
   --tw-prose-td-borders: hsl(var(--border));
   --tw-prose-code: hsl(var(--ink));
+}
+
+/* Blog article body spacing.
+   The body is Plate's serialized editor DOM: every paragraph and list row is a
+   `<div data-slate-type="p">` (list rows wrap a single `<ul><li>`), carrying
+   editor utility classes (`m-0 p-0 py-1`) that this app's Tailwind build never
+   emits — so they don't cancel `prose`'s default `ul`/`li` margins and the gaps
+   between bullets balloon. Normalise spacing off the stable data-slate-*
+   attributes so reading rhythm is consistent for all stored + future content. */
+.prose-signhr [data-slate-type="p"] {
+  margin: 0;
+  padding: 0;
+}
+.prose-signhr [data-slate-type="p"] + [data-slate-type="p"] {
+  margin-top: 0.9em;
+}
+/* List rows are individual blocks; keep them tight, like real list items. */
+.prose-signhr [data-slate-list-style-type] + [data-slate-list-style-type] {
+  margin-top: 0.35em;
+}
+.prose-signhr [data-slate-type="p"] :is(ul, ol) {
+  margin: 0;
+}
+.prose-signhr [data-slate-type="p"] li {
+  margin: 0;
+  padding: 0;
+}
+/* Breathing room when a heading follows body content. */
+.prose-signhr [data-slate-type="p"] + :is(h2, h3) {
+  margin-top: 1.6em;
 }
 
 @layer utilities {

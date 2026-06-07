@@ -1,8 +1,9 @@
 import Link from "next/link";
 import {
-  GithubIcon,
+  FacebookIcon,
+  InstagramIcon,
   LinkedinIcon,
-  TwitterIcon,
+  XIcon,
 } from "@/components/icons/social";
 import { Logo } from "@/components/icons/logo";
 import { Container } from "@/components/layout/container";
@@ -11,9 +12,22 @@ import { AppBadges } from "@/components/marketing/app-badges";
 import { FOOTER_NAV } from "@/lib/nav";
 
 const SOCIAL = [
-  { label: "Twitter", href: "https://twitter.com", Icon: TwitterIcon },
-  { label: "LinkedIn", href: "https://linkedin.com", Icon: LinkedinIcon },
-  { label: "GitHub", href: "https://github.com", Icon: GithubIcon },
+  {
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/company/signature-tech",
+    Icon: LinkedinIcon,
+  },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/signature.tech.it.22",
+    Icon: FacebookIcon,
+  },
+  {
+    label: "Instagram",
+    href: "https://www.instagram.com/signature.tech.it",
+    Icon: InstagramIcon,
+  },
+  { label: "X", href: "https://x.com/signaturetechit", Icon: XIcon },
 ];
 
 export function Footer() {
@@ -58,7 +72,18 @@ export function Footer() {
         </div>
 
         <div className="flex flex-col items-start gap-4 border-t border-border py-6 text-sm text-ink-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>© {year} SignHR. Built with care in Bengaluru.</p>
+          <p>
+            © {year} SignHR. Built by{" "}
+            <a
+              href="https://signaturetech.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-ink-secondary underline-offset-4 transition-colors hover:text-ink hover:underline"
+            >
+              SignatureTech
+            </a>{" "}
+            at Jaipur.
+          </p>
           <div className="flex items-center gap-4">
             <Link
               href="/changelog"

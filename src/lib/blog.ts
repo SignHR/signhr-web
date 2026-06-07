@@ -54,8 +54,12 @@ interface Envelope<T> {
   data?: T;
 }
 
-/** Default ISR window for blog fetches; on-demand revalidation makes publishes instant. */
-const BLOG_REVALIDATE_SECONDS = 3600;
+/**
+ * Fallback ISR window for blog fetches. On-demand revalidation (the backend
+ * publish webhook → /api/revalidate) makes publishes instant; this short window
+ * bounds staleness to a few minutes if that webhook is unconfigured or fails.
+ */
+const BLOG_REVALIDATE_SECONDS = 300;
 
 function mapAuthor(a: PublicArticleResource["author"]): Author {
   return {

@@ -5,6 +5,8 @@ export type Testimonial = {
   company: string;
   initials: string;
   accent: "purple" | "amber" | "blue" | "green";
+  /** 1–5 stars shown on the card. Omitted = 5. */
+  rating?: number;
 };
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -43,6 +45,7 @@ export const TESTIMONIALS: Testimonial[] = [
     company: "Tilse",
     initials: "AP",
     accent: "green",
+    rating: 4,
   },
   {
     quote:

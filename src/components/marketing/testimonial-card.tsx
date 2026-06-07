@@ -1,5 +1,4 @@
-import * as React from "react";
-import { Quote } from "lucide-react";
+import { Star } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Testimonial } from "@/lib/testimonials";
 
@@ -21,6 +20,8 @@ export function TestimonialCard({
   size = "md",
   className,
 }: TestimonialCardProps) {
+  const rating = Math.max(0, Math.min(5, testimonial.rating ?? 5));
+
   return (
     <figure
       className={cn(
@@ -29,7 +30,24 @@ export function TestimonialCard({
         className,
       )}
     >
-      <Quote className="size-7 text-brand-400" aria-hidden />
+      <div
+        className="flex items-center gap-0.5"
+        role="img"
+        aria-label={`Rated ${rating} out of 5`}
+      >
+        {Array.from({ length: 5 }).map((_, i) => (
+          <Star
+            key={i}
+            aria-hidden
+            className={cn(
+              "size-4",
+              i < rating
+                ? "fill-accent text-accent"
+                : "fill-none text-ink-muted/40",
+            )}
+          />
+        ))}
+      </div>
       <blockquote
         className={cn(
           "mt-4 flex-1 text-ink-secondary",
@@ -38,7 +56,7 @@ export function TestimonialCard({
             : "text-[16px] leading-relaxed",
         )}
       >
-        <p>“{testimonial.quote}”</p>
+        <p>&ldquo;{testimonial.quote}&rdquo;</p>
       </blockquote>
       <figcaption className="mt-6 flex items-center gap-3">
         <div
