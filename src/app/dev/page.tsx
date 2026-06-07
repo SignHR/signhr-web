@@ -25,11 +25,12 @@ import { LogoCloud } from "@/components/marketing/logo-cloud";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { Spotlight } from "@/components/marketing/spotlight";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
-import { PricingCard } from "@/components/marketing/pricing-card";
+import { CoreHrCard } from "@/components/marketing/core-hr-card";
+import { PricingEstimator } from "@/components/marketing/pricing-estimator";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 import { WorkflowDemo } from "@/components/marketing/workflow-demo";
 import { TESTIMONIALS, LOGO_NAMES, STATS } from "@/lib/testimonials";
-import { PRICING_TIERS, PRICING_FAQ } from "@/lib/pricing";
+import { PRICING_FAQ } from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Dev QA — Component library",
@@ -255,12 +256,14 @@ export default function DevPage() {
         <WorkflowDemo />
       </DevSection>
 
-      <DevSection title="PricingCards (Growth highlighted)">
-        <div className="grid gap-5 md:grid-cols-3">
-          {PRICING_TIERS.map((t) => (
-            <PricingCard key={t.id} tier={t} billing="annual" />
-          ))}
+      <DevSection title="CoreHrCard (term toggle)">
+        <div className="mx-auto max-w-3xl">
+          <CoreHrCard />
         </div>
+      </DevSection>
+
+      <DevSection title="PricingEstimator">
+        <PricingEstimator />
       </DevSection>
 
       <DevSection title="FAQAccordion">

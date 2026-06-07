@@ -5,20 +5,27 @@ import {
   RefreshCcw,
   Globe2,
   Zap,
+  Check,
 } from "lucide-react";
 import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
-import { PricingToggle } from "@/components/marketing/pricing-toggle";
-import { ComparisonTable } from "@/components/marketing/comparison-table";
+import { PricingEstimator } from "@/components/marketing/pricing-estimator";
+import { AddonCard } from "@/components/marketing/addon-card";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
 import { JsonLd } from "@/components/seo/json-ld";
-import { PRICING_TIERS, COMPARISON_GROUPS, PRICING_FAQ } from "@/lib/pricing";
+import {
+  CORE_HR,
+  ADDONS,
+  PRICING_CURRENCY,
+  PRICING_FAQ,
+  computeQuote,
+} from "@/lib/pricing";
 
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Simple per-employee pricing in INR. 3-month free trial on every plan, no credit card. Starter, Growth, and Enterprise tiers from ₹8/employee/month.",
+    "Simple per-employee pricing in INR. One Core HR plan from ₹15/employee/month plus optional add-ons. 1-year and 3-year terms save 10% and 20%. 3-month free trial, no card.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -50,6 +57,8 @@ const INCLUDED_IN_EVERY = [
   },
 ];
 
+const coreHr3y = computeQuote({ employees: 1, addonIds: [], termId: "3y" });
+
 const FAQ_LD = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -65,21 +74,37 @@ const PRODUCT_LD = {
   "@type": "Product",
   name: "SignHR",
   description:
-    "All-in-one HRMS for growing teams. Per-employee pricing with a 3-month free trial.",
+    "All-in-one HRMS for growing teams. One Core HR plan plus optional add-ons, per-employee pricing with a 3-month free trial.",
   brand: { "@type": "Brand", name: "SignHR" },
-  offers: PRICING_TIERS.filter((t) => t.annual !== null).map((t) => ({
-    "@type": "Offer",
-    name: t.name,
-    price: t.annual,
-    priceCurrency: "INR",
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      price: t.annual,
-      priceCurrency: "INR",
-      unitText: "per employee per month",
+  offers: [
+    {
+      "@type": "Offer",
+      name: CORE_HR.name,
+      price: coreHr3y.perEmpMonth,
+      priceCurrency: PRICING_CURRENCY.code,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: coreHr3y.perEmpMonth,
+        priceCurrency: PRICING_CURRENCY.code,
+        unitText: "per employee per month",
+      },
+      availability: "https://schema.org/InStock",
     },
-    availability: "https://schema.org/InStock",
-  })),
+    ...ADDONS.map((a) => ({
+      "@type": "Offer",
+      name: a.name,
+      price: a.price,
+      priceCurrency: PRICING_CURRENCY.code,
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: a.price,
+        priceCurrency: PRICING_CURRENCY.code,
+        unitText:
+          a.unit === "flat-month" ? "per month" : "per employee per month",
+      },
+      availability: "https://schema.org/InStock",
+    })),
+  ],
 };
 
 export default function PricingPage() {
@@ -90,16 +115,70 @@ export default function PricingPage() {
         eyebrow="PRICING"
         title={
           <>
-            Simple pricing.{" "}
-            <em className="serif-italic">No surprises.</em>
+            Simple pricing. <em className="serif-italic">No surprises.</em>
           </>
         }
-        description="Pay per active employee. Free 3-month trial on every plan. Cancel anytime — your data leaves with you."
+        description="One Core HR plan, optional add-ons, billed per active employee. Free 3-month trial on every plan. All prices in INR, exclusive of GST."
       />
 
       <Section pad="standard" className="-mt-12">
         <Container>
-          <PricingToggle tiers={PRICING_TIERS} />
+          <PricingEstimator />
+        </Container>
+      </Section>
+
+      {/* What's in Core HR */}
+      <Section pad="standard" surface="muted">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+              In Core HR
+            </p>
+            <h2 className="text-display-md mt-4 text-ink">
+              Everything you need, <em className="serif-italic">included</em>.
+            </h2>
+            <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
+              Core HR is the foundation every SignHR workspace runs on — at{" "}
+              {PRICING_CURRENCY.symbol}
+              {CORE_HR.basePerEmpMonth}/employee/month.
+            </p>
+          </div>
+          <ul className="mx-auto mt-12 grid max-w-4xl gap-x-8 gap-y-4 sm:grid-cols-2">
+            {CORE_HR.features.map((f) => (
+              <li
+                key={f}
+                className="flex items-start gap-3 text-[15px] text-ink-secondary"
+              >
+                <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-brand-50 text-brand-600">
+                  <Check className="size-3" aria-hidden />
+                </span>
+                {f}
+              </li>
+            ))}
+          </ul>
+        </Container>
+      </Section>
+
+      {/* Add-ons */}
+      <Section pad="standard">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+              Add-ons
+            </p>
+            <h2 className="text-display-md mt-4 text-ink">
+              Turn on <em className="serif-italic">only what you need</em>.
+            </h2>
+            <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
+              Optional modules that sit on top of Core HR. Toggle them in the
+              estimator to see your total.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {ADDONS.map((a) => (
+              <AddonCard key={a.id} addon={a} />
+            ))}
+          </div>
         </Container>
       </Section>
 
@@ -114,8 +193,8 @@ export default function PricingPage() {
               The basics, <em className="serif-italic">never paywalled</em>.
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
-              Security, migration, support, and the things that should be
-              table stakes — included from day one on every plan.
+              Security, migration, support, and the things that should be table
+              stakes — included from day one.
             </p>
           </div>
 
@@ -142,25 +221,8 @@ export default function PricingPage() {
         </Container>
       </Section>
 
-      {/* Comparison table */}
-      <Section pad="standard">
-        <Container>
-          <div className="mx-auto max-w-2xl text-center">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-              Compare every feature
-            </p>
-            <h2 className="text-display-md mt-4 text-ink">
-              No marketing fluff. <em className="serif-italic">The real list.</em>
-            </h2>
-          </div>
-          <div className="mt-12">
-            <ComparisonTable groups={COMPARISON_GROUPS} />
-          </div>
-        </Container>
-      </Section>
-
       {/* FAQ */}
-      <Section pad="standard" surface="muted">
+      <Section pad="standard">
         <Container size="md">
           <div className="text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">

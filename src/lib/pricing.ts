@@ -1,270 +1,155 @@
-export type PricingTier = {
-  id: "starter" | "growth" | "enterprise";
-  name: string;
-  tagline: string;
-  monthly: number | null; // per employee per month, INR; null = custom
-  annual: number | null; // per employee per month billed annually, INR
-  highlight?: boolean;
-  ctaLabel: string;
-  ctaHref: string;
-  badge?: string;
-  features: string[];
-};
-
 export const PRICING_CURRENCY = {
   code: "INR",
   symbol: "₹",
 } as const;
 
-export const PRICING_TIERS: PricingTier[] = [
+// ─── Core HR + Add-ons model ────────────────────────────────────────────────
+
+export const CORE_HR = {
+  name: "Core HR",
+  tagline: "Everything a growing team needs, in one connected workspace.",
+  basePerEmpMonth: 15, // INR, per employee / month
+  features: [
+    "Employee Management — central profiles, records, org structure, and full lifecycle.",
+    "Attendance Management — web, mobile & kiosk check-in/out with selfie + GPS, shifts and timesheets.",
+    "Leave & Request Management — policies, balances, and one-tap multi-level approvals.",
+    "Asset Management — assign and track every device; know who has what.",
+    "Document Generation — branded offers, contracts, and HR letters with e-signature.",
+    "Geo-fencing — restrict attendance punches to approved office or site locations.",
+    "Approval Workflows — multi-step, conditional, and parallel approvals with escalations.",
+    "Onboarding & Offboarding — structured day-one onboarding and clean exit checklists.",
+    "Mobile App — free SignHR app (iOS & Android) for every employee.",
+  ],
+} as const;
+
+export type AddonUnit = "per-emp-month" | "flat-month";
+
+export type Addon = {
+  id: "tasks" | "geo" | "askhr";
+  name: string;
+  blurb: string;
+  price: number; // INR
+  unit: AddonUnit;
+};
+
+export const ADDONS: Addon[] = [
   {
-    id: "starter",
-    name: "Starter",
-    tagline: "For lean teams getting out of spreadsheets.",
-    monthly: 10,
-    annual: 8,
-    ctaLabel: "Start free trial",
-    ctaHref: "/book-demo?plan=starter",
-    features: [
-      "Up to 25 employees",
-      "Core HRMS, profiles, org chart",
-      "Leave management with policy builder",
-      "Web + mobile attendance",
-      "Self-service portal",
-      "Email support (24h response)",
-    ],
+    id: "tasks",
+    name: "Task Management",
+    blurb: "Assign, track, and close out work across the team.",
+    price: 5,
+    unit: "per-emp-month",
   },
   {
-    id: "growth",
-    name: "Growth",
-    tagline: "Most popular for scaling teams of 25 to 250.",
-    monthly: 19,
-    annual: 15,
-    highlight: true,
-    badge: "Most popular",
-    ctaLabel: "Start free trial",
-    ctaHref: "/book-demo?plan=growth",
-    features: [
-      "26 to 250 employees",
-      "Everything in Starter",
-      "Payroll with statutory compliance",
-      "Multi-step approval workflows",
-      "Asset management",
-      "Onboarding + offboarding flows",
-      "Google + SSO integration",
-      "Priority support (4h response)",
-    ],
+    id: "geo",
+    name: "Geo Tagging",
+    blurb: "Realtime employee location tracking for field and on-site teams.",
+    price: 30,
+    unit: "per-emp-month",
   },
   {
-    id: "enterprise",
-    name: "Enterprise",
-    tagline: "For 250+ employees and serious compliance needs.",
-    monthly: null,
-    annual: null,
-    ctaLabel: "Talk to sales",
-    ctaHref: "/book-demo?plan=enterprise",
-    features: [
-      "250+ employees",
-      "Everything in Growth",
-      "SSO + SCIM provisioning",
-      "Custom workflows + API access",
-      "Audit log export",
-      "Dedicated CSM",
-      "99.99% SLA",
-      "Custom contract + DPA",
-    ],
+    id: "askhr",
+    name: "Ask HR",
+    blurb: "AI HR assistant — answers leave and pay questions from live data, policy cited.",
+    price: 50,
+    unit: "flat-month",
   },
 ];
 
-export type ComparisonRow = {
-  feature: string;
-  starter: boolean | string;
-  growth: boolean | string;
-  enterprise: boolean | string;
+export type BillingTerm = {
+  id: "monthly" | "1y" | "3y";
+  label: string;
+  discount: number; // fractional discount, 0–1 (e.g. 0.1 = 10% off)
+  badge?: string;
 };
 
-export type ComparisonGroup = {
-  category: string;
-  rows: ComparisonRow[];
-};
-
-export const COMPARISON_GROUPS: ComparisonGroup[] = [
-  {
-    category: "People & profiles",
-    rows: [
-      {
-        feature: "Employee profiles",
-        starter: "Up to 25",
-        growth: "Up to 250",
-        enterprise: "Unlimited",
-      },
-      { feature: "Org chart", starter: true, growth: true, enterprise: true },
-      {
-        feature: "Document vault",
-        starter: "5 GB",
-        growth: "100 GB",
-        enterprise: "Custom",
-      },
-      {
-        feature: "Custom fields",
-        starter: "10",
-        growth: "50",
-        enterprise: "Unlimited",
-      },
-      {
-        feature: "Field-level permissions",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-    ],
-  },
-  {
-    category: "Time & leave",
-    rows: [
-      {
-        feature: "Leave policies",
-        starter: "Up to 5",
-        growth: "Unlimited",
-        enterprise: "Unlimited",
-      },
-      {
-        feature: "Mobile clock-in",
-        starter: true,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Geofencing + IP rules",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Shift scheduler",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Auto regularization",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-    ],
-  },
-  {
-    category: "Payroll",
-    rows: [
-      {
-        feature: "Payroll runs",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Statutory compliance",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Multi-currency",
-        starter: false,
-        growth: false,
-        enterprise: true,
-      },
-      {
-        feature: "Multi-entity",
-        starter: false,
-        growth: false,
-        enterprise: true,
-      },
-    ],
-  },
-  {
-    category: "Workflows & automation",
-    rows: [
-      {
-        feature: "Built-in workflows",
-        starter: "5",
-        growth: "Unlimited",
-        enterprise: "Unlimited",
-      },
-      {
-        feature: "Custom workflow builder",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Conditional approvals",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      { feature: "API access", starter: false, growth: true, enterprise: true },
-    ],
-  },
-  {
-    category: "Security & support",
-    rows: [
-      { feature: "SSO", starter: false, growth: false, enterprise: true },
-      {
-        feature: "SCIM provisioning",
-        starter: false,
-        growth: false,
-        enterprise: true,
-      },
-      {
-        feature: "Audit log export",
-        starter: false,
-        growth: true,
-        enterprise: true,
-      },
-      {
-        feature: "Support",
-        starter: "Email 24h",
-        growth: "Priority 4h",
-        enterprise: "Dedicated CSM",
-      },
-      { feature: "SLA", starter: "99.5%", growth: "99.9%", enterprise: "99.99%" },
-    ],
-  },
+export const BILLING_TERMS: BillingTerm[] = [
+  { id: "monthly", label: "Monthly", discount: 0 },
+  { id: "1y", label: "Yearly", discount: 0.1, badge: "Save 10%" },
+  { id: "3y", label: "3 Years", discount: 0.2, badge: "Save 20%" },
 ];
+
+export type Quote = {
+  perEmpMonth: number; // Core HR base per-employee/month at the selected term (excludes add-ons)
+  monthlyTotal: number; // whole rupees
+  yearlyTotal: number; // whole rupees
+  savedVsMonthlyYear: number; // whole rupees saved per year vs monthly term
+};
+
+const round = (n: number): number => Math.round(n);
+const round1 = (n: number): number => Math.round(n * 10) / 10;
+
+/**
+ * Pure pricing calculator. The term discount applies to the whole bundle,
+ * including Ask HR's flat fee.
+ */
+export function computeQuote({
+  employees,
+  addonIds,
+  termId,
+}: {
+  employees: number;
+  addonIds: Addon["id"][];
+  termId: BillingTerm["id"];
+}): Quote {
+  const term = BILLING_TERMS.find((t) => t.id === termId) ?? BILLING_TERMS[0];
+  const multiplier = 1 - term.discount;
+  const emp = employees > 0 ? employees : 1;
+
+  const selected = ADDONS.filter((a) => addonIds.includes(a.id));
+  const perEmpAddon = selected
+    .filter((a) => a.unit === "per-emp-month")
+    .reduce((sum, a) => sum + a.price, 0);
+  const flatAddon = selected
+    .filter((a) => a.unit === "flat-month")
+    .reduce((sum, a) => sum + a.price, 0);
+
+  const perEmpMonthBase = CORE_HR.basePerEmpMonth + perEmpAddon;
+  const monthlyBase = perEmpMonthBase * emp + flatAddon;
+
+  return {
+    perEmpMonth: round1(CORE_HR.basePerEmpMonth * multiplier),
+    monthlyTotal: round(monthlyBase * multiplier),
+    yearlyTotal: round(monthlyBase * 12 * multiplier),
+    savedVsMonthlyYear: round(monthlyBase * 12 * term.discount),
+  };
+}
 
 export const PRICING_FAQ = [
   {
     q: "Is there a free trial?",
-    a: "Yes — 3 months, no credit card. You can invite your whole team and use every feature on the Growth plan during the trial.",
-  },
-  {
-    q: "Can I switch plans later?",
-    a: "Anytime, in either direction. We prorate the difference automatically and never lock you in.",
+    a: "Yes — 3 months, no credit card. Invite your whole team and use every Core HR feature during the trial.",
   },
   {
     q: "How does per-employee pricing work?",
-    a: "You pay only for active employees on the platform. New hires count from their join date. Departures stop counting on their last working day.",
+    a: "Core HR is ₹15 per active employee per month. New hires count from their join date; departures stop counting on their last working day.",
   },
   {
-    q: "Do you charge for contractors and interns?",
-    a: "Only if you want them in the system with full access. You can also add them as light profiles for free.",
+    q: "How are the add-ons billed?",
+    a: "Task Management (₹5) and Geo Tagging (₹30) are billed per employee per month. Ask HR is a flat ₹50 per month regardless of headcount. Add-ons sit on top of Core HR and can be turned on or off anytime.",
+  },
+  {
+    q: "What do the 1-year and 3-year terms save me?",
+    a: "A 1-year term takes 10% off your whole bill; a 3-year term takes 20% off — and the discount applies to Core HR and every add-on, including Ask HR.",
+  },
+  {
+    q: "Can I switch plans or change add-ons later?",
+    a: "Anytime, in either direction. We prorate the difference automatically and never lock you in.",
+  },
+  {
+    q: "Are prices inclusive of GST?",
+    a: "All prices are in INR and exclusive of GST. Subscriptions are annual and renew each year; GST is charged as applicable.",
   },
   {
     q: "What payment methods do you accept?",
-    a: "UPI, credit/debit card, net banking, and bank transfer (NEFT/RTGS) for annual contracts. Enterprise customers can pay against a GST invoice on net-30 terms.",
+    a: "UPI, credit/debit card, net banking, and bank transfer (NEFT/RTGS). You can also pay against a GST invoice.",
   },
   {
     q: "Is my data secure?",
-    a: "Yes. We're SOC 2 Type II compliant, encrypt data in transit and at rest, and offer SSO and SCIM on Enterprise. See our security page for the full list.",
+    a: "Yes. We're SOC 2 Type II compliant and encrypt data in transit and at rest. See our security page for the full list.",
   },
   {
     q: "Can I import data from my current HR system?",
-    a: "Absolutely. We have direct importers for BambooHR, Zoho People, Keka, and GreytHR — and a CSV importer for everyone else. Most teams migrate in under an afternoon.",
-  },
-  {
-    q: "What if we need a feature you don't have yet?",
-    a: "Tell us — we ship every two weeks based on what customers ask for. Enterprise customers can request roadmap commitments in writing.",
+    a: "Absolutely. We have direct importers for BambooHR, Zoho People, Keka, and GreytHR — and a CSV importer for everyone else.",
   },
 ];

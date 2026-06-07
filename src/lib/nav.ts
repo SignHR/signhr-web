@@ -263,7 +263,7 @@ export const PRIMARY_NAV: Array<{
 }> = [
   { label: "Home", href: "/", type: "link" },
   { label: "Features", type: "mega-features" },
-  // { label: "Pricing", href: "/pricing", type: "link" }, // hidden for now
+  { label: "Pricing", href: "/pricing", type: "link" },
   { label: "Customers", href: "/customers", type: "link" },
   { label: "Contact", href: "/contact", type: "link" },
 ];
@@ -271,7 +271,7 @@ export const PRIMARY_NAV: Array<{
 export const FOOTER_NAV = {
   product: [
     { label: "Features", href: "/features" },
-    // { label: "Pricing", href: "/pricing" }, // hidden for now
+    { label: "Pricing", href: "/pricing" },
     { label: "Changelog", href: "/changelog" },
     { label: "Roadmap", href: "/changelog#roadmap" },
     { label: "Integrations", href: "/features#roadmap" },

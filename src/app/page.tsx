@@ -28,11 +28,10 @@ import { Spotlight } from "@/components/marketing/spotlight";
 import { FeatureCard } from "@/components/marketing/feature-card";
 import { WorkflowDemo } from "@/components/marketing/workflow-demo";
 import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
-import { PricingCard } from "@/components/marketing/pricing-card";
+import { CoreHrCard } from "@/components/marketing/core-hr-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { AppDownloadBand } from "@/components/marketing/app-download-band";
 import { StatNumber } from "@/components/marketing/stat-number";
-import { PRICING_TIERS } from "@/lib/pricing";
 import { LOGO_NAMES, STATS } from "@/lib/testimonials";
 import { getAllPosts } from "@/lib/blog";
 
@@ -375,38 +374,34 @@ export default async function HomePage() {
 
       <AppDownloadBand />
 
-      {/* Pricing teaser — hidden for now; flip the `false` below to re-enable. */}
-      {false && (
-        <Section pad="standard">
-          <Container>
-            <div className="mx-auto max-w-2xl text-center">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
-                Pricing
-              </p>
-              <h2 className="text-display-md mt-4 text-balance text-ink">
-                Simple pricing. <em className="serif-italic">No surprises.</em>
-              </h2>
-              <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
-                Per-employee, billed monthly or annually. 3-month free trial on
-                every plan, no card required.
-              </p>
-            </div>
-            <div className="mt-12 grid gap-5 md:grid-cols-3">
-              {PRICING_TIERS.map((tier) => (
-                <PricingCard key={tier.id} tier={tier} billing="annual" />
-              ))}
-            </div>
-            <div className="mt-10 text-center">
-              <Button asChild variant="secondary" size="md">
-                <Link href="/pricing">
-                  Compare every feature
-                  <ArrowRight className="size-3.5" aria-hidden />
-                </Link>
-              </Button>
-            </div>
-          </Container>
-        </Section>
-      )}
+      {/* Pricing teaser */}
+      <Section pad="standard">
+        <Container>
+          <div className="mx-auto max-w-2xl text-center">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-700">
+              Pricing
+            </p>
+            <h2 className="text-display-md mt-4 text-balance text-ink">
+              Simple pricing. <em className="serif-italic">No surprises.</em>
+            </h2>
+            <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
+              One Core HR plan, optional add-ons. 1-year saves 10%, 3-year saves
+              20%. 3-month free trial, no card.
+            </p>
+          </div>
+          <div className="mx-auto mt-12 max-w-3xl">
+            <CoreHrCard defaultTermId="3y" />
+          </div>
+          <div className="mt-10 text-center">
+            <Button asChild variant="secondary" size="md">
+              <Link href="/pricing">
+                See full pricing
+                <ArrowRight className="size-3.5" aria-hidden />
+              </Link>
+            </Button>
+          </div>
+        </Container>
+      </Section>
 
       {/* Blog teaser — live published posts from the CMS; hidden when none */}
       {blogTeasers.length > 0 && (
