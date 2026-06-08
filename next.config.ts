@@ -2,6 +2,12 @@ import type { NextConfig } from "next";
 import path from "node:path";
 
 const nextConfig: NextConfig = {
+  // isomorphic-dompurify pulls in jsdom, which breaks when bundled into a
+  // Vercel serverless function (the blog article body is sanitized at request
+  // time for on-demand/ISR renders of newly published posts). Marking it
+  // external makes Next resolve jsdom from node_modules at runtime instead of
+  // bundling it, so on-demand post renders don't 500 in the serverless runtime.
+  serverExternalPackages: ["isomorphic-dompurify"],
   turbopack: {
     root: path.join(__dirname),
   },
