@@ -25,7 +25,7 @@ export const CORE_HR = {
 export type AddonUnit = "per-emp-month" | "flat-month";
 
 export type Addon = {
-  id: "tasks" | "geo" | "askhr";
+  id: "tasks" | "geo" | "askhr" | "activity" | "reports";
   name: string;
   blurb: string;
   price: number; // INR
@@ -49,9 +49,23 @@ export const ADDONS: Addon[] = [
   },
   {
     id: "askhr",
-    name: "Ask HR",
+    name: "AI HR",
     blurb: "AI HR assistant — answers leave and pay questions from live data, policy cited.",
     price: 50,
+    unit: "flat-month",
+  },
+  {
+    id: "activity",
+    name: "Activity Tracking",
+    blurb: "Track app and screen activity to see how work hours are really spent.",
+    price: 50,
+    unit: "per-emp-month",
+  },
+  {
+    id: "reports",
+    name: "Reports",
+    blurb: "Ready-made dashboards and exports across headcount, attendance, leave, and payroll.",
+    price: 40,
     unit: "flat-month",
   },
 ];
@@ -69,8 +83,18 @@ export const BILLING_TERMS: BillingTerm[] = [
   { id: "3y", label: "3 Years", discount: 0.2, badge: "Save 20%" },
 ];
 
+export type QuoteLine = {
+  /** "core" for the Core HR base, otherwise the selected add-on's id. */
+  id: "core" | Addon["id"];
+  label: string;
+  unit: AddonUnit;
+  unitPrice: number; // INR — per employee/month, or flat/month
+  monthlyBase: number; // INR/month for this line, before the term discount
+};
+
 export type Quote = {
   perEmpMonth: number; // Core HR base per-employee/month at the selected term (excludes add-ons)
+  lines: QuoteLine[]; // Core HR + each selected add-on, at base (pre-discount) monthly amounts
   monthlyTotal: number; // whole rupees
   yearlyTotal: number; // whole rupees
   savedVsMonthlyYear: number; // whole rupees saved per year vs monthly term
@@ -81,7 +105,7 @@ const round1 = (n: number): number => Math.round(n * 10) / 10;
 
 /**
  * Pure pricing calculator. The term discount applies to the whole bundle,
- * including Ask HR's flat fee.
+ * including AI HR's flat fee.
  */
 export function computeQuote({
   employees,
@@ -107,8 +131,29 @@ export function computeQuote({
   const perEmpMonthBase = CORE_HR.basePerEmpMonth + perEmpAddon;
   const monthlyBase = perEmpMonthBase * emp + flatAddon;
 
+  // Itemised base amounts (pre-discount); their sum equals `monthlyBase`, so the
+  // breakdown always reconciles to the displayed total once the term discount is
+  // applied. Add-on lines follow ADDONS order.
+  const lines: QuoteLine[] = [
+    {
+      id: "core",
+      label: CORE_HR.name,
+      unit: "per-emp-month",
+      unitPrice: CORE_HR.basePerEmpMonth,
+      monthlyBase: CORE_HR.basePerEmpMonth * emp,
+    },
+    ...selected.map((a) => ({
+      id: a.id,
+      label: a.name,
+      unit: a.unit,
+      unitPrice: a.price,
+      monthlyBase: a.unit === "per-emp-month" ? a.price * emp : a.price,
+    })),
+  ];
+
   return {
     perEmpMonth: round1(CORE_HR.basePerEmpMonth * multiplier),
+    lines,
     monthlyTotal: round(monthlyBase * multiplier),
     yearlyTotal: round(monthlyBase * 12 * multiplier),
     savedVsMonthlyYear: round(monthlyBase * 12 * term.discount),
@@ -126,11 +171,11 @@ export const PRICING_FAQ = [
   },
   {
     q: "How are the add-ons billed?",
-    a: "Task Management (₹5) and Geo Tagging (₹30) are billed per employee per month. Ask HR is a flat ₹50 per month regardless of headcount. Add-ons sit on top of Core HR and can be turned on or off anytime.",
+    a: "Task Management (₹5), Geo Tagging (₹30), and Activity Tracking (₹50) are billed per employee per month. AI HR (₹50) and Reports (₹40) are flat per month, regardless of headcount. Add-ons sit on top of Core HR and can be turned on or off anytime.",
   },
   {
     q: "What do the 1-year and 3-year terms save me?",
-    a: "A 1-year term takes 10% off your whole bill; a 3-year term takes 20% off — and the discount applies to Core HR and every add-on, including Ask HR.",
+    a: "A 1-year term takes 10% off your whole bill; a 3-year term takes 20% off — and the discount applies to Core HR and every add-on, including AI HR.",
   },
   {
     q: "Can I switch plans or change add-ons later?",

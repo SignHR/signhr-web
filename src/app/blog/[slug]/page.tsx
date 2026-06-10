@@ -71,12 +71,12 @@ export default async function BlogPostPage({ params }: Props) {
 
   const articleLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: post.title,
     description: post.excerpt,
     datePublished: post.date,
     dateModified: post.date,
-    ...(post.cover ? { image: [post.cover] } : {}),
+    image: post.cover ? [post.cover] : [`${SITE_URL}/opengraph-image`],
     author: {
       "@type": "Person",
       name: post.author.name,
@@ -85,7 +85,8 @@ export default async function BlogPostPage({ params }: Props) {
     publisher: {
       "@type": "Organization",
       name: "SignHR",
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/opengraph-image` },
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.webp` },
     },
     mainEntityOfPage: {
       "@type": "WebPage",
@@ -93,9 +94,29 @@ export default async function BlogPostPage({ params }: Props) {
     },
   };
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${SITE_URL}/blog`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `${SITE_URL}/blog/${post.slug}`,
+      },
+    ],
+  };
+
   return (
     <article>
-      <JsonLd data={articleLd} />
+      <JsonLd data={[articleLd, breadcrumbLd]} />
       <ViewBeacon slug={post.slug} />
       <PostHeader post={post} />
 

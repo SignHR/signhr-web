@@ -14,6 +14,8 @@ import { GradientHalo } from "@/components/marketing/gradient-halo";
 import { FloatingMockup } from "@/components/marketing/floating-mockup";
 import { AppBadges } from "@/components/marketing/app-badges";
 import { Button } from "@/components/ui/button";
+import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import {
   FEATURE_PAGE_SLUGS,
   getFeaturePage,
@@ -30,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const page = getFeaturePage(slug);
   if (!page) return {};
-  const title = `${page.category}`;
+  const title = `${page.category} Software for Indian Teams`;
   return {
     title,
     description: page.metaDescription,
@@ -57,8 +59,29 @@ export default async function FeatureDetailPage({ params }: Props) {
   // pulled up into the hero band.
   const heroImage = page.hero.image;
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Features",
+        item: `${SITE_URL}/features`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: page.category,
+        item: `${SITE_URL}/features/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <JsonLd data={breadcrumbLd} />
       <Hero
         variant="feature"
         eyebrow={page.category.toUpperCase()}
@@ -88,6 +111,8 @@ export default async function FeatureDetailPage({ params }: Props) {
               {heroImage ? (
                 <SpotlightImage
                   {...heroImage}
+                  priority
+                  sizes="(min-width: 1280px) 1200px, 100vw"
                   className="mx-auto w-full max-w-[1200px]"
                 />
               ) : (
@@ -226,12 +251,16 @@ function SpotlightImage({
   width,
   height,
   className,
+  priority = false,
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: {
   src: string;
   alt: string;
   width: number;
   height: number;
   className?: string;
+  priority?: boolean;
+  sizes?: string;
 }) {
   return (
     <div
@@ -242,7 +271,8 @@ function SpotlightImage({
         alt={alt}
         width={width}
         height={height}
-        sizes="(min-width: 1024px) 50vw, 100vw"
+        priority={priority}
+        sizes={sizes}
         className="block h-auto w-full"
       />
     </div>

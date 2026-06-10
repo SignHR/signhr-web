@@ -37,6 +37,8 @@ export function PricingEstimator({ className }: { className?: string }) {
     setEmpRaw(String(clampEmployees((parseInt(empRaw, 10) || 0) + delta)));
   const quote = computeQuote({ employees: emp, addonIds, termId });
   const discounted = term.discount > 0;
+  const subtotal = quote.lines.reduce((sum, l) => sum + l.monthlyBase, 0);
+  const discountAmount = subtotal - quote.monthlyTotal;
 
   const selectedNames = ADDONS.filter((a) => addonIds.includes(a.id)).map(
     (a) => a.name,
@@ -191,6 +193,59 @@ export function PricingEstimator({ className }: { className?: string }) {
             You save {inr(quote.savedVsMonthlyYear)}/yr vs monthly billing
           </p>
         )}
+
+        {/* Itemised breakdown of the monthly total above. */}
+        <div className="mt-5 border-t border-border pt-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
+            Breakdown
+          </p>
+          <div className="mt-3 space-y-2 text-[13px]">
+            {quote.lines.map((line) => (
+              <div
+                key={line.id}
+                className="flex items-baseline justify-between gap-3"
+              >
+                <span className="text-ink-secondary">
+                  {line.label}
+                  <span className="ml-1.5 text-ink-muted">
+                    {line.unit === "flat-month"
+                      ? "· flat"
+                      : `· ${emp.toLocaleString("en-IN")} × ${inr(line.unitPrice)}`}
+                  </span>
+                </span>
+                <span className="font-mono text-ink">{inr(line.monthlyBase)}</span>
+              </div>
+            ))}
+
+            {quote.lines.length > 1 && (
+              <div className="flex items-baseline justify-between gap-3 border-t border-border pt-2">
+                <span className="text-ink-secondary">Subtotal</span>
+                <span className="font-mono text-ink">{inr(subtotal)}</span>
+              </div>
+            )}
+
+            {discountAmount > 0 && (
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-ink-secondary">
+                  {term.label}
+                  <span className="ml-1.5 text-ink-muted">
+                    · −{Math.round(term.discount * 100)}%
+                  </span>
+                </span>
+                <span className="font-mono text-success">
+                  −{inr(discountAmount)}
+                </span>
+              </div>
+            )}
+
+            <div className="flex items-baseline justify-between gap-3 border-t border-border pt-2">
+              <span className="font-medium text-ink">Total / month</span>
+              <span className="font-mono font-semibold text-ink">
+                {inr(quote.monthlyTotal)}
+              </span>
+            </div>
+          </div>
+        </div>
 
         <DemoCta size="md" variant="brand" className="mt-6 w-full" plan={planLabel}>
           Book a demo

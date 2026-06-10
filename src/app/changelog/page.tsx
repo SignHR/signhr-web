@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Changelog",
   description:
-    "Every release, in plain English. We ship every two weeks — here's what's new and what's next.",
+    "Every SignHR release in plain English — new HR, attendance, leave and payroll features shipped every two weeks. See what's new and what's next.",
   alternates: { canonical: "/changelog" },
 };
 

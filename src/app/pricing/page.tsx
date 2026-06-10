@@ -14,6 +14,7 @@ import { PricingEstimator } from "@/components/marketing/pricing-estimator";
 import { AddonCard } from "@/components/marketing/addon-card";
 import { FAQAccordion } from "@/components/marketing/faq-accordion";
 import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import {
   CORE_HR,
   ADDONS,
@@ -23,9 +24,9 @@ import {
 } from "@/lib/pricing";
 
 export const metadata: Metadata = {
-  title: "Pricing",
+  title: "HR Software Pricing in India",
   description:
-    "Simple per-employee pricing in INR. One Core HR plan from ₹15/employee/month plus optional add-ons. 1-year and 3-year terms save 10% and 20%. 3-month free trial, no card.",
+    "Simple per-employee HR software pricing in INR — Core HR from ₹15/employee/month plus add-ons. 1- & 3-year terms save 10–20%. 3-month free trial, no card.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -71,17 +72,23 @@ const FAQ_LD = {
 
 const PRODUCT_LD = {
   "@context": "https://schema.org",
-  "@type": "Product",
+  "@type": ["Product", "SoftwareApplication"],
   name: "SignHR",
   description:
-    "All-in-one HRMS for growing teams. One Core HR plan plus optional add-ons, per-employee pricing with a 3-month free trial.",
+    "All-in-one AI-powered HR software for Indian teams. One Core HR plan plus optional add-ons, per-employee pricing in INR with a 3-month free trial.",
   brand: { "@type": "Brand", name: "SignHR" },
+  url: `${SITE_URL}/pricing`,
+  image: `${SITE_URL}/opengraph-image`,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web, iOS, Android",
   offers: [
     {
       "@type": "Offer",
       name: CORE_HR.name,
       price: coreHr3y.perEmpMonth,
       priceCurrency: PRICING_CURRENCY.code,
+      url: `${SITE_URL}/pricing`,
+      seller: { "@type": "Organization", name: "SignHR" },
       priceSpecification: {
         "@type": "UnitPriceSpecification",
         price: coreHr3y.perEmpMonth,
@@ -95,6 +102,8 @@ const PRODUCT_LD = {
       name: a.name,
       price: a.price,
       priceCurrency: PRICING_CURRENCY.code,
+      url: `${SITE_URL}/pricing`,
+      seller: { "@type": "Organization", name: "SignHR" },
       priceSpecification: {
         "@type": "UnitPriceSpecification",
         price: a.price,

@@ -266,6 +266,7 @@ export const PRIMARY_NAV: Array<{
   { label: "Pricing", href: "/pricing", type: "link" },
   { label: "Customers", href: "/customers", type: "link" },
   { label: "Contact", href: "/contact", type: "link" },
+  { label: "Download", href: "/download", type: "link" },
 ];
 
 export const FOOTER_NAV = {

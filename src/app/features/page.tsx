@@ -12,9 +12,9 @@ import { FEATURE_MODULES, FEATURE_GROUPS } from "@/lib/nav";
 import { LOGO_NAMES } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Features",
+  title: "HRMS Features — Attendance, Leave & Payroll",
   description:
-    "Ten modules, one platform — core HR, attendance, leave, onboarding & offboarding, payroll-ready, workflows, self-service, assets, mobile, and security. Plus more on the roadmap.",
+    "Ten modules in one HR platform — core HR, attendance, leave, onboarding, payroll-ready, workflows, self-service, assets & security. Built for Indian teams.",
   alternates: { canonical: "/features" },
 };
 

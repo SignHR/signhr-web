@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -35,6 +36,10 @@ import { StatNumber } from "@/components/marketing/stat-number";
 import { BlogCover } from "@/components/blog/blog-cover";
 import { LOGO_NAMES, STATS } from "@/lib/testimonials";
 import { getAllPosts } from "@/lib/blog";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 const HERO_MODULES = [
   {
@@ -92,9 +97,12 @@ const ORG_LD = {
   "@type": "Organization",
   name: "SignHR",
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.webp`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/logo.webp`,
+  },
   description:
-    "All-in-one HRMS for growing teams. Onboarding, attendance, leave, payroll, and offboarding in one platform.",
+    "All-in-one AI-powered HR software for Indian teams of 20–500 — onboarding, attendance, leave, and payroll-ready compliance in one platform.",
   sameAs: [
     "https://twitter.com/signhr",
     "https://linkedin.com/company/signhr",
@@ -120,13 +128,33 @@ const SITE_LD = {
   },
 };
 
+const SOFTWARE_LD = {
+  "@context": "https://schema.org",
+  "@type": ["SoftwareApplication", "Product"],
+  name: "SignHR",
+  url: SITE_URL,
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web, iOS, Android",
+  description:
+    "AI-powered HRMS for Indian teams — core HR, attendance, leave, payroll-ready compliance and an in-app AI HR assistant.",
+  image: `${SITE_URL}/opengraph-image`,
+  offers: {
+    "@type": "AggregateOffer",
+    priceCurrency: "INR",
+    lowPrice: 12,
+    highPrice: 15,
+    offerCount: 1,
+    url: `${SITE_URL}/pricing`,
+  },
+};
+
 export default async function HomePage() {
   // Latest published posts from the CMS for the home-page teaser (newest first).
   const blogTeasers = (await getAllPosts()).slice(0, 3);
 
   return (
     <>
-      <JsonLd data={[ORG_LD, SITE_LD]} />
+      <JsonLd data={[ORG_LD, SITE_LD, SOFTWARE_LD]} />
       {/* Hero */}
       <Hero
         variant="home"

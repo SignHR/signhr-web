@@ -36,4 +36,17 @@ export const APP_DOWNLOADS: AppPlatform[] = [
       alt: "Get SignHR on Google Play",
     },
   },
+  // Desktop apps — render a "Coming soon" pill until they get a download URL.
+  // To go live: set `href` to the installer/download link (e.g. a .dmg / .exe
+  // or a releases page).
+  {
+    key: "macos",
+    label: "macOS",
+    href: null,
+  },
+  {
+    key: "windows",
+    label: "Windows",
+    href: null,
+  },
 ];

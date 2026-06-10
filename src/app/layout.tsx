@@ -10,6 +10,7 @@ import { OpenPanelComponent } from "@openpanel/nextjs";
 import { ClickTracker } from "@/components/analytics/click-tracker";
 import { PageViewTracker } from "@/components/analytics/page-view-tracker";
 import { MarketingScripts } from "@/components/analytics/marketing-scripts";
+import { SITE_URL } from "@/lib/utils";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -32,26 +33,25 @@ const instrumentSerif = Instrument_Serif({
   display: "swap",
 });
 
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://signhr.io";
-
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "SignHR — All-in-one HRMS for growing teams",
+    default: "SignHR — AI-Powered HRMS for Indian Teams",
     template: "%s — SignHR",
   },
   description:
-    "Run your entire HR without the chaos. Onboarding, attendance, leave, payroll, and offboarding in one elegant platform built for teams of 20 to 500.",
+    "All-in-one HR software for Indian teams of 20–500 — onboarding, attendance, leave & payroll-ready compliance (EPF, ESI, PT) in one AI-powered HRMS.",
   applicationName: "SignHR",
   keywords: [
-    "HRMS",
-    "HR software",
+    "HRMS India",
+    "HR software India",
+    "HR software for startups India",
     "all-in-one HR platform",
-    "employee onboarding",
-    "leave management",
-    "payroll software",
-    "HR for startups",
+    "attendance management software",
+    "leave management software",
+    "payroll software India",
+    "AI HR assistant",
+    "employee onboarding software",
   ],
   authors: [{ name: "SignHR" }],
   creator: "SignHR",
@@ -59,20 +59,17 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "SignHR",
-    title: "SignHR — All-in-one HRMS for growing teams",
+    title: "SignHR — AI-Powered HRMS for Indian Teams",
     description:
-      "The HR platform your team will actually want to log into. Built for teams of 20 to 500.",
+      "The all-in-one HR software Indian teams of 20–500 actually want to log into — attendance, leave, payroll-ready & AI HR.",
     url: SITE_URL,
-    locale: "en_US",
+    locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "SignHR — All-in-one HRMS for growing teams",
+    title: "SignHR — AI-Powered HRMS for Indian Teams",
     description:
-      "The HR platform your team will actually want to log into. Built for teams of 20 to 500.",
-  },
-  alternates: {
-    canonical: "/",
+      "The all-in-one HR software Indian teams of 20–500 actually want to log into — attendance, leave, payroll-ready & AI HR.",
   },
   robots: {
     index: true,
@@ -92,7 +89,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="en-IN"
       suppressHydrationWarning
       className={`${geistSans.variable} ${geistMono.variable} ${instrumentSerif.variable}`}
     >

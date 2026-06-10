@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/marketing/contact-form";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Sales, support, partnerships, press — pick a channel and a real human will reply.",
+    "Talk to SignHR — sales, support, partnerships or press. Pick a channel and a real human replies fast. HR software help for Indian teams.",
   alternates: { canonical: "/contact" },
 };
 

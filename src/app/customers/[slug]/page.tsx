@@ -8,6 +8,8 @@ import { Badge } from "@/components/ui/badge";
 import { FeatureCard } from "@/components/marketing/feature-card";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { CustomersCta } from "@/components/marketing/customers-cta";
+import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import { CASE_STUDIES, getCaseStudy } from "@/lib/customers";
 import { FEATURE_MODULES } from "@/lib/nav";
 
@@ -21,13 +23,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const study = getCaseStudy(slug);
   if (!study) return {};
+  const title = `${study.company} — HR Software Case Study`;
+  const description =
+    study.excerpt.length > 158
+      ? study.excerpt.slice(0, study.excerpt.lastIndexOf(" ", 158)).trimEnd() + "…"
+      : study.excerpt;
   return {
-    title: study.outcome,
-    description: study.excerpt,
+    title,
+    description,
     alternates: { canonical: `/customers/${slug}` },
     openGraph: {
-      title: `${study.outcome} — SignHR`,
-      description: study.excerpt,
+      title: `${title} — SignHR`,
+      description,
       type: "article",
       url: `/customers/${slug}`,
     },
@@ -56,8 +63,29 @@ export default async function CaseStudyPage({ params }: Props) {
   const featureHref =
     FEATURE_MODULES.find((m) => m.slug === study.featureSlug)?.href ?? "/features";
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Customers",
+        item: `${SITE_URL}/customers`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: study.company,
+        item: `${SITE_URL}/customers/${slug}`,
+      },
+    ],
+  };
+
   return (
     <>
+      <JsonLd data={breadcrumbLd} />
       <Section pad="compact" className="border-b border-border">
         <Container size="md">
           <Link

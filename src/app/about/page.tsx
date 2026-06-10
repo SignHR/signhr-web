@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Lock,
   ScrollText,
@@ -236,11 +237,12 @@ export default function AboutPage() {
           {/* Big team image — external stock photo (swap the src for a real
               team/office photo when you have one) */}
           <div className="mt-10 overflow-hidden rounded-3xl bg-muted">
-            {/* eslint-disable-next-line @next/next/no-img-element -- external stock photo; next/image would need a next.config remote domain + a dev-server restart */}
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1600&q=80"
-              alt="The SignHR team collaborating"
-              loading="lazy"
+              alt="The SignHR team collaborating in the office"
+              width={1600}
+              height={700}
+              sizes="(min-width: 1024px) 800px, 100vw"
               className="aspect-[16/7] w-full object-cover"
             />
           </div>

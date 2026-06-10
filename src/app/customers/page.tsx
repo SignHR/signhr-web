@@ -11,9 +11,9 @@ import { CASE_STUDIES } from "@/lib/customers";
 import { LOGO_NAMES } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
-  title: "Customers",
+  title: "HR Software Case Studies",
   description:
-    "The Indian startups that run on SignHR — from fintech to logistics, from 80 to 800 employees.",
+    "See how Indian startups — from fintech to logistics, 80 to 800 employees — run HR, attendance, leave and payroll on SignHR. Real results, real teams.",
   alternates: { canonical: "/customers" },
 };
 

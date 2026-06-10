@@ -332,7 +332,9 @@
   --tw-prose-quotes: hsl(var(--ink));
   --tw-prose-quote-borders: hsl(var(--brand-300));
   --tw-prose-counters: hsl(var(--ink-muted));
-  --tw-prose-bullets: hsl(var(--brand-400));
+  /* Bullets follow the ink token: white-ish on the dark theme, dark on light —
+     never a fixed colour (that breaks contrast when the theme flips). */
+  --tw-prose-bullets: hsl(var(--ink));
   --tw-prose-hr: hsl(var(--border));
   --tw-prose-th-borders: hsl(var(--border));
   --tw-prose-td-borders: hsl(var(--border));
@@ -340,32 +342,34 @@
 }
 
 /* Blog article body spacing.
-   The body is Plate's serialized editor DOM: every paragraph and list row is a
-   `<div data-slate-type="p">` (list rows wrap a single `<ul><li>`), carrying
-   editor utility classes (`m-0 p-0 py-1`) that this app's Tailwind build never
-   emits — so they don't cancel `prose`'s default `ul`/`li` margins and the gaps
-   between bullets balloon. Normalise spacing off the stable data-slate-*
-   attributes so reading rhythm is consistent for all stored + future content. */
-.prose-signhr [data-slate-type="p"] {
+   The body is the Plate editor's serialized DOM: every paragraph and list row is
+   a `<div class="slate-p …">`, and each bullet/number is its own single-item
+   `<ul>`/`<ol>` inside a `slate-indent-*` row. ArticleBody sanitises the HTML and
+   strips `style` + every `data-slate-*` attribute (keeping only `class`/`id`), so
+   spacing must key off the surviving `slate-*` classes — not the data attributes —
+   otherwise `prose`'s default `ul`/`li` margins balloon the gaps between bullets. */
+.prose-signhr .slate-p {
   margin: 0;
   padding: 0;
 }
-.prose-signhr [data-slate-type="p"] + [data-slate-type="p"] {
+.prose-signhr .slate-p + .slate-p {
   margin-top: 0.9em;
 }
-/* List rows are individual blocks; keep them tight, like real list items. */
-.prose-signhr [data-slate-list-style-type] + [data-slate-list-style-type] {
+/* List rows are individual single-item lists; keep them tight, like real list
+   items. `slate-indent-*` marks every nested level, so nested bullets tighten too.
+   Declared after the paragraph rule so it wins for rows (equal specificity). */
+.prose-signhr [class*="slate-indent-"] + [class*="slate-indent-"] {
   margin-top: 0.35em;
 }
-.prose-signhr [data-slate-type="p"] :is(ul, ol) {
+.prose-signhr .slate-p :is(ul, ol) {
   margin: 0;
 }
-.prose-signhr [data-slate-type="p"] li {
+.prose-signhr .slate-p li {
   margin: 0;
   padding: 0;
 }
 /* Breathing room when a heading follows body content. */
-.prose-signhr [data-slate-type="p"] + :is(h2, h3) {
+.prose-signhr .slate-p + :is(h2, h3) {
   margin-top: 1.6em;
 }
 
