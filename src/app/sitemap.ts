@@ -12,6 +12,7 @@ const STATIC_ROUTES: Array<{ path: string; priority?: number; changeFreq?: Metad
   { path: "/about", priority: 0.6, changeFreq: "monthly" },
   { path: "/blog", priority: 0.8, changeFreq: "weekly" },
   { path: "/download", priority: 0.7, changeFreq: "monthly" },
+  { path: "/download/releases", priority: 0.5, changeFreq: "weekly" },
   { path: "/changelog", priority: 0.7, changeFreq: "weekly" },
   { path: "/book-demo", priority: 0.9, changeFreq: "monthly" },
   { path: "/contact", priority: 0.5, changeFreq: "yearly" },

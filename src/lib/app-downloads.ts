@@ -1,4 +1,4 @@
-export type AppPlatformKey = "ios" | "android" | "macos" | "windows";
+export type AppPlatformKey = "ios" | "android" | "macos" | "windows" | "linux";
 
 export type AppPlatform = {
   key: AppPlatformKey;
@@ -47,6 +47,11 @@ export const APP_DOWNLOADS: AppPlatform[] = [
   {
     key: "windows",
     label: "Windows",
+    href: null,
+  },
+  {
+    key: "linux",
+    label: "Linux",
     href: null,
   },
 ];
