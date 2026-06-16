@@ -40,6 +40,9 @@ const blogPostTag = (slug: string) => `blog:post:${slug}`;
 const CAREERS_TAG = "careers";
 const careerJobTag = (slug: string) => `careers:job:${slug}`;
 
+/** Marketplace cache tag — must mirror src/lib/marketplace.ts (MARKETPLACE_TAG). */
+const MARKETPLACE_TAG = "marketplace";
+
 export async function POST(req: NextRequest) {
   if (!SECRET) {
     return NextResponse.json(
@@ -121,6 +124,10 @@ export async function POST(req: NextRequest) {
         revalidatePath(`/careers/${workspace}/${slug}`, "page");
       }
     }
+
+    // Marketplace: a newly published job must also appear on /jobs immediately.
+    revalidateTag(MARKETPLACE_TAG, { expire: 0 });
+    revalidatePath("/jobs");
   }
 
   return NextResponse.json({
