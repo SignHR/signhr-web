@@ -2,31 +2,44 @@ import { NextResponse, type NextRequest } from "next/server";
 import { revalidatePath, revalidateTag } from "next/cache";
 
 /**
- * `BLOG_REVALIDATE_SECRET` must be set in the environment and must match
- * the backend's `config('blog.revalidate_secret')`. The backend's
- * `WebRevalidator` calls: POST {BLOG_WEB_URL}/api/revalidate?secret=…[&slug=…]
- */
-const SECRET = process.env.BLOG_REVALIDATE_SECRET;
-
-/** Cache tags — must mirror src/lib/blog.ts (BLOG_TAG / blogPostTag). */
-const BLOG_TAG = "blog";
-const blogPostTag = (slug: string) => `blog:post:${slug}`;
-
-/**
- * On-publish revalidation webhook.
+ * On-publish revalidation webhook shared by the blog and careers modules.
+ *
+ * The backend's WebRevalidator (blog) and the careers publish hook both POST
+ * here. Secret validation is the same; callers differentiate with `type`.
  *
  * Accepts the shared secret via:
  *   - query param: ?secret=…
  *   - header:      x-revalidate-secret: …
  *
- * Accepts the affected slug via:
+ * Accepts the affected slug(s) via:
  *   - query param: ?slug=…
- *   - JSON body:   { "slug": "…" }
+ *   - JSON body:   { "slug": "…" }  or  { "slugs": ["…"] }
+ *
+ * Type routing (JSON body field `type`):
+ *   - omitted / "blog" — runs blog revalidation (legacy, default)
+ *   - "careers"        — runs careers revalidation; also requires `workspace`
  *
  * Next 16: revalidateTag REQUIRES a second argument. `{ expire: 0 }` forces
  * immediate expiry (webhook-driven revalidation). The single-arg overload
  * does not exist in this version and is a TypeScript error.
  */
+
+/**
+ * Accept either REVALIDATE_SECRET (shared key for all modules) or the legacy
+ * BLOG_REVALIDATE_SECRET so that existing blog webhook configs keep working
+ * without a config change on the backend.
+ */
+const SECRET =
+  process.env.REVALIDATE_SECRET ?? process.env.BLOG_REVALIDATE_SECRET;
+
+/** Blog cache tags — must mirror src/lib/blog.ts (BLOG_TAG / blogPostTag). */
+const BLOG_TAG = "blog";
+const blogPostTag = (slug: string) => `blog:post:${slug}`;
+
+/** Careers cache tags — must mirror src/lib/careers.ts (CAREERS_TAG / careerJobTag). */
+const CAREERS_TAG = "careers";
+const careerJobTag = (slug: string) => `careers:job:${slug}`;
+
 export async function POST(req: NextRequest) {
   if (!SECRET) {
     return NextResponse.json(
@@ -46,22 +59,27 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Affected slug(s) from query param or JSON body. The backend's
-  // WebRevalidator posts `{ slugs: [...] }`; a single `?slug=`/`{ slug }` is
-  // also accepted. Absence is fine — the broad revalidation below still runs.
+  // ---------------------------------------------------------------------------
+  // Parse body once — shared by both blog and careers branches.
+  // Absence of a body, or an invalid JSON body, is fine (slugs stay empty).
+  // ---------------------------------------------------------------------------
   const slugs = new Set<string>();
   const querySlug = req.nextUrl.searchParams.get("slug");
   if (querySlug) {
     slugs.add(querySlug);
   }
+
+  type Body = { type?: string; slug?: string; slugs?: string[]; workspace?: string };
+  let body: Body | null = null;
   try {
-    const body = (await req.json()) as
-      | { slug?: string; slugs?: string[] }
-      | null;
-    if (body?.slug) {
-      slugs.add(body.slug);
+    const raw = (await req.json()) as Body | null;
+    body = raw;
+    const slug = raw?.slug;
+    const slugArr = raw?.slugs;
+    if (slug) {
+      slugs.add(slug);
     }
-    for (const s of body?.slugs ?? []) {
+    for (const s of slugArr ?? []) {
       if (typeof s === "string" && s) {
         slugs.add(s);
       }
@@ -70,17 +88,44 @@ export async function POST(req: NextRequest) {
     // No/invalid body — fine, just revalidate broadly.
   }
 
-  // Always revalidate the whole blog listing (and the home-page teasers, which
+  // ---------------------------------------------------------------------------
+  // Blog revalidation — runs when type is "blog" or omitted (legacy default).
+  // Always revalidate the whole blog listing (and home-page teasers, which
   // share the BLOG_TAG fetch).
-  revalidateTag(BLOG_TAG, { expire: 0 });
-  revalidatePath("/blog");
-  revalidatePath("/blog/[slug]", "page");
+  // ---------------------------------------------------------------------------
+  if (!body?.type || body.type === "blog") {
+    revalidateTag(BLOG_TAG, { expire: 0 });
+    revalidatePath("/blog");
+    revalidatePath("/blog/[slug]", "page");
 
-  // Per-post revalidation for each affected slug.
-  for (const slug of slugs) {
-    revalidateTag(blogPostTag(slug), { expire: 0 });
-    revalidatePath(`/blog/${slug}`);
+    // Per-post revalidation for each affected slug.
+    for (const slug of slugs) {
+      revalidateTag(blogPostTag(slug), { expire: 0 });
+      revalidatePath(`/blog/${slug}`);
+    }
   }
 
-  return NextResponse.json({ revalidated: true, now: Date.now() });
+  // ---------------------------------------------------------------------------
+  // Careers revalidation — runs when type === "careers".
+  // Revalidates the workspace listing and any specific job slugs provided.
+  // ---------------------------------------------------------------------------
+  if (body?.type === "careers") {
+    const workspace = body.workspace ?? "";
+    revalidateTag(CAREERS_TAG, { expire: 0 });
+    if (workspace) {
+      revalidatePath(`/careers/${workspace}`, "page");
+    }
+    for (const slug of slugs) {
+      revalidateTag(careerJobTag(slug), { expire: 0 });
+      if (workspace) {
+        revalidatePath(`/careers/${workspace}/${slug}`, "page");
+      }
+    }
+  }
+
+  return NextResponse.json({
+    revalidated: true,
+    type: body?.type ?? "blog",
+    now: Date.now(),
+  });
 }
