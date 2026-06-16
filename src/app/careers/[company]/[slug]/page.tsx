@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Section } from "@/components/layout/section";
 import { Container } from "@/components/layout/container";
 import { Badge } from "@/components/ui/badge";
+import { Download } from "lucide-react";
 import { JsonLd } from "@/components/seo/json-ld";
 import { SITE_URL } from "@/lib/utils";
 import { getCompanyJob } from "@/lib/careers";
@@ -308,7 +309,7 @@ export default async function JobDetailPage({ params }: Props) {
           {job.skills.length > 0 && (
             <div className="mt-5 flex flex-wrap gap-2">
               {job.skills.map((skill) => (
-                <Badge key={skill} variant="glass">
+                <Badge key={skill} variant="default">
                   {skill}
                 </Badge>
               ))}
@@ -316,13 +317,25 @@ export default async function JobDetailPage({ params }: Props) {
           )}
 
           {/* Apply CTA */}
-          <div className="mt-8">
+          <div className="mt-8 flex flex-wrap items-center gap-3">
             <Link
               href={`/careers/${company}/${slug}/apply`}
               className="inline-flex items-center justify-center rounded-full bg-brand-500 px-8 py-3 text-[15px] font-semibold text-white shadow-sm transition-colors hover:bg-brand-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
             >
               Apply Now
             </Link>
+            {job.jd_file && (
+              <a
+                href={job.jd_file}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-6 py-3 text-[15px] font-semibold text-ink shadow-sm transition-colors hover:bg-ink/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500"
+              >
+                <Download className="size-4" aria-hidden />
+                Download job description
+              </a>
+            )}
           </div>
         </Container>
       </Section>
@@ -331,7 +344,7 @@ export default async function JobDetailPage({ params }: Props) {
       <Section pad="standard">
         <Container size="sm">
           <div
-            className="prose prose-gray max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline"
+            className="prose prose-signhr max-w-none prose-headings:font-semibold prose-headings:tracking-tight prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline"
             dangerouslySetInnerHTML={{ __html: job.description }}
           />
 

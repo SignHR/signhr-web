@@ -49,6 +49,8 @@ interface PublicJobListResource {
 
 interface PublicJobResource extends PublicJobListResource {
   description: string; // HTML
+  jd_file: string | null;
+  jd_file_name: string | null;
   location: { id: number; name: string } | null;
   openings: number | null;
   screening_questions: PublicScreeningQuestionResource[];
@@ -100,6 +102,10 @@ export interface PublicJobListItem {
 /** A single job detail as returned by /careers/{workspace}/jobs/{slug} */
 export interface PublicJob extends PublicJobListItem {
   description: string; // HTML
+  /** Absolute URL to the recruiter-uploaded JD file, or null. */
+  jd_file: string | null;
+  /** Original filename of the uploaded JD, used as the download label. */
+  jd_file_name: string | null;
   location: { id: number; name: string } | null;
   openings: number | null;
   screening_questions: ScreeningQuestion[];
@@ -278,6 +284,8 @@ function mapJob(j: PublicJobResource): PublicJob {
   return {
     ...mapJobListItem(j),
     description: j.description,
+    jd_file: j.jd_file,
+    jd_file_name: j.jd_file_name,
     location: j.location,
     openings: j.openings,
     screening_questions: j.screening_questions.map(mapScreeningQuestion),

@@ -62,6 +62,21 @@ function formatExperience(min: number | null, max: number | null): string | null
   return null;
 }
 
+/**
+ * The marketplace (`/jobs`) and the canonical careers page are always served
+ * from the SAME signhr-web origin, so navigate same-origin (path only). The
+ * stored `public_url` is an absolute prod URL (kept for the sitemap + JSON-LD
+ * canonical, which target the real domain); using it for in-app navigation
+ * would wrongly leave the app in any non-prod environment (e.g. localhost).
+ */
+function toCareersPath(publicUrl: string): string {
+  try {
+    return new URL(publicUrl).pathname;
+  } catch {
+    return publicUrl;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Component
 // ---------------------------------------------------------------------------
@@ -91,6 +106,7 @@ export function MarketplaceJobCard({ job, className }: MarketplaceJobCardProps) 
   const workModeLabel =
     job.work_mode ? (WORK_MODE_LABELS[job.work_mode] ?? job.work_mode) : null;
   const postedAt = job.published_at ? formatPublishedAt(job.published_at) : null;
+  const careersHref = toCareersPath(job.public_url);
 
   return (
     <article
@@ -127,7 +143,7 @@ export function MarketplaceJobCard({ job, className }: MarketplaceJobCardProps) 
           </p>
         )}
         <a
-          href={job.public_url}
+          href={careersHref}
           className="text-[18px] font-semibold leading-snug tracking-tight text-ink group-hover:text-brand-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           {job.title}
@@ -182,7 +198,7 @@ export function MarketplaceJobCard({ job, className }: MarketplaceJobCardProps) 
           <span />
         )}
         <a
-          href={job.public_url}
+          href={careersHref}
           className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors group-hover:bg-brand-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
           tabIndex={-1}
           aria-hidden="true"
