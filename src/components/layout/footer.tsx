@@ -60,7 +60,7 @@ export function Footer() {
               <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-muted">
                 Get the app
               </p>
-              <AppBadges className="mt-3" platforms={["ios", "android"]} />
+              <AppBadges className="mt-3" platforms={["app_store", "play_store"]} />
             </div>
           </div>
 

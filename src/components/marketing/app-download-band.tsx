@@ -23,7 +23,7 @@ export function AppDownloadBand() {
               Punch in, approve leave, check payslips, and get push updates —
               wherever you are. Free with every SignHR workspace.
             </p>
-            <AppBadges className="mt-7" platforms={["ios", "android"]} />
+            <AppBadges className="mt-7" platforms={["app_store", "play_store"]} />
           </div>
           <div className="relative mx-auto w-full max-w-[260px]">
             <Image

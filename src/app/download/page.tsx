@@ -15,10 +15,8 @@ import { Container } from "@/components/layout/container";
 import { Section } from "@/components/layout/section";
 import { Hero } from "@/components/marketing/hero";
 import { AppBadges } from "@/components/marketing/app-badges";
-import type { AppPlatformKey } from "@/lib/app-downloads";
 import { cn } from "@/lib/utils";
-import { getLatestDesktopBuilds } from "@/lib/desktop-builds";
-import { DesktopDownload } from "@/components/marketing/desktop-download";
+import { type Platform } from "@/lib/app-downloads-types";
 
 export const metadata: Metadata = {
   title: "Download the SignHR HR App — iOS & Android",
@@ -36,7 +34,7 @@ type PlatformBandProps = {
   title: ReactNode;
   description: string;
   features: string[];
-  platforms: AppPlatformKey[];
+  platforms: Platform[];
   visual: ReactNode;
   /** Place the visual on the left (copy on the right) at lg+ for layout rhythm. */
   flip?: boolean;
@@ -122,11 +120,7 @@ const BENEFITS: { icon: LucideIcon; title: string; desc: string }[] = [
   },
 ];
 
-export default async function DownloadPage() {
-  const desktopBuilds = await getLatestDesktopBuilds();
-  const hasDesktopBuild =
-    !!desktopBuilds && (!!desktopBuilds.windows || !!desktopBuilds.macos || !!desktopBuilds.linux);
-
+export default function DownloadPage() {
   return (
     <>
       <Hero
@@ -158,7 +152,7 @@ export default async function DownloadPage() {
               "Approve or raise leave & requests on the go",
               "Payslips & documents in your pocket",
             ]}
-            platforms={["ios", "android"]}
+            platforms={["app_store", "play_store"]}
             visual={
               <div className="relative mx-auto w-full max-w-[280px]">
                 <Image
@@ -176,38 +170,34 @@ export default async function DownloadPage() {
 
           <hr className="my-14 border-border md:my-16" />
 
-          {hasDesktopBuild && desktopBuilds ? (
-            <DesktopDownload builds={desktopBuilds} />
-          ) : (
-            <PlatformBand
-              section="Desktop App"
-              eyebrow="Desktop · Coming soon"
-              flip
-              title={
-                <>
-                  The full picture, <em className="serif-italic">on your desk</em>
-                </>
-              }
-              description="A native desktop app for Windows, macOS and Linux — the complete SignHR dashboard with native notifications, built for the people who run HR all day."
-              features={[
-                "Full dashboard & reports, native and fast",
-                "Desktop notifications for approvals & pings",
-                "Sign in once — stays signed in",
-              ]}
-              platforms={["macos", "windows", "linux"]}
-              visual={
-                <div className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-2xl shadow-[0_40px_80px_-30px_rgba(45,30,90,0.35)]">
-                  <Image
-                    src="/assets/dashboard.webp"
-                    alt="SignHR desktop dashboard"
-                    width={2926}
-                    height={1647}
-                    className="block h-auto w-full"
-                  />
-                </div>
-              }
-            />
-          )}
+          <PlatformBand
+            section="Desktop App"
+            eyebrow="Desktop · Coming soon"
+            flip
+            title={
+              <>
+                The full picture, <em className="serif-italic">on your desk</em>
+              </>
+            }
+            description="A native desktop app for Windows, macOS and Linux — the complete SignHR dashboard with native notifications, built for the people who run HR all day."
+            features={[
+              "Full dashboard & reports, native and fast",
+              "Desktop notifications for approvals & pings",
+              "Sign in once — stays signed in",
+            ]}
+            platforms={["macos", "windows", "linux"]}
+            visual={
+              <div className="relative mx-auto w-full max-w-[560px] overflow-hidden rounded-2xl shadow-[0_40px_80px_-30px_rgba(45,30,90,0.35)]">
+                <Image
+                  src="/assets/dashboard.webp"
+                  alt="SignHR desktop dashboard"
+                  width={2926}
+                  height={1647}
+                  className="block h-auto w-full"
+                />
+              </div>
+            }
+          />
         </Container>
       </Section>
 
