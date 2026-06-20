@@ -171,7 +171,7 @@ export default async function FeatureDetailPage({ params }: Props) {
               side={spot.side}
               action={
                 spot.anchor === "mobile" ? (
-                  <AppBadges platforms={["ios", "android"]} />
+                  <AppBadges platforms={["app_store", "play_store"]} />
                 ) : undefined
               }
               visual={

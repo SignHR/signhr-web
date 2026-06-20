@@ -1,57 +1,104 @@
-export type AppPlatformKey = "ios" | "android" | "macos" | "windows" | "linux";
+import "server-only";
+import {
+  DESKTOP_PLATFORMS,
+  MOBILE_PLATFORMS,
+  type AppDownload,
+  type Platform,
+} from "./app-downloads-types";
 
-export type AppPlatform = {
-  key: AppPlatformKey;
-  /** Shown on the "Coming soon" pill and the desktop download button. */
-  label: string;
-  /** null → "Coming soon". Set to a real store/download URL to go live. */
-  href: string | null;
-  /** Official store badge asset (used for iOS/Android once live). */
-  badge?: { src: string; width: number; height: number; alt: string };
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+/** Cache tag for app-download fetches — lets a future webhook flush on edit. */
+export const APP_DOWNLOADS_TAG = "app-downloads";
+
+/**
+ * ISR window (5 min) — balances freshness against load for rarely-changing
+ * download links. For instant updates, pair with on-demand revalidation
+ * (revalidateTag on the `app-downloads` tag from an admin publish hook), as
+ * careers/marketplace do.
+ */
+const APP_DOWNLOADS_REVALIDATE_SECONDS = 300;
+
+/** Canonical presentation order, mirroring the backend `DownloadPlatform` enum. */
+const PLATFORM_ORDER: Platform[] = [...MOBILE_PLATFORMS, ...DESKTOP_PLATFORMS];
+
+/** Static labels for the offline fallback only — the live API supplies `label`. */
+const PLATFORM_LABELS: Record<Platform, string> = {
+  app_store: "App Store",
+  play_store: "Google Play",
+  macos: "macOS",
+  windows: "Windows",
+  linux: "Linux",
 };
 
-// To go live: set `href` to the store/download URL. iOS/Android badge assets live
-// in public/ (official store badges, used unaltered per Apple/Google brand
-// guidelines). macOS/Windows render a "Coming soon" pill until they get an href.
-export const APP_DOWNLOADS: AppPlatform[] = [
-  {
-    key: "ios",
-    label: "App Store",
-    href: "https://apps.apple.com/in/app/signhr/id6767882933",
-    badge: {
-      src: "/app-store-badge.webp",
-      width: 120,
-      height: 40,
-      alt: "Download SignHR on the App Store",
-    },
-  },
-  {
-    key: "android",
-    label: "Google Play",
-    href: "https://play.google.com/store/apps/details?id=com.st.signhr",
-    badge: {
-      src: "/google-play-badge.webp",
-      width: 130,
-      height: 40,
-      alt: "Get SignHR on Google Play",
-    },
-  },
-  // Desktop apps — render a "Coming soon" pill until they get a download URL.
-  // To go live: set `href` to the installer/download link (e.g. a .dmg / .exe
-  // or a releases page).
-  {
-    key: "macos",
-    label: "macOS",
-    href: null,
-  },
-  {
-    key: "windows",
-    label: "Windows",
-    href: null,
-  },
-  {
-    key: "linux",
-    label: "Linux",
-    href: null,
-  },
-];
+/** ResponseBuilder envelope — the collection lives under `data.app_downloads`. */
+interface Envelope {
+  data?: { app_downloads?: AppDownload[] };
+}
+
+/** Every platform marked unavailable — graceful fallback when the API is down. */
+function fallbackDownloads(): AppDownload[] {
+  return PLATFORM_ORDER.map((platform) => ({
+    platform,
+    label: PLATFORM_LABELS[platform],
+    is_mobile: MOBILE_PLATFORMS.includes(platform),
+    available: false,
+    version: null,
+    file_size_bytes: null,
+    download_url: null,
+  }));
+}
+
+/**
+ * The five platforms with their current download state, from the admin-managed
+ * `app_downloads` API. ISR-cached (1h) and tagged so edits can be flushed on
+ * demand. Degrades to "all coming soon" on any fetch/parse failure rather than
+ * throwing, so the page never errors when the API is unreachable.
+ */
+export async function getAppDownloads(): Promise<AppDownload[]> {
+  if (!API_URL) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(
+        "[app-downloads] NEXT_PUBLIC_API_URL is not set — download links unavailable.",
+      );
+    }
+    return fallbackDownloads();
+  }
+
+  try {
+    const res = await fetch(`${API_URL}/builds/app-downloads`, {
+      headers: { Accept: "application/json" },
+      next: {
+        revalidate: APP_DOWNLOADS_REVALIDATE_SECONDS,
+        tags: [APP_DOWNLOADS_TAG],
+      },
+    });
+
+    if (!res.ok) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error(
+          `[app-downloads] GET /builds/app-downloads → HTTP ${res.status}`,
+        );
+      }
+      return fallbackDownloads();
+    }
+
+    const json = (await res.json()) as Envelope;
+    const rows = json.data?.app_downloads;
+    if (!rows || rows.length === 0) return fallbackDownloads();
+
+    // Defensive: present in the canonical platform order regardless of API order.
+    return [...rows].sort(
+      (a, b) =>
+        PLATFORM_ORDER.indexOf(a.platform) - PLATFORM_ORDER.indexOf(b.platform),
+    );
+  } catch (err) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(
+        "[app-downloads] GET /builds/app-downloads failed:",
+        (err as Error)?.message,
+      );
+    }
+    return fallbackDownloads();
+  }
+}

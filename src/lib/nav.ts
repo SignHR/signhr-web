@@ -265,6 +265,7 @@ export const PRIMARY_NAV: Array<{
   { label: "Features", type: "mega-features" },
   { label: "Pricing", href: "/pricing", type: "link" },
   { label: "Customers", href: "/customers", type: "link" },
+  { label: "Jobs", href: "/jobs", type: "link" },
   { label: "Contact", href: "/contact", type: "link" },
   { label: "Download", href: "/download", type: "link" },
 ];
