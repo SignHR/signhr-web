@@ -13,6 +13,9 @@ import {
   Target,
   BarChart3,
   Megaphone,
+  MapPin,
+  KanbanSquare,
+  ListChecks,
   Plug,
   BookOpen,
   FileText,
@@ -27,7 +30,7 @@ export type FeatureModule = {
   name: string;
   href: string; // live → "/features/<slug>"; some live modules deep-link into another page; roadmap → "/features#roadmap"
   icon: LucideIcon;
-  group: "core" | "time" | "lifecycle" | "platform";
+  group: "core" | "time" | "lifecycle" | "platform" | "ops";
   status: "live" | "soon";
   short: string;
   roadmapBullets?: string[]; // shown on the /features "On the roadmap" cards
@@ -90,6 +93,15 @@ export const FEATURE_MODULES: FeatureModule[] = [
     status: "live",
     short: "Every approval, automated end-to-end.",
   },
+  {
+    slug: "geo-tracking",
+    name: "Geo Tracking",
+    href: "/features/geo-tracking",
+    icon: MapPin,
+    group: "time",
+    status: "live",
+    short: "GPS-stamped punches, geofenced sites, and a map of where work happened.",
+  },
   // --- lifecycle ---
   {
     slug: "onboarding",
@@ -112,12 +124,11 @@ export const FEATURE_MODULES: FeatureModule[] = [
   {
     slug: "recruitment",
     name: "Recruitment & Hiring",
-    href: "/features#roadmap",
+    href: "/features/recruitment",
     icon: Briefcase,
     group: "lifecycle",
-    status: "soon",
+    status: "live",
     short: "Source, track & hire — applicant tracking built in.",
-    roadmapBullets: ["Job openings & ATS", "Candidate pipeline & interviews", "Resume & candidate database"],
   },
   // --- platform ---
   {
@@ -160,12 +171,11 @@ export const FEATURE_MODULES: FeatureModule[] = [
   {
     slug: "reports",
     name: "Reports & Analytics",
-    href: "/features#roadmap",
+    href: "/features/reports",
     icon: BarChart3,
     group: "platform",
-    status: "soon",
+    status: "live",
     short: "Turn your people data into decisions.",
-    roadmapBullets: ["Workforce analytics", "Department-level reports", "Custom & exportable reports"],
   },
   {
     slug: "communication",
@@ -186,6 +196,25 @@ export const FEATURE_MODULES: FeatureModule[] = [
     status: "soon",
     short: "WhatsApp, Slack, biometric, API — connect it all.",
     roadmapBullets: ["WhatsApp, Email & Calendar", "Slack / Teams", "Biometric devices & REST API"],
+  },
+  // --- ops ---
+  {
+    slug: "tasks",
+    name: "Task & Project Management",
+    href: "/features/tasks",
+    icon: KanbanSquare,
+    group: "ops",
+    status: "live",
+    short: "Projects, boards, timelines and automation — work tracking built in.",
+  },
+  {
+    slug: "checklists",
+    name: "Checklists",
+    href: "/features/checklists",
+    icon: ListChecks,
+    group: "ops",
+    status: "live",
+    short: "Recurring frontline checklists with photo, GPS and numeric proof.",
   },
 ];
 
@@ -208,6 +237,11 @@ export const FEATURE_GROUPS: Array<{
     id: "lifecycle",
     label: "Lifecycle",
     blurb: "From offer letter to final settlement.",
+  },
+  {
+    id: "ops",
+    label: "Operations",
+    blurb: "Day-to-day execution — tasks, projects, and field checklists.",
   },
   {
     id: "platform",

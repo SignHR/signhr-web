@@ -67,6 +67,7 @@ function mapAuthor(a: PublicArticleResource["author"]): Author {
     role: a?.role ?? "",
     initials: a?.initials ?? "",
     accent: a?.accent ?? "purple",
+    avatar: a?.avatar ?? null,
   };
 }
 

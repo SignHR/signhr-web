@@ -7,7 +7,7 @@ import { GradientHalo } from "@/components/marketing/gradient-halo";
 
 const QUICK_LINKS = [
   { href: "/", label: "Home", icon: Home, description: "The product, in one page." },
-  { href: "/features", label: "Features", icon: Sparkles, description: "All ten modules." },
+  { href: "/features", label: "Features", icon: Sparkles, description: "Every module, in one place." },
   { href: "/pricing", label: "Pricing", icon: Wallet, description: "Per-employee, simple." },
   { href: "/blog", label: "Blog", icon: BookOpen, description: "Field notes from the team." },
 ];

@@ -4,7 +4,13 @@ import type { Author } from "@/lib/blog-types";
 export function AuthorCard({ author }: { author: Author }) {
   return (
     <aside className="flex flex-wrap items-center gap-5 rounded-2xl border border-border bg-card p-6">
-      <Avatar initials={author.initials} accent={author.accent} size={14} />
+      <Avatar
+        initials={author.initials}
+        accent={author.accent}
+        size={14}
+        src={author.avatar}
+        name={author.name}
+      />
       <div className="min-w-0 flex-1">
         <p className="text-[15px] font-semibold text-ink">{author.name}</p>
         <p className="text-[13px] text-ink-muted">{author.role} · SignHR</p>

@@ -25,7 +25,7 @@ export const CORE_HR = {
 export type AddonUnit = "per-emp-month" | "flat-month";
 
 export type Addon = {
-  id: "tasks" | "geo" | "askhr" | "activity" | "reports";
+  id: "tasks" | "geo" | "activity" | "reports" | "askhr" | "ai-recruitment";
   name: string;
   blurb: string;
   price: number; // INR
@@ -48,13 +48,6 @@ export const ADDONS: Addon[] = [
     unit: "per-emp-month",
   },
   {
-    id: "askhr",
-    name: "AI HR",
-    blurb: "AI HR assistant — answers leave and pay questions from live data, policy cited.",
-    price: 50,
-    unit: "flat-month",
-  },
-  {
     id: "activity",
     name: "Activity Tracking",
     blurb: "Track app and screen activity to see how work hours are really spent.",
@@ -66,6 +59,20 @@ export const ADDONS: Addon[] = [
     name: "Reports",
     blurb: "Ready-made dashboards and exports across headcount, attendance, leave, and payroll.",
     price: 40,
+    unit: "flat-month",
+  },
+  {
+    id: "askhr",
+    name: "AI HR",
+    blurb: "AI HR assistant — answers leave and pay questions from live data, policy cited.",
+    price: 50,
+    unit: "flat-month",
+  },
+  {
+    id: "ai-recruitment",
+    name: "AI Powered Recruitment",
+    blurb: "AI-assisted hiring — screen, shortlist, and rank candidates automatically.",
+    price: 20,
     unit: "flat-month",
   },
 ];
@@ -89,6 +96,7 @@ export type QuoteLine = {
   label: string;
   unit: AddonUnit;
   unitPrice: number; // INR — per employee/month, or flat/month
+  employees: number; // headcount applied to this line (per-emp lines); 0 for flat lines
   monthlyBase: number; // INR/month for this line, before the term discount
 };
 
@@ -105,51 +113,60 @@ const round1 = (n: number): number => Math.round(n * 10) / 10;
 
 /**
  * Pure pricing calculator. The term discount applies to the whole bundle,
- * including AI HR's flat fee.
+ * including AI HR's flat fee. Each selected per-employee add-on can carry its
+ * own headcount via `addonEmployees`; when omitted it falls back to `employees`
+ * (the Core headcount). Flat add-ons ignore `addonEmployees`.
  */
 export function computeQuote({
   employees,
   addonIds,
   termId,
+  addonEmployees,
 }: {
   employees: number;
   addonIds: Addon["id"][];
   termId: BillingTerm["id"];
+  addonEmployees?: Partial<Record<Addon["id"], number>>;
 }): Quote {
   const term = BILLING_TERMS.find((t) => t.id === termId) ?? BILLING_TERMS[0];
   const multiplier = 1 - term.discount;
   const emp = employees > 0 ? employees : 1;
 
+  // Headcount for a per-employee add-on: its own count if given (and valid),
+  // otherwise the Core headcount.
+  const addonEmp = (id: Addon["id"]): number => {
+    const n = addonEmployees?.[id];
+    return n !== undefined && n > 0 ? n : emp;
+  };
+
   const selected = ADDONS.filter((a) => addonIds.includes(a.id));
-  const perEmpAddon = selected
-    .filter((a) => a.unit === "per-emp-month")
-    .reduce((sum, a) => sum + a.price, 0);
-  const flatAddon = selected
-    .filter((a) => a.unit === "flat-month")
-    .reduce((sum, a) => sum + a.price, 0);
 
-  const perEmpMonthBase = CORE_HR.basePerEmpMonth + perEmpAddon;
-  const monthlyBase = perEmpMonthBase * emp + flatAddon;
-
-  // Itemised base amounts (pre-discount); their sum equals `monthlyBase`, so the
-  // breakdown always reconciles to the displayed total once the term discount is
-  // applied. Add-on lines follow ADDONS order.
+  // Itemised base amounts (pre-discount). Their sum is the bundle's monthly
+  // base, so the breakdown always reconciles to the displayed total once the
+  // term discount is applied. Add-on lines follow ADDONS order.
   const lines: QuoteLine[] = [
     {
       id: "core",
       label: CORE_HR.name,
       unit: "per-emp-month",
       unitPrice: CORE_HR.basePerEmpMonth,
+      employees: emp,
       monthlyBase: CORE_HR.basePerEmpMonth * emp,
     },
-    ...selected.map((a) => ({
-      id: a.id,
-      label: a.name,
-      unit: a.unit,
-      unitPrice: a.price,
-      monthlyBase: a.unit === "per-emp-month" ? a.price * emp : a.price,
-    })),
+    ...selected.map((a): QuoteLine => {
+      const lineEmp = a.unit === "per-emp-month" ? addonEmp(a.id) : 0;
+      return {
+        id: a.id,
+        label: a.name,
+        unit: a.unit,
+        unitPrice: a.price,
+        employees: lineEmp,
+        monthlyBase: a.unit === "per-emp-month" ? a.price * lineEmp : a.price,
+      };
+    }),
   ];
+
+  const monthlyBase = lines.reduce((sum, l) => sum + l.monthlyBase, 0);
 
   return {
     perEmpMonth: round1(CORE_HR.basePerEmpMonth * multiplier),
@@ -162,16 +179,12 @@ export function computeQuote({
 
 export const PRICING_FAQ = [
   {
-    q: "Is there a free trial?",
-    a: "Yes — 3 months, no credit card. Invite your whole team and use every Core HR feature during the trial.",
-  },
-  {
     q: "How does per-employee pricing work?",
     a: "Core HR is ₹15 per active employee per month. New hires count from their join date; departures stop counting on their last working day.",
   },
   {
     q: "How are the add-ons billed?",
-    a: "Task Management (₹5), Geo Tagging (₹30), and Activity Tracking (₹50) are billed per employee per month. AI HR (₹50) and Reports (₹40) are flat per month, regardless of headcount. Add-ons sit on top of Core HR and can be turned on or off anytime.",
+    a: "Task Management (₹5), Geo Tagging (₹30), and Activity Tracking (₹50) are billed per employee per month. AI HR (₹50), Reports (₹40), and AI Powered Recruitment (₹20) are flat per month, regardless of headcount. Add-ons sit on top of Core HR and can be turned on or off anytime.",
   },
   {
     q: "What do the 1-year and 3-year terms save me?",

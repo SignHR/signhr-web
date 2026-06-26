@@ -109,10 +109,10 @@ export function CoreHrCard({ defaultTermId = "3y", className }: CoreHrCardProps)
             className="w-full"
             plan={`Core HR · ${term.label}`}
           >
-            Start free trial
+            Book a demo
           </DemoCta>
           <p className="mt-3 text-center text-[11px] text-ink-muted">
-            3-month free trial · no card · cancel anytime
+            No setup fee · cancel anytime
           </p>
         </div>
       </div>

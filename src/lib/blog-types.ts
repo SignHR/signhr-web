@@ -3,6 +3,7 @@ export type Author = {
   role: string;
   initials: string;
   accent: "purple" | "amber" | "blue" | "green";
+  avatar?: string | null;
 };
 
 export type BlogCategory =

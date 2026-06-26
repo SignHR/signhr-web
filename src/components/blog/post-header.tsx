@@ -40,7 +40,12 @@ export function PostHeader({ post }: { post: BlogPost }) {
         </p>
 
         <div className="mt-8 flex items-center gap-3">
-          <Avatar initials={post.author.initials} accent={post.author.accent} />
+          <Avatar
+            initials={post.author.initials}
+            accent={post.author.accent}
+            src={post.author.avatar}
+            name={post.author.name}
+          />
           <div>
             <p className="text-sm font-semibold text-ink">{post.author.name}</p>
             <p className="text-[13px] text-ink-muted">{post.author.role}</p>

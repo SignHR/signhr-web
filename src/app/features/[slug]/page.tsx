@@ -95,7 +95,7 @@ export default async function FeatureDetailPage({ params }: Props) {
         }
         description={page.hero.description}
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
-        secondaryCta={{ label: "Start free trial", href: "/book-demo?plan=growth" }}
+        secondaryCta={{ label: "See pricing", href: "/pricing" }}
       />
 
       {/* Big hero visual band */}
@@ -177,9 +177,9 @@ export default async function FeatureDetailPage({ params }: Props) {
               visual={
                 spot.image ? (
                   <SpotlightImage {...spot.image} />
-                ) : (
+                ) : spot.mockup ? (
                   <SpotlightMockupView mockup={spot.mockup} />
-                )
+                ) : null
               }
             />
           </Container>

@@ -120,7 +120,7 @@ export default function DevPage() {
             description="Policies, balances, calendar views, and one-click approvals. Built for hybrid and global teams that want a real break."
             primaryCta={{ label: "Book a demo", href: "/book-demo" }}
             secondaryCta={{ label: "See pricing", href: "/pricing" }}
-            trust="No credit card required · Set up in 10 minutes"
+            trust="Set up in 10 minutes"
           />
         </div>
       </DevSection>

@@ -39,10 +39,54 @@ type Release = {
 
 const RELEASES: Release[] = [
   {
+    version: "v2.8.0",
+    date: "June 24, 2026",
+    title: "Tasks, Checklists & Geo Tracking",
+    highlight: true,
+    entries: [
+      {
+        kind: "feature",
+        title: "Tasks & Projects",
+        body: "Organise work into projects and track it on a board, calendar or Gantt timeline. Subtasks, dependencies, automation rules, custom fields, and comments with @mentions — assigned to the people you already manage.",
+      },
+      {
+        kind: "feature",
+        title: "Operational checklists",
+        body: "Recurring checklists for frontline teams, assigned to users, roles or departments, with photo, GPS, numeric and pass/fail proof on every item — and a compliance dashboard showing who did what.",
+      },
+      {
+        kind: "feature",
+        title: "Geo tracking for attendance",
+        body: "Geofence your offices and sites, GPS-stamp every punch against the allowed area, see it on a map, and get a logged reason on every automatic clock-out.",
+      },
+    ],
+  },
+  {
+    version: "v2.7.0",
+    date: "June 16, 2026",
+    title: "Recruitment & Reports",
+    entries: [
+      {
+        kind: "feature",
+        title: "Recruitment & hiring",
+        body: "A full applicant tracking system — job openings, a drag-and-drop candidate pipeline, screening questions, interview scorecards and offer letters — that converts a hire into an employee in one step.",
+      },
+      {
+        kind: "feature",
+        title: "Reports & analytics",
+        body: "Forty-plus ready reports across attendance, leave, payroll, tasks and workforce, plus a live KPI dashboard, rich filters, and PDF/Excel/CSV export.",
+      },
+      {
+        kind: "improvement",
+        title: "Scheduled report alerts",
+        body: "Schedule any report to email itself to people, teams, departments or managers on a daily, weekly or monthly cadence.",
+      },
+    ],
+  },
+  {
     version: "v2.6.0",
     date: "June 2, 2026",
     title: "Ask HR is live",
-    highlight: true,
     entries: [
       {
         kind: "feature",
@@ -179,13 +223,11 @@ const ROADMAP = [
     items: [
       "Integrations — WhatsApp, Slack / Teams, biometric devices, and a REST API",
       "Performance — goals, reviews & appraisals, and 360° feedback",
-      "Reports & analytics — workforce dashboards and custom, exportable reports",
     ],
   },
   {
     quarter: "Q4 2026",
     items: [
-      "Recruitment & ATS — job openings, candidate pipeline, and interviews",
       "Communication & engagement — announcements, alerts, and birthday/anniversary nudges",
       "Expanded mobile app — more of the workspace in your pocket",
     ],

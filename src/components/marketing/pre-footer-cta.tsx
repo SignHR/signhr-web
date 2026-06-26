@@ -9,7 +9,7 @@ import { DemoCta } from "@/components/marketing/demo-cta";
 const USP_POINTS = [
   { title: "Fast setup", body: "Live in a day, not a quarter. No implementation consultants." },
   { title: "One place, not fewer features", body: "Core HR, attendance, leave & onboarding — connected, not twelve apps." },
-  { title: "Transparent pricing", body: "Pay for what you turn on. No setup fee, no card to start." },
+  { title: "Transparent pricing", body: "Pay for what you turn on. No setup fee, no lock-in." },
   { title: "Scales with you", body: "From 20 to 500+ without re-platforming." },
   { title: "HR they open daily", body: "Self-service so good your team would rather use it than email HR." },
   { title: "Made for India", body: "Comp-off, multi-location & statutory-aware payroll inputs." },
@@ -52,7 +52,7 @@ export function PreFooterCta() {
               <ArrowRight className="size-4" aria-hidden />
             </DemoCta>
             <p className="mt-3 text-[12px] text-ink-muted">
-              No credit card · 3-month free trial
+              No setup fee · no lock-in
             </p>
           </div>
 

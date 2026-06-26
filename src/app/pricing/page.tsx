@@ -26,7 +26,7 @@ import {
 export const metadata: Metadata = {
   title: "HR Software Pricing in India",
   description:
-    "Simple per-employee HR software pricing in INR — Core HR from ₹15/employee/month plus add-ons. 1- & 3-year terms save 10–20%. 3-month free trial, no card.",
+    "Simple per-employee HR software pricing in INR — Core HR from ₹15/employee/month plus add-ons. 1- & 3-year terms save 10–20%.",
   alternates: { canonical: "/pricing" },
 };
 
@@ -75,7 +75,7 @@ const PRODUCT_LD = {
   "@type": ["Product", "SoftwareApplication"],
   name: "SignHR",
   description:
-    "All-in-one AI-powered HR software for Indian teams. One Core HR plan plus optional add-ons, per-employee pricing in INR with a 3-month free trial.",
+    "All-in-one AI-powered HR software for Indian teams. One Core HR plan plus optional add-ons, per-employee pricing in INR.",
   brand: { "@type": "Brand", name: "SignHR" },
   url: `${SITE_URL}/pricing`,
   image: `${SITE_URL}/opengraph-image`,
@@ -127,7 +127,7 @@ export default function PricingPage() {
             Simple pricing. <em className="serif-italic">No surprises.</em>
           </>
         }
-        description="One Core HR plan, optional add-ons, billed per active employee. Free 3-month trial on every plan. All prices in INR, exclusive of GST."
+        description="One Core HR plan, optional add-ons, billed per active employee. All prices in INR, exclusive of GST."
       />
 
       <Section pad="standard" className="-mt-12">

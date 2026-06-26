@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Star, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blog-types";
@@ -54,6 +55,8 @@ export function PostCard({
               <Avatar
                 initials={post.author.initials}
                 accent={post.author.accent}
+                src={post.author.avatar}
+                name={post.author.name}
               />
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-ink">
@@ -97,6 +100,8 @@ export function PostCard({
           <Avatar
             initials={post.author.initials}
             accent={post.author.accent}
+            src={post.author.avatar}
+            name={post.author.name}
           />
           <div className="min-w-0">
             <p className="truncate text-[12px] font-medium text-ink">
@@ -116,18 +121,37 @@ export function Avatar({
   initials,
   accent,
   size = 9,
+  src,
+  name,
 }: {
   initials: string;
   accent: string;
   size?: number;
+  src?: string | null;
+  name?: string;
 }) {
+  const px = size * 4;
+
+  if (src) {
+    return (
+      <Image
+        src={src}
+        alt={name ?? initials}
+        width={px}
+        height={px}
+        className="shrink-0 rounded-full object-cover"
+        style={{ width: `${px}px`, height: `${px}px` }}
+      />
+    );
+  }
+
   return (
     <div
       className={cn(
-        "flex size-9 items-center justify-center rounded-full bg-gradient-to-br text-[12px] font-semibold text-white",
+        "flex items-center justify-center rounded-full bg-gradient-to-br text-[12px] font-semibold text-white",
         ACCENT[accent] ?? ACCENT.purple,
       )}
-      style={{ width: `${size * 4}px`, height: `${size * 4}px` }}
+      style={{ width: `${px}px`, height: `${px}px` }}
     >
       {initials}
     </div>

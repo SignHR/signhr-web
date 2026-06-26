@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
-import { ChevronDown, Menu, ArrowRight } from "lucide-react";
+import { ChevronDown, Menu, ArrowRight, Bot } from "lucide-react";
 import { Logo } from "@/components/icons/logo";
 import { WorkspaceLoginButton } from "@/components/marketing/workspace-login-dialog";
 import { Container } from "@/components/layout/container";
@@ -159,46 +159,134 @@ export function Navbar() {
   );
 }
 
+// The Features mega-menu packs the module groups into three visual columns.
+// A group that isn't listed here will not appear in the menu — add new groups
+// here when they're introduced in FEATURE_GROUPS (nav.ts).
+const MEGA_COLUMNS = [
+  ["core", "lifecycle"],
+  ["time", "ops"],
+  ["platform"],
+] as const;
+
+// The just-shipped modules highlighted in the mega-menu "what's new" card.
+const NEW_MODULES = ["Recruitment", "Reports", "Geo Tracking", "Tasks", "Checklists"];
+
 function FeaturesMega() {
   const soon = FEATURE_MODULES.filter((m) => m.status === "soon");
   return (
-    <div className="w-[1040px] max-w-[95vw] bg-card">
-      <div className="grid grid-cols-4 gap-2 p-4">
-        {FEATURE_GROUPS.map((group) => {
-          const items = FEATURE_MODULES.filter(
-            (m) => m.group === group.id && m.status === "live",
-          );
-          if (items.length === 0) return null;
-          return (
-            <div key={group.id} className="p-3">
-              <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
-                {group.label}
-              </p>
-              <div className="flex flex-col gap-1">
-                {items.map((mod) => (
-                  <NavigationMenu.Link asChild key={mod.slug}>
-                    <Link
-                      href={mod.href}
-                      className="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-muted"
-                    >
-                      <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
-                        <mod.icon className="size-4.5" aria-hidden />
-                      </span>
-                      <span className="flex flex-col">
-                        <span className="text-sm font-medium text-ink">
-                          {mod.name}
-                        </span>
-                        <span className="text-xs leading-snug text-ink-muted">
-                          {mod.short}
-                        </span>
-                      </span>
-                    </Link>
-                  </NavigationMenu.Link>
+    <div className="w-[1200px] max-w-[96vw] bg-card">
+      <div className="flex gap-3 p-3">
+        {/* Featured rail — two stacked spotlights */}
+        <div className="flex w-[286px] shrink-0 flex-col gap-3">
+          {/* Card 1 — Ask HR spotlight */}
+          <NavigationMenu.Link asChild>
+            <Link
+              href="/features/ask-hr"
+              className="group relative flex flex-1 flex-col overflow-hidden rounded-2xl border border-brand-100 bg-gradient-to-br from-brand-100/60 via-card to-hero-dark p-5 transition-colors hover:border-brand-400/50"
+            >
+              <span
+                aria-hidden
+                className="pointer-events-none absolute -right-10 -top-10 size-40 rounded-full bg-[radial-gradient(circle,_hsl(var(--brand-400)/0.45),_transparent_70%)] blur-2xl"
+              />
+              <span className="relative z-10 inline-flex w-fit items-center rounded-full border border-brand-400/50 bg-brand-500/25 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-white">
+                AI · New
+              </span>
+              <span className="relative z-10 mt-4 flex size-11 items-center justify-center rounded-xl border border-brand-400/40 bg-brand-500/20 text-brand-600">
+                <Bot className="size-5" aria-hidden />
+              </span>
+              <span className="relative z-10 mt-3 text-[17px] font-semibold tracking-tight text-white">
+                Meet Ask HR
+              </span>
+              <span className="relative z-10 mt-1.5 text-[13px] leading-relaxed text-ink-secondary">
+                Your company&apos;s own AI HR — ask anything, answered from live
+                data &amp; policy.
+              </span>
+              <span className="relative z-10 mt-auto inline-flex items-center gap-1 pt-5 text-[13px] font-semibold text-brand-600">
+                Try Ask HR
+                <ArrowRight
+                  className="size-3.5 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </span>
+            </Link>
+          </NavigationMenu.Link>
+
+          {/* Card 2 — What's new (just-shipped modules) */}
+          <NavigationMenu.Link asChild>
+            <Link
+              href="/changelog"
+              className="group flex shrink-0 flex-col rounded-2xl border border-border bg-muted/30 p-4 transition-colors hover:border-brand-400/40 hover:bg-muted/50"
+            >
+              <span className="text-[10px] font-semibold uppercase tracking-[0.08em] text-brand-600">
+                Just shipped
+              </span>
+              <span className="mt-1.5 text-sm font-semibold text-ink">
+                5 new modules
+              </span>
+              <span className="mt-2.5 flex flex-wrap gap-1.5">
+                {NEW_MODULES.map((name) => (
+                  <span
+                    key={name}
+                    className="rounded-md border border-border bg-card px-1.5 py-0.5 text-[11px] text-ink-secondary"
+                  >
+                    {name}
+                  </span>
                 ))}
-              </div>
+              </span>
+              <span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-brand-600">
+                See changelog
+                <ArrowRight
+                  className="size-3 transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </span>
+            </Link>
+          </NavigationMenu.Link>
+        </div>
+
+        {/* Module grid */}
+        <div className="grid flex-1 grid-cols-3 gap-2">
+          {MEGA_COLUMNS.map((groupIds, col) => (
+            <div key={col} className="p-3">
+              {groupIds.map((groupId, gi) => {
+                const group = FEATURE_GROUPS.find((g) => g.id === groupId);
+                const items = FEATURE_MODULES.filter(
+                  (m) => m.group === groupId && m.status === "live",
+                );
+                if (!group || items.length === 0) return null;
+                return (
+                  <div key={groupId} className={gi > 0 ? "mt-6" : undefined}>
+                    <p className="px-2 pb-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-muted">
+                      {group.label}
+                    </p>
+                    <div className="flex flex-col gap-1">
+                      {items.map((mod) => (
+                        <NavigationMenu.Link asChild key={mod.slug}>
+                          <Link
+                            href={mod.href}
+                            className="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-muted"
+                          >
+                            <span className="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-brand-600 transition-colors group-hover:bg-brand-100">
+                              <mod.icon className="size-4.5" aria-hidden />
+                            </span>
+                            <span className="flex min-w-0 flex-col">
+                              <span className="text-sm font-medium text-ink">
+                                {mod.name}
+                              </span>
+                              <span className="line-clamp-2 text-xs leading-snug text-ink-muted">
+                                {mod.short}
+                              </span>
+                            </span>
+                          </Link>
+                        </NavigationMenu.Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
+          ))}
+        </div>
       </div>
       <div className="flex items-center justify-between gap-4 border-t border-border bg-muted/30 px-6 py-4">
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -208,7 +296,9 @@ function FeaturesMega() {
           {soon.map((m, i) => (
             <span key={m.slug} className="text-xs text-ink-muted">
               {m.name}
-              {i < soon.length - 1 && <span className="px-1 text-ink-muted/40">·</span>}
+              {i < soon.length - 1 && (
+                <span className="px-1 text-ink-muted/40">·</span>
+              )}
             </span>
           ))}
         </div>

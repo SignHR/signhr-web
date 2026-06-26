@@ -30,6 +30,15 @@ import {
   Quote,
   BookOpen,
   UserCog,
+  Briefcase,
+  BarChart3,
+  LineChart,
+  Download,
+  Crosshair,
+  MapPinned,
+  ShieldCheck,
+  LayoutGrid,
+  MessageSquare,
 } from "lucide-react";
 import { FEATURE_MODULES } from "./nav";
 
@@ -45,7 +54,7 @@ export type Spotlight = {
   body: string;
   bullets: string[];
   side: "left" | "right";
-  mockup: SpotlightMockup;
+  mockup?: SpotlightMockup;
   /** Optional id rendered on the spotlight section for deep-linking (e.g. "security", "mobile"). */
   anchor?: string;
   /** Optional real-image override; takes precedence over the synthetic mockup. */
@@ -1051,6 +1060,572 @@ export const FEATURE_PAGES: Record<string, FeaturePage> = {
       avatar: "DP",
     },
     related: ["onboarding", "core-hrms"],
+  },
+
+  recruitment: {
+    slug: "recruitment",
+    category: "Recruitment & Hiring",
+    hero: {
+      title: "Hire them, then onboard them —",
+      titleAccent: "without re-keying a thing.",
+      description: `Applicant tracking built for the way you actually hire: post roles, move candidates down a pipeline you control, run interviews and offers — and the moment someone's hired, they become an employee in SignHR. One system, no second tool, no copy-paste.`,
+      image: {
+        src: "/assets/recruitment-hero.webp",
+        alt: "SignHR recruitment pipeline — a drag-and-drop candidate board",
+        width: 1600,
+        height: 1000,
+      },
+    },
+    metaDescription:
+      "Recruitment & hiring for Indian teams — job openings, a drag-and-drop candidate pipeline, interview scorecards, offer letters, and one-click convert-to-employee straight into SignHR. No re-keying.",
+    capabilities: [
+      {
+        icon: Briefcase,
+        title: "Job openings, posted in minutes",
+        body: "Draft and publish roles with department, location, employment type, work mode, experience and salary range — show or hide pay as you like.",
+      },
+      {
+        icon: Users,
+        title: "One candidate database",
+        body: "Every applicant in one place, with the source tracked — referral, agency, career site or added by hand — and re-apply handled cleanly.",
+      },
+      {
+        icon: Workflow,
+        title: "A pipeline you control",
+        body: "Drag candidates from sourced to hired on a board with stages you define per job, plus screening questions and knockout rules.",
+      },
+      {
+        icon: CalendarDays,
+        title: "Interviews & scorecards",
+        body: "Schedule interviews, assign the panel, and collect structured feedback — strong-yes to strong-no — that rolls up to a single rating.",
+      },
+      {
+        icon: FileText,
+        title: "Offers & letters",
+        body: "Generate an offer letter, set the joining date, and track it through extended, accepted, declined or revoked.",
+      },
+      {
+        icon: UserPlus,
+        title: "One-click convert-to-employee",
+        body: "Hired? A guided wizard turns the candidate into a full employee — details, documents and compensation pre-filled. Source-of-hire on the record.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "A PIPELINE THAT FITS YOU",
+        title: `A board that hires <em class="serif-italic">your way</em>.`,
+        body: "Every role gets a pipeline you shape — name the stages, add screening questions, set knockout rules that auto-decline the wrong fit. Drag a candidate forward and everyone sees it.",
+        bullets: [
+          "Customisable stages per job, from sourced to hired.",
+          "Screening questions with knockout rules that filter automatically.",
+          "A full activity timeline on every application — who moved what, and when.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/recruitment-pipline.webp",
+          alt: "Recruitment kanban pipeline with stage columns",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "INTERVIEWS & OFFERS",
+        title: `Interviews and offers, <em class="serif-italic">organised</em>.`,
+        body: "Schedule interviews, assign a panel, and gather scorecards in one place. Recommendations roll up to a rating so the decision is clear — then send the offer and track the answer.",
+        bullets: [
+          "Schedule interviews with mode, time and a multi-person panel.",
+          "Structured feedback and recommendations that average into one score.",
+          "Offer letters generated and tracked through every status.",
+        ],
+        side: "left",
+        image: {
+          src: "/assets/recruitment-process.webp",
+          alt: "Interview schedule and a feedback scorecard",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "HIRING TO PAYROLL",
+        title: `Hire once. They're <em class="serif-italic">already in SignHR</em>.`,
+        body: "This is the part standalone ATS tools can't do. An accepted offer flows straight into a new-hire wizard — name, contact, documents and compensation already filled — and creates the employee. No re-keying into a second system.",
+        bullets: [
+          "Candidate and offer details pre-fill the new-hire form.",
+          "One step from hired to an employee record, with an optional invite email.",
+          "Flows on into onboarding, attendance and payroll.",
+        ],
+        side: "right",
+        anchor: "convert",
+        image: {
+          src: "/assets/recruitment-convert-to-employee.webp",
+          alt: "Convert-to-employee new-hire wizard",
+          width: 1600,
+          height: 1000,
+        },
+      },
+    ],
+    testimonial: {
+      quote:
+        "We used to hire in a spreadsheet and re-type everything into HR. Now an accepted offer just becomes an employee — the day someone says yes, they're already set up.",
+      name: "Ananya Iyer",
+      role: "Head of Talent",
+      company: "Lumen Labs",
+      avatar: "AI",
+    },
+    related: ["onboarding", "core-hrms", "workflows"],
+  },
+
+  reports: {
+    slug: "reports",
+    category: "Reports & Analytics",
+    hero: {
+      title: "Every answer your people data",
+      titleAccent: "already holds.",
+      description:
+        "Forty-plus ready-made reports across attendance, leave, payroll, tasks and headcount — plus a live analytics dashboard. Filter them, read the charts, export to PDF, Excel or CSV, or schedule them to land in the right inboxes on their own.",
+      image: {
+        src: "/assets/report-dashboard.webp",
+        alt: "SignHR analytics dashboard — KPI cards and charts",
+        width: 1600,
+        height: 1000,
+      },
+    },
+    metaDescription:
+      "Reports & analytics for HR — 40+ ready reports across attendance, leave, payroll, tasks and workforce, a live KPI dashboard, rich filters, PDF/Excel/CSV export, and scheduled email delivery.",
+    capabilities: [
+      {
+        icon: FileText,
+        title: "40+ reports, ready to run",
+        body: "Attendance, leave, requests, tasks, payroll and workforce — curated reports across six domains, no setup required.",
+      },
+      {
+        icon: BarChart3,
+        title: "A live analytics dashboard",
+        body: "Headcount, attendance, attrition and payroll cost on one screen, each with a period-over-period trend.",
+      },
+      {
+        icon: Layers,
+        title: "Filters that fit how you work",
+        body: "Date presets including the Indian financial year, plus department, location, employee and leave type.",
+      },
+      {
+        icon: LineChart,
+        title: "Charts on every report",
+        body: "Trends, splits and gauges come with the report — not just rows you have to make sense of.",
+      },
+      {
+        icon: Download,
+        title: "Export anywhere",
+        body: "Branded PDF for sharing, formatted Excel for pivots, raw CSV for your BI tools.",
+      },
+      {
+        icon: Bell,
+        title: "Scheduled delivery",
+        body: "Build a report once and have it emailed to people, teams, departments or managers on a daily, weekly or monthly cadence.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "ONE CATALOG",
+        title: `One catalog. <em class="serif-italic">Every report</em>.`,
+        body: "Browse every report you're allowed to see, grouped by domain, and open one to explore. Each comes with headline KPIs above the table, so the totals and averages are the first thing you see.",
+        bullets: [
+          "Six domains: attendance, leave, requests, tasks, payroll, workforce.",
+          "KPI summary cards on top of every report.",
+          "Scoped to your permissions — managers see their team, HR sees it all.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/report-catelog.webp",
+          alt: "Report catalog grouped by domain",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "THE WHOLE ORG, AT A GLANCE",
+        title: `A dashboard that reads <em class="serif-italic">the whole org</em>.`,
+        body: "Headline numbers — headcount, attendance rate, attrition, payroll cost — each against the prior period, over a grid of cross-domain charts. The shape of the workforce, in one look.",
+        bullets: [
+          "Hero KPIs with period-over-period change.",
+          "Cross-domain charts: headcount by department, leave mix, attrition, task status.",
+          "Drill from the overview into the detailed report behind it.",
+        ],
+        side: "left",
+        image: {
+          src: "/assets/report-dashboard.webp",
+          alt: "Analytics dashboard with KPIs and cross-domain charts",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "FILTER, EXPORT, SCHEDULE",
+        title: `Run it once. <em class="serif-italic">Let it deliver itself</em>.`,
+        body: "Filter to exactly the slice you need, export it in the format the recipient wants, or skip the export entirely — schedule the report and it arrives in their inbox on its own.",
+        bullets: [
+          "PDF, Excel and CSV from the same report.",
+          "Recurring email delivery to people, roles, departments or line managers.",
+          "Daily, weekly or monthly — timezone-aware.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/report-schedule.webp",
+          alt: "Report export formats and scheduled-alert form",
+          width: 1600,
+          height: 1000,
+        },
+      },
+    ],
+    testimonial: {
+      quote:
+        "Month-end used to be a day of building spreadsheets. Now the attendance and payroll reports email themselves to the people who need them before I'm even at my desk.",
+      name: "Rohit Menon",
+      role: "HR Operations Lead",
+      company: "Northwind Retail",
+      avatar: "RM",
+    },
+    related: ["time-attendance", "payroll", "core-hrms"],
+  },
+
+  "geo-tracking": {
+    slug: "geo-tracking",
+    category: "Geo Tracking",
+    hero: {
+      title: "Attendance that knows",
+      titleAccent: "where it happened.",
+      description:
+        "For on-site and field teams: draw an allowed area around each location, and every punch is GPS-stamped and checked against it. See where it happened on a map, keep field staff accountable, and get a clear reason logged on every automatic clock-out.",
+      image: {
+        src: "/assets/geo-tracking-trails.webp",
+        alt: "SignHR geo tracking — a location trail on a map",
+        width: 1600,
+        height: 1000,
+      },
+    },
+    metaDescription:
+      "Geo tracking for attendance — geofenced office and site locations, GPS-stamped clock-ins checked against an allowed area, a map view of every punch, and an auditable reason on every auto clock-out.",
+    capabilities: [
+      {
+        icon: MapPin,
+        title: "Geofenced locations",
+        body: "Set an allowed radius around each office or site, and decide who's permitted to punch from outside it.",
+      },
+      {
+        icon: Crosshair,
+        title: "GPS-stamped punches",
+        body: "Every clock-in and clock-out captures location and accuracy, and flags whether it was inside or outside the allowed area.",
+      },
+      {
+        icon: MapPinned,
+        title: "See it on the map",
+        body: "Open any punch to see exactly where it happened, and review the day's location trail on an interactive map.",
+      },
+      {
+        icon: Clock,
+        title: "Honest auto clock-out",
+        body: "Sessions can close on leaving the area, at shift end, or at a maximum duration — and every one records the reason why.",
+      },
+      {
+        icon: Building2,
+        title: "Field or on-site",
+        body: "Enforce the geofence for on-site staff, or simply record where field staff went without locking them in.",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Yours, and retained your way",
+        body: "Configurable retention, and trails visible only to managers with the right permission.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "DRAW THE LINE",
+        title: `Draw a line around <em class="serif-italic">your sites</em>.`,
+        body: "Give each location a point on the map and a radius, and you've got a geofence. Decide whether people can clock in from outside it — strict for the office, open for the road.",
+        bullets: [
+          "A radius per office or site, set on a map.",
+          "An allow-remote toggle for staff who work off-site.",
+          "Reused everywhere attendance is recorded.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/geo-tracking-setting.webp",
+          alt: "Location and geofence setup with a radius on a map",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "EVERY PUNCH, ON THE MAP",
+        title: `Inside the area, or <em class="serif-italic">out</em>? You'll know.`,
+        body: "At punch time, location and accuracy are captured and checked against the geofence — a clear inside-the-area or outside-the-area signal, with the spot pinned on a map for anyone reviewing later.",
+        bullets: [
+          "Location and accuracy captured on clock-in and clock-out.",
+          "An inside / outside badge against the allowed area.",
+          "The exact spot pinned on a map in the attendance record.",
+        ],
+        side: "left",
+        image: {
+          src: "/assets/geo-tracking-checkin.webp",
+          alt: "Clock-in location with an inside/outside-the-area badge",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "A TRAIL, AND A REASON",
+        title: `A clear trail — and a reason for <em class="serif-italic">every clock-out</em>.`,
+        body: "Review where a clocked-in session went, how long it stayed inside the area, and exactly why it ended — left the area, shift over, or capped out. Continuous capture gets richer on the SignHR mobile app, which is expanding.",
+        bullets: [
+          "Time spent inside versus outside the allowed area.",
+          "A logged reason on every automatic clock-out — no mystery.",
+          "Continuous on-the-move capture on the mobile app.",
+        ],
+        side: "right",
+        anchor: "trail",
+        image: {
+          src: "/assets/geo-tracking-trails.webp",
+          alt: "A location trail on a map with inside/outside markers",
+          width: 1600,
+          height: 1000,
+        },
+      },
+    ],
+    testimonial: {
+      quote:
+        "Our supervisors stopped arguing about who was actually on site. The punch is on the map, inside the fence or not — that conversation just ended.",
+      name: "Vikram Shetty",
+      role: "Operations Manager",
+      company: "Coastline Logistics",
+      avatar: "VS",
+    },
+    related: ["time-attendance", "checklists", "self-service"],
+  },
+
+  tasks: {
+    slug: "tasks",
+    category: "Task & Project Management",
+    hero: {
+      title: "Run the work,",
+      titleAccent: "not just the people.",
+      description:
+        "Organise work into projects and track it on a board, a calendar or a timeline. Automate the busywork, collaborate with comments and @mentions, and assign it all to the same people you already manage in SignHR — no separate tool to keep in sync.",
+      image: {
+        src: "/assets/taks-board.webp",
+        alt: "SignHR task board — a kanban view of project work",
+        width: 1600,
+        height: 1000,
+      },
+    },
+    metaDescription:
+      "Task and project management inside your HR system — projects, a kanban board, calendar and Gantt timeline, subtasks and dependencies, automation rules, custom fields, and comments with @mentions.",
+    capabilities: [
+      {
+        icon: Layers,
+        title: "Projects and tasks",
+        body: "Group work into projects, and give each task a type, priority, status, due date and labels.",
+      },
+      {
+        icon: LayoutGrid,
+        title: "Four ways to see it",
+        body: "Table, kanban board, calendar and Gantt timeline — pick the view that fits the work.",
+      },
+      {
+        icon: Network,
+        title: "Subtasks and dependencies",
+        body: "Break big work into subtasks, and link what blocks what so nothing stalls silently.",
+      },
+      {
+        icon: Workflow,
+        title: "Automation that does the busywork",
+        body: "Trigger actions on status, due date or assignment — auto-assign, set a status, or drop a comment.",
+      },
+      {
+        icon: MessageSquare,
+        title: "Real collaboration",
+        body: "Comments with @mentions, attachments, watchers and a full activity timeline on every task.",
+      },
+      {
+        icon: Sparkles,
+        title: "Custom fields and saved views",
+        body: "Add the fields each project needs, then save your filters and layout as a view your team can reuse.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "SEE IT YOUR WAY",
+        title: `Board, calendar, or <em class="serif-italic">timeline</em>.`,
+        body: "The same tasks, the view that suits the moment — drag cards across a board, plan dates on a calendar, or watch dependencies line up on a Gantt timeline. Filter and save the layout for next time.",
+        bullets: [
+          "Table, board, calendar and timeline, one click apart.",
+          "Drag-to-reorder on the board; dependency arrows on the timeline.",
+          "Saved views keep each team's filters and layout.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/task-timeline.webp",
+          alt: "Task timeline (Gantt) view with dependency arrows",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "LET THE RULES WORK",
+        title: `Let the rules do the <em class="serif-italic">busywork</em>.`,
+        body: "Set up automation per project: when something changes — a status, a due date, an assignment — the right thing happens on its own. Re-assign, re-status, label, or comment, without anyone lifting a finger.",
+        bullets: [
+          "Triggers on status, priority, assignment and due dates.",
+          "Actions: set status, assign, label or add a comment.",
+          "Due-today reminders so nothing slips.",
+        ],
+        side: "left",
+        image: {
+          src: "/assets/task-automation.webp",
+          alt: "Task automation rule builder",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "ALL IN ONE PLACE",
+        title: `Everything about a task, <em class="serif-italic">in one place</em>.`,
+        body: "Open a task and the whole story is there — the discussion, who's watching, the files, the history, and the work it depends on. Comments take @mentions, so the right person always gets pulled in.",
+        bullets: [
+          "Comments with @mentions, attachments and watchers.",
+          "An activity timeline of every change.",
+          "Subtasks, dependencies and per-project custom fields.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/task-details.webp",
+          alt: "Task detail with comments, mentions and activity",
+          width: 1600,
+          height: 1000,
+        },
+      },
+    ],
+    testimonial: {
+      quote:
+        "We were paying for a separate project tool nobody opened. Moving tasks next to the team's profiles and leave just made people actually use it.",
+      name: "Sara Pinto",
+      role: "Delivery Lead",
+      company: "Greenshift Studios",
+      avatar: "SP",
+    },
+    related: ["checklists", "self-service", "workflows"],
+  },
+
+  checklists: {
+    slug: "checklists",
+    category: "Checklists",
+    hero: {
+      title: "Proof the work",
+      titleAccent: "actually got done.",
+      description:
+        "Build recurring checklists for your frontline — housekeeping, field visits, safety, compliance — and assign them to people, roles or whole departments. Staff complete each one with photos, readings and GPS proof; you watch completion roll in on a live dashboard.",
+      image: {
+        src: "/assets/checklist-dashboard.webp",
+        alt: "SignHR checklists compliance dashboard",
+        width: 1600,
+        height: 1000,
+      },
+    },
+    metaDescription:
+      "Operational checklists for frontline teams — recurring templates assigned to people, roles or departments, with photo, GPS, numeric and pass/fail proof on every item, and a live compliance dashboard.",
+    capabilities: [
+      {
+        icon: ClipboardCheck,
+        title: "Reusable templates",
+        body: "Build a checklist once and assign it to users, roles or whole departments — it generates itself for each of them.",
+      },
+      {
+        icon: CalendarDays,
+        title: "Recurring on a schedule",
+        body: "Daily, weekly or monthly, with due and expiry windows so a missed check doesn't go unnoticed.",
+      },
+      {
+        icon: CheckCircle2,
+        title: "Proof on every item",
+        body: "Checkbox, photo, note, pass/fail, or a numeric reading with min and max bounds — per item.",
+      },
+      {
+        icon: MapPin,
+        title: "Photo and GPS evidence",
+        body: "Capture photos and location-stamp each completion, so you know it was done, where, and by whom.",
+      },
+      {
+        icon: BarChart3,
+        title: "A compliance dashboard",
+        body: "Completion and on-time rates by template and by team, plus exactly who hasn't done today's checks.",
+      },
+      {
+        icon: Smartphone,
+        title: "Ad-hoc and mobile-ready",
+        body: "Spin up a one-off check for a spot audit, and complete it from the field on mobile web.",
+      },
+    ],
+    spotlights: [
+      {
+        eyebrow: "BUILD ONCE",
+        title: `Build it once. It <em class="serif-italic">runs itself</em>.`,
+        body: "Lay out the items, set how often it should recur, and assign it to the people, roles or departments who do it. From then on, the right checklist shows up for the right person on the right day.",
+        bullets: [
+          "Assign to users, roles or whole departments.",
+          "Daily, weekly or monthly recurrence with due and expiry times.",
+          "Reorderable items, each required or optional.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/checklist-create.webp",
+          alt: "Checklist template builder with items and recurrence",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "PROOF, NOT A TICK",
+        title: `Proof, <em class="serif-italic">not just a tick</em>.`,
+        body: "Each item asks for the right kind of evidence — a photo of the shelf, a temperature reading, a pass or fail, a note. Turn on geo-stamping and every completion records where it happened.",
+        bullets: [
+          "Five proof types: checkbox, photo, note, pass/fail, numeric.",
+          "Photo upload and GPS stamp on completion.",
+          "Numeric readings validated against min and max.",
+        ],
+        side: "left",
+        image: {
+          src: "/assets/checklist-fill.webp",
+          alt: "Completing a checklist with photo and numeric proof",
+          width: 1600,
+          height: 1000,
+        },
+      },
+      {
+        eyebrow: "WHO DID, WHO DIDN'T",
+        title: `See who did it — and <em class="serif-italic">who didn't</em>.`,
+        body: "A dashboard rolls up every run: completion and on-time rates by template and by team, and a clear list of who hasn't finished today's checks — so you can nudge before it matters.",
+        bullets: [
+          "Completion and on-time rates by template and assignee.",
+          "A not-completed-today list you can act on.",
+          "Filter by date range, template and department.",
+        ],
+        side: "right",
+        image: {
+          src: "/assets/checklist-dashboard.webp",
+          alt: "Checklist compliance dashboard with rates and a missed-today list",
+          width: 1600,
+          height: 1000,
+        },
+      },
+    ],
+    testimonial: {
+      quote:
+        "Opening checklists used to be a WhatsApp photo dump nobody could audit. Now it's a dashboard — I can see at a glance which outlets skipped the morning checks.",
+      name: "Imran Qureshi",
+      role: "Area Manager",
+      company: "Saffron Hospitality",
+      avatar: "IQ",
+    },
+    related: ["tasks", "geo-tracking", "time-attendance"],
   },
 };
 

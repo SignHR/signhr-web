@@ -14,7 +14,7 @@ import { LOGO_NAMES } from "@/lib/testimonials";
 export const metadata: Metadata = {
   title: "HRMS Features — Attendance, Leave & Payroll",
   description:
-    "Ten modules in one HR platform — core HR, attendance, leave, onboarding, payroll-ready, workflows, self-service, assets & security. Built for Indian teams.",
+    "A dozen-plus modules in one HR platform — core HR, attendance, leave, onboarding, payroll-ready, workflows, self-service, assets & security. Built for Indian teams.",
   alternates: { canonical: "/features" },
 };
 
@@ -30,7 +30,7 @@ export default function FeaturesHubPage() {
             <em className="serif-italic">run your people ops</em>
           </>
         }
-        description="Ten modules built to work together, not stitched together — with more on the roadmap. Pick your starting point; the rest is here when you need it."
+        description="A dozen-plus modules built to work together, not stitched together — with more on the roadmap. Pick your starting point; the rest is here when you need it."
         primaryCta={{ label: "Book a demo", href: "/book-demo" }}
         secondaryCta={{ label: "Talk to sales", href: "/contact" }}
       />

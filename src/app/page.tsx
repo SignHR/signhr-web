@@ -415,7 +415,7 @@ export default async function HomePage() {
             </h2>
             <p className="mt-4 text-[17px] leading-relaxed text-ink-secondary">
               One Core HR plan, optional add-ons. 1-year saves 10%, 3-year saves
-              20%. 3-month free trial, no card.
+              20%.
             </p>
           </div>
           <div className="mx-auto mt-12 max-w-3xl">

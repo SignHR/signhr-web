@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { motion } from "motion/react";
-import { Minus, Plus } from "lucide-react";
+import { Minus, Plus, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { DemoCta } from "@/components/marketing/demo-cta";
@@ -26,31 +26,60 @@ const clampEmployees = (n: number): number =>
 
 export function PricingEstimator({ className }: { className?: string }) {
   const [termId, setTermId] = React.useState<BillingTerm["id"]>("3y");
-  // Kept as a raw string so the number input never stores NaN and never flips
-  // between controlled types; parsed to a clamped number only for the quote.
+  // Kept as raw strings so number inputs never store NaN and never flip
+  // between controlled types; parsed to clamped numbers only for the quote.
   const [empRaw, setEmpRaw] = React.useState("100");
   const [addonIds, setAddonIds] = React.useState<Addon["id"][]>([]);
+  // Per-add-on employee counts (raw strings), keyed by add-on id. Only
+  // per-employee add-ons that are switched on have an entry.
+  const [addonEmpRaw, setAddonEmpRaw] = React.useState<
+    Partial<Record<Addon["id"], string>>
+  >({});
 
   const term = BILLING_TERMS.find((t) => t.id === termId) ?? BILLING_TERMS[0];
   const emp = clampEmployees(parseInt(empRaw, 10));
-  const stepEmployees = (delta: number) =>
-    setEmpRaw(String(clampEmployees((parseInt(empRaw, 10) || 0) + delta)));
-  const quote = computeQuote({ employees: emp, addonIds, termId });
+
+  const addonEmployees: Partial<Record<Addon["id"], number>> = {};
+  for (const id of addonIds) {
+    const raw = addonEmpRaw[id];
+    if (raw !== undefined)
+      addonEmployees[id] = clampEmployees(parseInt(raw, 10));
+  }
+
+  const quote = computeQuote({
+    employees: emp,
+    addonIds,
+    termId,
+    addonEmployees,
+  });
   const discounted = term.discount > 0;
   const subtotal = quote.lines.reduce((sum, l) => sum + l.monthlyBase, 0);
   const discountAmount = subtotal - quote.monthlyTotal;
 
-  const selectedNames = ADDONS.filter((a) => addonIds.includes(a.id)).map(
-    (a) => a.name,
+  // Demo CTA summary: per-employee lines carry their headcount; flat add-ons
+  // are listed without one.
+  const planParts = quote.lines.map((l) =>
+    l.unit === "per-emp-month" ? `${l.label} (${l.employees})` : l.label,
   );
-  const planLabel =
-    `Core HR${selectedNames.length ? " + " + selectedNames.join(", ") : ""}` +
-    ` · ${term.label} · ${emp} employees (≈${inr(quote.yearlyTotal)}/yr)`;
+  const planLabel = `${planParts.join(", ")} · ${term.label} · ≈${inr(quote.yearlyTotal)}/yr`;
 
-  const toggleAddon = (id: Addon["id"]) =>
-    setAddonIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+  const toggleAddon = (a: Addon) => {
+    const isOn = addonIds.includes(a.id);
+    if (isOn) {
+      setAddonIds((prev) => prev.filter((x) => x !== a.id));
+      setAddonEmpRaw((m) => {
+        const next = { ...m };
+        delete next[a.id];
+        return next;
+      });
+    } else {
+      setAddonIds((prev) => [...prev, a.id]);
+      // Per-employee add-ons seed their count to the current Core count.
+      if (a.unit === "per-emp-month") {
+        setAddonEmpRaw((m) => ({ ...m, [a.id]: String(emp) }));
+      }
+    }
+  };
 
   return (
     <div
@@ -72,7 +101,7 @@ export function PricingEstimator({ className }: { className?: string }) {
               {t.badge && (
                 <Badge
                   variant="brand"
-                  className="px-1.5 py-0 text-[10px] tracking-tight"
+                  className="whitespace-nowrap px-1.5 py-0 text-[12px] tracking-tight"
                 >
                   {t.badge}
                 </Badge>
@@ -81,80 +110,58 @@ export function PricingEstimator({ className }: { className?: string }) {
           ))}
         </div>
 
+        {/* Core HR — primary employee count */}
         <div className="mt-8">
-          <label htmlFor="emp-count" className="text-[13px] font-medium text-ink">
-            How many employees?
-          </label>
-          <div className="mt-2 flex w-fit items-center gap-2 rounded-xl border border-border bg-surface p-1">
-            <Stepper label="Decrease employees" onClick={() => stepEmployees(-5)}>
-              <Minus className="size-4" aria-hidden />
-            </Stepper>
-            <input
-              id="emp-count"
-              type="number"
-              min={1}
-              max={MAX_EMPLOYEES}
+          <p className="text-[13px] font-medium text-ink">
+            Core HR — how many employees?
+          </p>
+          <div className="mt-2 flex items-center gap-3 rounded-xl border border-brand-500/40 bg-brand-50 p-2.5">
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-brand-100 text-brand-600">
+              <Users className="size-4.5" aria-hidden />
+            </span>
+            <span className="flex flex-col">
+              <span className="text-[14px] font-semibold text-ink">
+                Core HR
+              </span>
+              <span className="text-[12px] text-ink-muted">
+                {PRICING_CURRENCY.symbol}
+                {CORE_HR.basePerEmpMonth}/emp/mo · always on
+              </span>
+            </span>
+            <span className="flex-1" />
+            <CountField
               value={empRaw}
-              onChange={(e) => setEmpRaw(e.target.value)}
+              onChange={setEmpRaw}
               onBlur={() => setEmpRaw(String(emp))}
-              className="w-20 bg-transparent text-center font-mono text-[18px] font-semibold text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              ariaLabel="Core HR employees"
             />
-            <Stepper label="Increase employees" onClick={() => stepEmployees(5)}>
-              <Plus className="size-4" aria-hidden />
-            </Stepper>
           </div>
         </div>
 
         <div className="mt-8">
           <p className="text-[13px] font-medium text-ink">Add-ons</p>
           <ul className="mt-2 space-y-2">
-            {ADDONS.map((a) => {
-              const on = addonIds.includes(a.id);
-              const price =
-                a.unit === "flat-month"
-                  ? `${PRICING_CURRENCY.symbol}${a.price}/mo flat`
-                  : `${PRICING_CURRENCY.symbol}${a.price}/emp/mo`;
-              return (
-                <li key={a.id}>
-                  <button
-                    type="button"
-                    role="switch"
-                    aria-checked={on}
-                    aria-label={a.name}
-                    onClick={() => toggleAddon(a.id)}
-                    className={cn(
-                      "flex w-full items-center justify-between gap-3 rounded-xl border p-3 text-left transition-colors",
-                      on
-                        ? "border-brand-500/40 bg-brand-50"
-                        : "border-border bg-surface hover:border-ink-muted",
-                    )}
-                  >
-                    <span>
-                      <span className="text-[14.5px] font-medium text-ink">
-                        {a.name}
-                      </span>
-                      <span className="ml-2 text-[13px] text-ink-muted">
-                        {price}
-                      </span>
-                    </span>
-                    <span
-                      aria-hidden
-                      className={cn(
-                        "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
-                        on ? "bg-brand-600" : "bg-ink-muted/30",
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          "inline-block size-4 rounded-full bg-white transition-transform",
-                          on ? "translate-x-[18px]" : "translate-x-0.5",
-                        )}
-                      />
-                    </span>
-                  </button>
-                </li>
-              );
-            })}
+            {ADDONS.map((a) => (
+              <li key={a.id}>
+                <AddonRow
+                  addon={a}
+                  on={addonIds.includes(a.id)}
+                  onToggle={() => toggleAddon(a)}
+                  countRaw={addonEmpRaw[a.id] ?? String(emp)}
+                  onCountChange={(raw) =>
+                    setAddonEmpRaw((m) => ({ ...m, [a.id]: raw }))
+                  }
+                  onCountBlur={() =>
+                    setAddonEmpRaw((m) => ({
+                      ...m,
+                      [a.id]: String(
+                        clampEmployees(parseInt(m[a.id] ?? "", 10)),
+                      ),
+                    }))
+                  }
+                />
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -184,7 +191,8 @@ export function PricingEstimator({ className }: { className?: string }) {
             <span className="text-sm text-ink-muted">/month</span>
           </p>
           <p className="mt-1 text-[15px] text-ink-secondary">
-            {inr(quote.yearlyTotal)} <span className="text-ink-muted">/ year</span>
+            {inr(quote.yearlyTotal)}{" "}
+            <span className="text-ink-muted">/ year</span>
           </p>
         </div>
 
@@ -210,10 +218,12 @@ export function PricingEstimator({ className }: { className?: string }) {
                   <span className="ml-1.5 text-ink-muted">
                     {line.unit === "flat-month"
                       ? "· flat"
-                      : `· ${emp.toLocaleString("en-IN")} × ${inr(line.unitPrice)}`}
+                      : `· ${line.employees.toLocaleString("en-IN")} × ${inr(line.unitPrice)}`}
                   </span>
                 </span>
-                <span className="font-mono text-ink">{inr(line.monthlyBase)}</span>
+                <span className="font-mono text-ink">
+                  {inr(line.monthlyBase)}
+                </span>
               </div>
             ))}
 
@@ -247,12 +257,17 @@ export function PricingEstimator({ className }: { className?: string }) {
           </div>
         </div>
 
-        <DemoCta size="md" variant="brand" className="mt-6 w-full" plan={planLabel}>
+        <DemoCta
+          size="md"
+          variant="brand"
+          className="mt-6 w-full"
+          plan={planLabel}
+        >
           Book a demo
         </DemoCta>
 
         <p className="mt-3 text-center text-[11px] text-ink-muted">
-          Prices in INR, exclusive of GST. 3-month free trial, no card.
+          Prices in INR, exclusive of GST.
         </p>
       </div>
     </div>
@@ -274,14 +289,16 @@ function BillingTab({
       onClick={onClick}
       aria-pressed={active}
       className={cn(
-        "relative inline-flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors",
-        active ? "text-ink" : "text-ink-muted hover:text-ink",
+        "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-[13px] font-medium transition-colors",
+        active
+          ? "text-ink border-1 bg-primary"
+          : "text-ink-muted hover:text-ink",
       )}
     >
       {active && (
         <motion.span
           layoutId="estimator-term-pill"
-          className="absolute inset-0 -z-10 rounded-full bg-brand-50 ring-1 ring-brand-200"
+          className="absolute inset-0 -z-10 rounded-full bg-white/10 shadow-sm ring-1 ring-white/40"
           transition={{ type: "spring", stiffness: 350, damping: 30 }}
         />
       )}
@@ -290,13 +307,143 @@ function BillingTab({
   );
 }
 
-function Stepper({
+function AddonRow({
+  addon,
+  on,
+  onToggle,
+  countRaw,
+  onCountChange,
+  onCountBlur,
+}: {
+  addon: Addon;
+  on: boolean;
+  onToggle: () => void;
+  countRaw: string;
+  onCountChange: (raw: string) => void;
+  onCountBlur: () => void;
+}) {
+  const perEmp = addon.unit === "per-emp-month";
+  const price = perEmp
+    ? `${PRICING_CURRENCY.symbol}${addon.price}/emp/mo`
+    : `${PRICING_CURRENCY.symbol}${addon.price}/mo flat`;
+  return (
+    <div
+      className={cn(
+        "rounded-xl border p-3 transition-colors",
+        on
+          ? "border-brand-500/40 bg-brand-50"
+          : "border-border bg-surface hover:border-ink-muted",
+      )}
+    >
+      <button
+        type="button"
+        role="switch"
+        aria-checked={on}
+        aria-label={addon.name}
+        onClick={onToggle}
+        className="flex w-full items-center justify-between gap-3 text-left"
+      >
+        <span>
+          <span className="text-[14.5px] font-medium text-ink">
+            {addon.name}
+          </span>
+          <span className="ml-2 text-[13px] text-ink-muted">{price}</span>
+        </span>
+        <span
+          aria-hidden
+          className={cn(
+            "relative inline-flex h-5 w-9 shrink-0 items-center rounded-full transition-colors",
+            on ? "bg-brand-600" : "bg-ink-muted/30",
+          )}
+        >
+          <span
+            className={cn(
+              "inline-block size-4 rounded-full bg-white transition-transform",
+              on ? "translate-x-[18px]" : "translate-x-0.5",
+            )}
+          />
+        </span>
+      </button>
+
+      {on && perEmp && (
+        <div className="mt-3 flex items-center gap-3 border-t border-dashed border-border pt-3">
+          <span className="text-[12px] text-ink-muted">
+            Employees on this add-on
+          </span>
+          <span className="flex-1" />
+          <CountField
+            size="sm"
+            value={countRaw}
+            onChange={onCountChange}
+            onBlur={onCountBlur}
+            ariaLabel={`${addon.name} employees`}
+          />
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CountField({
+  value,
+  onChange,
+  onBlur,
+  step = 5,
+  ariaLabel,
+  size = "md",
+}: {
+  value: string;
+  onChange: (raw: string) => void;
+  onBlur: () => void;
+  step?: number;
+  ariaLabel: string;
+  size?: "md" | "sm";
+}) {
+  const bump = (delta: number) =>
+    onChange(String(clampEmployees((parseInt(value, 10) || 0) + delta)));
+  const sm = size === "sm";
+  return (
+    <div className="flex w-fit items-center gap-1 rounded-xl border border-border bg-surface p-1">
+      <CountButton
+        label={`Decrease ${ariaLabel}`}
+        onClick={() => bump(-step)}
+        sm={sm}
+      >
+        <Minus className="size-4" aria-hidden />
+      </CountButton>
+      <input
+        type="number"
+        min={1}
+        max={MAX_EMPLOYEES}
+        value={value}
+        aria-label={ariaLabel}
+        onChange={(e) => onChange(e.target.value)}
+        onBlur={onBlur}
+        className={cn(
+          "bg-transparent text-center font-mono font-semibold text-ink outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+          sm ? "w-12 text-[15px]" : "w-20 text-[18px]",
+        )}
+      />
+      <CountButton
+        label={`Increase ${ariaLabel}`}
+        onClick={() => bump(step)}
+        sm={sm}
+      >
+        <Plus className="size-4" aria-hidden />
+      </CountButton>
+    </div>
+  );
+}
+
+function CountButton({
   label,
   onClick,
+  sm,
   children,
 }: {
   label: string;
   onClick: () => void;
+  sm: boolean;
   children: React.ReactNode;
 }) {
   return (
@@ -304,7 +451,10 @@ function Stepper({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="flex size-9 items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-brand-50 hover:text-brand-700"
+      className={cn(
+        "flex items-center justify-center rounded-lg text-ink-muted transition-colors hover:bg-brand-50 hover:text-brand-700",
+        sm ? "size-7" : "size-9",
+      )}
     >
       {children}
     </button>

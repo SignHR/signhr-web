@@ -73,7 +73,6 @@ const LEADERS = [
 const ABOUT_STATS = [
   { value: 1, suffix: "", label: "day to set up, not a quarter" },
   { value: 5, suffix: "+", label: "tools replaced by one platform" },
-  { value: 3, suffix: "", label: "months free — no card" },
   { value: 2, suffix: "", label: "weeks between releases" },
 ];
 
