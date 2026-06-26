@@ -8,7 +8,10 @@ import { FeatureCard } from "@/components/marketing/feature-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { Button } from "@/components/ui/button";
 import { DemoCta } from "@/components/marketing/demo-cta";
+import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import { FEATURE_MODULES, FEATURE_GROUPS } from "@/lib/nav";
+import { FEATURE_PAGES } from "@/lib/features";
 import { LOGO_NAMES } from "@/lib/testimonials";
 
 export const metadata: Metadata = {
@@ -20,8 +23,26 @@ export const metadata: Metadata = {
 
 export default function FeaturesHubPage() {
   const soon = FEATURE_MODULES.filter((m) => m.status === "soon");
+
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "SignHR Features",
+    url: `${SITE_URL}/features`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: Object.values(FEATURE_PAGES).map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.category,
+        url: `${SITE_URL}/features/${p.slug}`,
+      })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={collectionLd} />
       <Hero
         eyebrow="THE PLATFORM"
         title={

@@ -79,9 +79,21 @@ export default async function FeatureDetailPage({ params }: Props) {
     ],
   };
 
+  const softwareLd = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: `SignHR — ${page.category}`,
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web, iOS, Android",
+    description: page.metaDescription,
+    url: `${SITE_URL}/features/${slug}`,
+    featureList: page.capabilities.map((c) => c.title),
+    publisher: { "@type": "Organization", name: "SignHR", url: SITE_URL },
+  };
+
   return (
     <>
-      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={[breadcrumbLd, softwareLd]} />
       <Hero
         variant="feature"
         eyebrow={page.category.toUpperCase()}

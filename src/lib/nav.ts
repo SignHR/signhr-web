@@ -323,6 +323,6 @@ export const FOOTER_NAV = {
     { label: "Privacy", href: "/legal/privacy" },
     { label: "Terms", href: "/legal/terms" },
     { label: "DPA", href: "/legal/dpa" },
-    { label: "Security", href: "/legal/dpa#security" },
+    { label: "Security", href: "/security" },
   ],
 };

@@ -23,267 +23,232 @@ export type CaseStudy = {
 
 export const CASE_STUDIES: CaseStudy[] = [
   {
-    slug: "vyom-pay",
-    company: "Vyom Pay",
-    feature: "Ask HR",
-    featureSlug: "ask-hr",
-    sector: "Fintech",
-    hq: "Bengaluru",
-    founded: 2019,
-    stage: "Series B",
-    size: "240 employees",
-    outcome:
-      "How Vyom Pay gave every employee an AI HR that answers from real payroll math",
+    slug: "krishna-consultancy",
+    company: "Krishna Consultancy Services",
+    feature: "Task & Project Management",
+    featureSlug: "tasks",
+    sector: "Business consulting",
+    hq: "Pune",
+    founded: 2015,
+    stage: "Privately held",
+    size: "90 consultants",
+    outcome: "Every client engagement, on one board",
     excerpt:
-      "Vyom Pay's people team was answering the same pay and leave questions at 9pm. Now an AI HR — trained on their handbook and wired to live payroll — answers in plain English, with the policy attached.",
+      "Client work lived across spreadsheets and WhatsApp, and HR sat in a separate tool. Now projects, recurring delivery checklists, and the consultants doing the work all run in one SignHR workspace.",
     metrics: [
-      { label: "Repeat HR questions", value: "−80%" },
-      { label: "Answers cited", value: "100%" },
-      { label: "Always on", value: "24/7" },
+      { label: "On one board", value: "100%" },
+      { label: "Status meetings", value: "−60%" },
+      { label: "Faster delivery", value: "2×" },
     ],
-    modules: ["ask-hr", "payroll", "leave-management", "self-service"],
+    modules: ["core-hrms", "tasks", "checklists"],
     story: {
       challenge: [
-        "As a fintech scaling past 240 people, Vyom Pay's inbox filled with the same questions — 'why did my pay change this month?', 'what's my notice period?', 'how much leave do I have left?' — and the hardest ones landed after hours.",
-        "Anita Reddy's team was the single point of truth, so every variable-pay or policy question routed through them. Answers were slow, inconsistent, and impossible to keep on the record.",
+        "Krishna Consultancy was running a growing book of client engagements out of spreadsheets and chat threads — nothing showed what was due, who owned it, or whether it had actually been done.",
+        "People data lived in a separate system, so staffing a project meant cross-referencing a directory, a tracker, and a manager's memory.",
       ],
       solution: [
-        "Vyom Pay turned on SignHR's Ask HR and trained it on their handbook and policies. Employees now ask in plain English and get an answer grounded in their own live data, with the exact policy section cited.",
-        "Because it runs the same engine that builds payslips, it answers real what-ifs — 'if I take unpaid leave Friday to Monday, what's the deduction?' — as an estimate, not a guess. It's permission-scoped by construction, so it never surfaces anything an employee isn't already allowed to see.",
+        "Every engagement now runs on its own task board in SignHR — stages, owners, and due dates the whole team can see — and the consultants assigned to it are the same records HR already manages.",
+        "Repeatable delivery and compliance steps became reusable checklists that generate themselves for each engagement, so quality no longer depends on who remembers the process.",
       ],
       results: [
-        "Repetitive questions to the HR inbox dropped by about 80%, and the 9pm pings all but stopped.",
-        "Every answer arrives cited and on the record, so employees trust it — and the people team spends its time on the work only humans can do.",
+        "Project status lives on the board instead of in a weekly meeting, cutting status-update meetings by around 60%.",
+        "Putting a consultant onto an engagement is a checklist, not a scramble — and every client gets the same standard of delivery.",
       ],
     },
     pullQuotes: [
       {
         quote:
-          "Our people ask it the things they used to email me at 9pm — and it answers correctly, with the policy attached. My inbox finally went quiet.",
-        attribution: "Anita Reddy",
-        role: "Head of People, Vyom Pay",
+          "Every engagement is on one board now — I can see what's due and who owns it without calling a meeting. Our delivery is finally consistent across clients.",
+        attribution: "Rahul Deshpande",
+        role: "Delivery Lead, Krishna Consultancy Services",
+      },
+    ],
+  },
+  {
+    slug: "krishna-diagnostics",
+    company: "Krishna Diagnostics",
+    feature: "Geo Tracking",
+    featureSlug: "geo-tracking",
+    sector: "Diagnostics & pathology",
+    hq: "Hyderabad",
+    founded: 2012,
+    stage: "Privately held",
+    size: "300 staff · 12 centres",
+    outcome: "Field attendance you can actually prove",
+    excerpt:
+      "With phlebotomists collecting samples across the city and labs running quality checks all day, Krishna Diagnostics needed proof that work happened where and when it should. Geo tracking, activity trails, and checklists deliver it.",
+    metrics: [
+      { label: "Punches verified", value: "100%" },
+      { label: "Missed QC steps", value: "0" },
+      { label: "Audit time", value: "−90%" },
+    ],
+    modules: ["core-hrms", "geo-tracking", "tasks", "checklists"],
+    story: {
+      challenge: [
+        "Krishna Diagnostics runs home-collection phlebotomists and a dozen centres, but attendance was on trust — no way to confirm a field agent was actually at the collection address, or when.",
+        "Lab quality control and sample-handling steps were logged on paper, so an audit meant digging through registers, and a missed step could go unnoticed for days.",
+      ],
+      solution: [
+        "Field staff now punch in with a GPS- and geofence-checked clock-in, and each clocked-in session leaves an activity trail on the map — supervisors see where the day actually went, with a logged reason on every auto clock-out.",
+        "Daily lab QC and collection checklists generate per centre and per shift, each item captured with the proof it needs, while core HR ties every punch and check to the right employee. Sample-flow tasks keep work moving between collection, transit, and processing.",
+      ],
+      results: [
+        "Every field punch is geo-verified, so the conversation about who was on site simply ended.",
+        "QC checks are logged every shift with zero missed steps, and a compliance review is now an export instead of a week with the registers.",
+      ],
+    },
+    pullQuotes: [
+      {
+        quote:
+          "Every field punch is on the map now, inside the collection area or not — the argument about who was where just ended.",
+        attribution: "Imran Shaikh",
+        role: "Field Supervisor, Krishna Diagnostics",
       },
       {
         quote:
-          "It runs the actual payroll math, so I trust the number it gives — and so does the team.",
-        attribution: "Anita Reddy",
-        role: "Head of People, Vyom Pay",
+          "Our QC checks are logged every single shift. My last audit was a five-minute export instead of a week digging through registers.",
+        attribution: "Sneha Kulkarni",
+        role: "Lab Operations Manager, Krishna Diagnostics",
       },
     ],
     featured: true,
   },
   {
-    slug: "meraki-labs",
-    company: "Meraki Labs",
-    feature: "Onboarding & Offboarding",
-    featureSlug: "onboarding",
-    sector: "Dev-tools SaaS",
-    hq: "Pune",
-    founded: 2020,
-    stage: "Series A",
-    size: "180 employees",
-    outcome:
-      "Meraki Labs runs offer-to-exit on autopilot — 12 minutes a hire, clean exits every time",
-    excerpt:
-      "Hiring two engineers a week made onboarding a half-day fire drill, and every exit a scramble. Now joining and leaving are both checklists that run themselves.",
-    metrics: [
-      { label: "Time per onboarding", value: "12 min" },
-      { label: "Day-one readiness", value: "100%" },
-      { label: "Missed exit steps", value: "0" },
-    ],
-    modules: ["onboarding", "assets", "workflows", "self-service"],
-    story: {
-      challenge: [
-        "Meraki Labs was hiring 60 engineers a quarter, and each one meant manual coordination across IT, finance, and engineering. New joiners turned up without working laptops, and onboarding satisfaction slipped two quarters running.",
-        "Exits were worse — nobody owned the clearance, so asset return and access removal depended on someone remembering to start.",
-      ],
-      solution: [
-        "Meraki generates the offer from a template, gets it e-signed on a phone, and lets task-based pre-boarding route IT, finance, and people-ops work automatically before day one — accounts created and assets assigned in advance.",
-        "On the way out, a resignation now triggers a clearance checklist that pulls in every team, returns assets, removes access, and previews a correctly-calculated full-and-final before the last day.",
-      ],
-      results: [
-        "Onboarding dropped from four hours to about twelve minutes of people-ops attention per hire, with day-one readiness at 100% for two straight quarters.",
-        "Exits run start-to-finish without a dropped step — no more chasing laptops or stray logins after someone's gone.",
-      ],
-    },
-    pullQuotes: [
-      {
-        quote:
-          "We used to spend half a day prepping each new hire and dread every exit. Now both are checklists that run themselves.",
-        attribution: "Karan Malhotra",
-        role: "People Operations, Meraki Labs",
-      },
-    ],
-  },
-  {
-    slug: "tilse",
-    company: "Tilse",
-    feature: "Attendance",
-    featureSlug: "time-attendance",
-    sector: "D2C skincare",
+    slug: "memora-events",
+    company: "Memora Events",
+    feature: "Ask HR",
+    featureSlug: "ask-hr",
+    sector: "Events & experiential",
     hq: "Mumbai",
-    founded: 2021,
-    stage: "Series A",
-    size: "120 employees",
-    outcome:
-      "Tilse captures attendance across warehouse, retail and HQ — one tap, geo-verified",
-    excerpt:
-      "A skincare brand spread across a warehouse, retail counters, and a head office had three ways to track time. SignHR made it one — a selfie-and-GPS punch on the floor, a kiosk in the warehouse, a browser at HQ.",
-    metrics: [
-      { label: "Systems", value: "3 → 1" },
-      { label: "Punch accuracy", value: "98%" },
-      { label: "Timesheet approval", value: "20 min" },
-    ],
-    modules: ["time-attendance", "leave-management", "self-service", "payroll"],
-    story: {
-      challenge: [
-        "Tilse's team clocked in three different ways — a warehouse register, retail counter sheets, and HQ spreadsheets — and month-end was a scramble to reconcile them into one payroll.",
-        "Store staff had no clean way to mark attendance or fix a missed punch, so corrections piled up in managers' chats.",
-      ],
-      solution: [
-        "Tilse standardized on SignHR: a geofenced selfie-and-GPS punch for retail, a shared kiosk in the warehouse, and the browser at HQ — all into one timesheet. The shift scheduler handles rotating retail shifts, and missed punches auto-surface to the employee to regularize, not the manager's inbox.",
-        "A live dashboard shows who's in, who's late, and who's on leave across every location, and verified attendance flows straight into payroll inputs.",
-      ],
-      results: [
-        "Three capture methods collapsed into one system, with on-time punch accuracy at 98%.",
-        "Managers approve timesheets in minutes, and attendance reaches payroll already clean.",
-      ],
-    },
-    pullQuotes: [
-      {
-        quote:
-          "Our store managers approve timesheets on their phones over chai — and the warehouse, retail, and office are finally on the same system.",
-        attribution: "Aisha Patel",
-        role: "Head of HR, Tilse",
-      },
-    ],
-  },
-  {
-    slug: "kavya-health",
-    company: "Kavya Health",
-    feature: "Approval Flow",
-    featureSlug: "workflows",
-    sector: "Healthtech",
-    hq: "Hyderabad",
     founded: 2018,
-    stage: "Series A",
-    size: "300 employees",
-    outcome:
-      "Kavya Health routes every clinical exception to the right approver — with a full audit trail",
+    stage: "Privately held",
+    size: "70 core · 500+ event-day crew",
+    outcome: "An AI HR that scales with every event",
     excerpt:
-      "Around-the-clock clinical shifts mean constant swaps, leave, and exceptions. SignHR's workflow engine routes each one through the right approvers and logs every decision — so compliance reviews are an export, not a dread.",
+      "Scaling from 70 staff to hundreds of crew on event days meant a flood of pay and shift questions, and no fast way to see the workforce. Now an AI HR answers the questions and reports give leadership live visibility.",
     metrics: [
-      { label: "Approval turnaround", value: "same-day" },
-      { label: "Decisions logged", value: "100%" },
-      { label: "Lost requests", value: "0" },
+      { label: "Repeat HR Qs", value: "−75%" },
+      { label: "Headcount", value: "live" },
+      { label: "Report build", value: "minutes" },
     ],
-    modules: ["workflows", "time-attendance", "security", "reports"],
+    modules: ["ask-hr", "reports"],
     story: {
       challenge: [
-        "Kavya Health's clinical teams run 24/7, so shift swaps, leave, and exception requests never stop — and they used to bounce around email and chat with no clear owner. Some waited days; some got lost.",
-        "For a healthtech company, the bigger problem was proof: showing who approved what, and when, meant digging through inboxes at audit time.",
+        "On a big event, Memora's headcount can jump from 70 to several hundred crew in a day — and every one of them has the same questions about shifts, pay, and policy, landing on a small people team at the worst possible time.",
+        "Leadership had no quick way to see who was working which event, what attendance looked like, or what the workforce was costing — the answers meant building a spreadsheet after the fact.",
       ],
       solution: [
-        "Kavya built its real processes in SignHR's visual workflow builder — conditional routing (a night-shift swap adds the charge nurse; anything over a threshold escalates), parallel and sequential steps, and smart escalations when an approver is on shift.",
-        "Every request carries its comments and decisions in one auditable trail, and approvers act from email or mobile without hunting for context.",
+        "Memora turned on Ask HR, trained on their handbook and policies, so crew get plain-English answers about shifts, pay, and leave on their own — grounded in their live data, with the policy cited.",
+        "Reports and analytics give leadership headcount, attendance, and cost across every event in a few clicks, instead of a manual spreadsheet.",
       ],
       results: [
-        "Approvals that used to take days now close same-day, and nothing falls through the cracks.",
-        "Every decision is logged, so a compliance review went from a dreaded hunt to a five-minute export.",
+        "Repetitive questions to the people team dropped by about 75%, even as crew numbers spiked.",
+        "Leadership now reads live workforce numbers per event, and a report that used to take a day takes minutes.",
       ],
     },
     pullQuotes: [
       {
         quote:
-          "Every approval has a paper trail now — my last compliance review was a five-minute export instead of a week of digging.",
-        attribution: "Vidya Nair",
-        role: "People Partner, Kavya Health",
+          "Our crew just ask the assistant about their shift or pay now, and it answers correctly with the policy attached — even on a 500-person event day.",
+        attribution: "Neha Agarwal",
+        role: "Head of People, Memora Events",
+      },
+      {
+        quote:
+          "I can see headcount and attendance for every event in real time. The report I used to spend a day on takes minutes.",
+        attribution: "Vivek Menon",
+        role: "Operations Lead, Memora Events",
       },
     ],
   },
   {
-    slug: "vayu-logistics",
-    company: "Vayu Logistics",
-    feature: "Payroll",
-    featureSlug: "payroll",
-    sector: "Logistics & supply chain",
-    hq: "Gurugram",
+    slug: "accountune",
+    company: "Accountune",
+    feature: "Core HRMS",
+    featureSlug: "core-hrms",
+    sector: "Accounting & finance",
+    hq: "Bengaluru",
+    founded: 2019,
+    stage: "Privately held",
+    size: "120 employees",
+    outcome: "Every employee record in one system",
+    excerpt:
+      "Employee data was spread across spreadsheets and inboxes, and on-site work was invisible from head office. Accountune moved core HR into SignHR and turned on activity tracking to close both gaps.",
+    metrics: [
+      { label: "Records unified", value: "100%" },
+      { label: "HR admin", value: "−50%" },
+      { label: "Field activity", value: "tracked" },
+    ],
+    modules: ["core-hrms", "geo-tracking"],
+    story: {
+      challenge: [
+        "Accountune's people data lived in spreadsheets, email threads, and a few managers' heads — onboarding, documents, and changes were slow and never quite agreed with each other.",
+        "Staff regularly worked at client sites, but head office had no reliable picture of where field time actually went.",
+      ],
+      solution: [
+        "Core HRMS became the single source of truth — profiles, documents, departments, and an audit trail that every change flows through.",
+        "Activity and location tracking now captures field work against each employee record, so on-site time is visible without anyone chasing a status update.",
+      ],
+      results: [
+        "Every employee record lives in one place, and routine HR admin dropped by about half.",
+        "Field activity is visible at a glance, so head office and on-site teams finally share the same picture.",
+      ],
+    },
+    pullQuotes: [
+      {
+        quote:
+          "All our people data is finally in one place, and I can see what the field teams are doing without a single phone call.",
+        attribution: "Priya Nair",
+        role: "HR Manager, Accountune",
+      },
+    ],
+  },
+  {
+    slug: "signaturetech",
+    company: "SignatureTech",
+    feature: "All-in-one HR",
+    featureSlug: "core-hrms",
+    sector: "Software & IT services",
+    hq: "Indore",
     founded: 2017,
-    stage: "Series B",
-    size: "480 employees",
-    outcome:
-      "How Vayu Logistics turned attendance and leave into clean payroll inputs across every hub",
+    stage: "Privately held",
+    size: "60 employees",
+    outcome: "Five HR tools, down to one",
     excerpt:
-      "Across dozens of hubs, attendance, LOP, and overtime never quite made it into payroll — so each cycle meant three days of spreadsheet reconciliation. Now it's a 20-minute review.",
+      "SignatureTech had a different tool for every part of HR and none of them talked to each other. Consolidating onto SignHR put onboarding, attendance, leave, AI HR, and payroll-ready inputs in one place.",
     metrics: [
-      { label: "Payroll prep", value: "3 days → 20 min" },
-      { label: "Double entry", value: "0" },
-      { label: "Statutory inputs", value: "auto" },
+      { label: "HR tools", value: "5 → 1" },
+      { label: "Onboarding", value: "minutes" },
+      { label: "Re-keying", value: "0" },
     ],
-    modules: ["payroll", "time-attendance", "leave-management", "core-hrms"],
+    modules: [
+      "core-hrms",
+      "onboarding",
+      "time-attendance",
+      "leave-management",
+      "ask-hr",
+      "payroll",
+    ],
     story: {
       challenge: [
-        "Vayu Logistics ran payroll off spreadsheets stitched together from every hub. Attendance, leave, LOP, and overtime had to be re-keyed by hand, and the numbers drifted from reality — an audit once found 18 people on payroll who'd already left.",
-        "Each cycle swallowed about three days of reconciliation before anything could be paid.",
+        "SignatureTech ran HR across a stack of disconnected tools — one for attendance, another for leave, spreadsheets for everything else — so data was re-keyed constantly and never fully agreed.",
+        "Onboarding a new hire and prepping payroll both meant stitching those tools together by hand every cycle.",
       ],
       solution: [
-        "SignHR now does the heavy lifting before payday: approved attendance and leave turn into LOP and overtime inputs automatically, salary structures and reimbursements are modeled exactly how Vayu pays, and statutory amounts (PF, ESI, PT, TDS) are computed as inputs.",
-        "A reviewed input sheet flags variance against the last cycle before anything leaves SignHR, then exports cleanly to their payroll provider for the payout and filing.",
+        "The team consolidated onto SignHR: core HR, onboarding, attendance, and leave in one workspace, with Ask HR answering employee questions and attendance and leave flowing into clean payroll inputs.",
+        "One source of truth means a change made once shows up everywhere, with nothing to reconcile between systems.",
       ],
       results: [
-        "Three days of spreadsheet reconciliation became a 20-minute review, with no double data entry.",
-        "Payroll finally matches headcount, and employees pull their own payslips from self-service.",
+        "Five separate HR tools collapsed into one, ending the constant re-keying.",
+        "New hires are set up in minutes and each payroll cycle starts from clean, reconciled inputs.",
       ],
     },
     pullQuotes: [
       {
         quote:
-          "What used to be three days of spreadsheet reconciliation is a 20-minute review — and the numbers finally match reality.",
-        attribution: "Faiza Khan",
-        role: "Payroll Lead, Vayu Logistics",
-      },
-    ],
-  },
-  {
-    slug: "anvaya",
-    company: "Anvaya",
-    feature: "Mobile",
-    featureSlug: "mobile",
-    sector: "B2B SaaS",
-    hq: "Chennai",
-    founded: 2021,
-    stage: "Series A",
-    size: "95 employees",
-    outcome:
-      "Anvaya put HR in everyone's pocket — punches, approvals and payslips from the app",
-    excerpt:
-      "A 95-person team didn't want a quarter-long rollout. With everything on mobile — punches, approvals, payslips, announcements — adoption didn't need a training plan.",
-    metrics: [
-      { label: "Setup", value: "1 afternoon" },
-      { label: "Week-one adoption", value: "95%" },
-      { label: "Training sessions", value: "0" },
-    ],
-    modules: ["mobile", "self-service", "leave-management", "workflows"],
-    story: {
-      challenge: [
-        "Anvaya had outgrown a shared leave spreadsheet, but every HR tool they tried looked like a quarter-long rollout for a 95-person company — and one nobody would actually open.",
-        "They needed HR to live where their team already is: on their phones.",
-      ],
-      solution: [
-        "Anvaya set up SignHR in an afternoon and rolled it out entirely on mobile. The app gives employees and managers one dashboard — punches, approvals, payslips, and announcements — with push notifications and real-time updates across locations.",
-        "Managers approve leave from their phones, employees self-serve documents and balances, and it keeps working offline when the signal drops.",
-      ],
-      results: [
-        "Ninety-five percent of the team was active in the first week, with zero formal training.",
-        "Approvals that used to wait for someone at a desk now happen from a phone in seconds.",
-      ],
-    },
-    pullQuotes: [
-      {
-        quote:
-          "Setup took an afternoon, not a quarter. Our managers approve leave from their phone now — adoption was instant.",
-        attribution: "Karthik Iyer",
-        role: "Operations Director, Anvaya",
+          "We replaced five tools with one. Onboarding takes minutes and payroll prep finally starts from numbers we trust.",
+        attribution: "Prem Saini",
+        role: "Founder, SignatureTech",
       },
     ],
   },

@@ -28,6 +28,13 @@ export const metadata: Metadata = {
   description:
     "Simple per-employee HR software pricing in INR — Core HR from ₹15/employee/month plus add-ons. 1- & 3-year terms save 10–20%.",
   alternates: { canonical: "/pricing" },
+  openGraph: {
+    title: "HR Software Pricing in India — SignHR",
+    description:
+      "Simple per-employee HR software pricing in INR — Core HR from ₹15/employee/month plus add-ons. 1- & 3-year terms save 10–20%.",
+    type: "website",
+    url: "/pricing",
+  },
 };
 
 const INCLUDED_IN_EVERY = [
@@ -116,10 +123,24 @@ const PRODUCT_LD = {
   ],
 };
 
+const BREADCRUMB_LD = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Pricing",
+      item: `${SITE_URL}/pricing`,
+    },
+  ],
+};
+
 export default function PricingPage() {
   return (
     <>
-      <JsonLd data={[FAQ_LD, PRODUCT_LD]} />
+      <JsonLd data={[FAQ_LD, PRODUCT_LD, BREADCRUMB_LD]} />
       <Hero
         eyebrow="PRICING"
         title={

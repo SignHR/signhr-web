@@ -83,9 +83,46 @@ export default async function CaseStudyPage({ params }: Props) {
     ],
   };
 
+  const articleLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: study.outcome,
+    description: study.excerpt,
+    about: {
+      "@type": "SoftwareApplication",
+      name: "SignHR",
+      applicationCategory: "BusinessApplication",
+    },
+    author: { "@type": "Organization", name: "SignHR", url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "SignHR",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo.webp` },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/customers/${slug}`,
+    },
+  };
+
+  const firstQuote = study.pullQuotes[0];
+  const reviewLd = firstQuote
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Review",
+        itemReviewed: {
+          "@type": "SoftwareApplication",
+          name: "SignHR",
+          applicationCategory: "BusinessApplication",
+        },
+        author: { "@type": "Organization", name: study.company },
+        reviewBody: firstQuote.quote,
+      }
+    : null;
+
   return (
     <>
-      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={[breadcrumbLd, articleLd, ...(reviewLd ? [reviewLd] : [])]} />
       <Section pad="compact" className="border-b border-border">
         <Container size="md">
           <Link

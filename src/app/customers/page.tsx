@@ -7,6 +7,8 @@ import { Hero } from "@/components/marketing/hero";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { CaseStudyCard } from "@/components/marketing/case-study-card";
 import { CustomersCta } from "@/components/marketing/customers-cta";
+import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import { CASE_STUDIES } from "@/lib/customers";
 import { LOGO_NAMES } from "@/lib/testimonials";
 
@@ -22,8 +24,25 @@ export default function CustomersPage() {
   const others = CASE_STUDIES.filter((c) => c.slug !== featured.slug);
   const [lead, ...rest] = others;
 
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "SignHR Customer Stories",
+    url: `${SITE_URL}/customers`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: CASE_STUDIES.map((c, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: c.company,
+        url: `${SITE_URL}/customers/${c.slug}`,
+      })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={collectionLd} />
       <Hero
         eyebrow="CUSTOMER STORIES"
         title={

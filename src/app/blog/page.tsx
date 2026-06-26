@@ -5,6 +5,8 @@ import { Hero } from "@/components/marketing/hero";
 import { NewsletterSignup } from "@/components/marketing/newsletter-signup";
 import { PostCard } from "@/components/blog/post-card";
 import { BlogIndexClient } from "@/components/blog/blog-index-client";
+import { JsonLd } from "@/components/seo/json-ld";
+import { SITE_URL } from "@/lib/utils";
 import { getAllPosts, getFeaturedPost, getCategories } from "@/lib/blog";
 
 export const revalidate = 300;
@@ -24,8 +26,25 @@ export default async function BlogIndexPage() {
   ]);
   const rest = posts.filter((p) => p.slug !== featured?.slug);
 
+  const collectionLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "SignHR Blog",
+    url: `${SITE_URL}/blog`,
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: posts.map((p, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: p.title,
+        url: `${SITE_URL}/blog/${p.slug}`,
+      })),
+    },
+  };
+
   return (
     <>
+      <JsonLd data={collectionLd} />
       <Hero
         eyebrow="THE FIELD NOTES"
         title={

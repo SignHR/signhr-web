@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description:
-    "The terms governing your use of SignHR's products and services.",
+    "The terms governing your use of SignHR — accounts and access, subscription and billing, acceptable use, data ownership, liability, and termination for Indian teams.",
   alternates: { canonical: "/legal/terms" },
 };
 

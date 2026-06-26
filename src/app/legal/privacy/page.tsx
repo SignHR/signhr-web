@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
-    "How SignHR collects, uses, stores, and protects your personal data.",
+    "How SignHR collects, uses, stores, and protects your employee and HR data — your rights, our retention and security practices, and GDPR & India DPDP Act alignment.",
   alternates: { canonical: "/legal/privacy" },
 };
 

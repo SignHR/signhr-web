@@ -5,12 +5,25 @@ import { FEATURE_PAGE_SLUGS } from "@/lib/features";
 import { CASE_STUDIES } from "@/lib/customers";
 import { getMarketplaceJobs } from "@/lib/marketplace";
 
-const STATIC_ROUTES: Array<{ path: string; priority?: number; changeFreq?: MetadataRoute.Sitemap[number]["changeFrequency"] }> = [
+/**
+ * Stable fallback `lastmod` for static routes. Using build-time `new Date()`
+ * makes every crawl see a fresh date, which search engines learn to distrust.
+ * Bump this when static page content is meaningfully revised.
+ */
+const SITE_LAUNCH = "2026-06-01";
+
+const STATIC_ROUTES: Array<{
+  path: string;
+  priority?: number;
+  changeFreq?: MetadataRoute.Sitemap[number]["changeFrequency"];
+  lastmod?: string;
+}> = [
   { path: "/", priority: 1.0, changeFreq: "weekly" },
   { path: "/features", priority: 0.9, changeFreq: "weekly" },
   { path: "/pricing", priority: 0.9, changeFreq: "weekly" },
   { path: "/customers", priority: 0.8, changeFreq: "weekly" },
   { path: "/about", priority: 0.6, changeFreq: "monthly" },
+  { path: "/security", priority: 0.6, changeFreq: "monthly" },
   { path: "/blog", priority: 0.8, changeFreq: "weekly" },
   { path: "/jobs", priority: 0.8, changeFreq: "daily" },
   { path: "/download", priority: 0.7, changeFreq: "monthly" },
@@ -27,7 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((r) => ({
     url: `${SITE_URL}${r.path}`,
-    lastModified: now,
+    lastModified: new Date(r.lastmod ?? SITE_LAUNCH),
     changeFrequency: r.changeFreq,
     priority: r.priority,
   }));

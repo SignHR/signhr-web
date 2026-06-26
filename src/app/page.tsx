@@ -32,6 +32,7 @@ import { SpotlightMockupView } from "@/components/marketing/spotlight-mockups";
 import { CoreHrCard } from "@/components/marketing/core-hr-card";
 import { LogoMarquee } from "@/components/marketing/logo-marquee";
 import { AppDownloadBand } from "@/components/marketing/app-download-band";
+import { SecuritySection } from "@/components/marketing/security-section";
 import { StatNumber } from "@/components/marketing/stat-number";
 import { BlogCover } from "@/components/blog/blog-cover";
 import { LOGO_NAMES, STATS } from "@/lib/testimonials";
@@ -400,6 +401,8 @@ export default async function HomePage() {
           </div>
         </Container>
       </Section>
+
+      <SecuritySection surface="muted" />
 
       <AppDownloadBand />
 

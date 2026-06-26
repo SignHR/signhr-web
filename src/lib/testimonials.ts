@@ -12,76 +12,60 @@ export type Testimonial = {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "Our people ask it the things they used to email me at 9pm — and it answers correctly, with the policy attached. My inbox finally went quiet.",
-    name: "Anita Reddy",
-    role: "Head of People",
-    company: "Vyom Pay",
-    initials: "AR",
+      "Our QC checks are logged every single shift. My last audit was a five-minute export instead of a week digging through registers.",
+    name: "Sneha Kulkarni",
+    role: "Lab Operations Manager",
+    company: "Krishna Diagnostics",
+    initials: "SK",
     accent: "purple",
   },
   {
     quote:
-      "What used to be three days of spreadsheet reconciliation is a 20-minute review — and the numbers finally match reality.",
-    name: "Faiza Khan",
-    role: "Payroll Lead",
-    company: "Vayu Logistics",
-    initials: "FK",
+      "Our crew just ask the assistant about their shift or pay now, and it answers correctly with the policy attached — even on a 500-person event day.",
+    name: "Neha Agarwal",
+    role: "Head of People",
+    company: "Memora Events",
+    initials: "NA",
     accent: "amber",
   },
   {
     quote:
-      "We used to dread every exit. Now joining and leaving are both checklists that run themselves.",
-    name: "Karan Malhotra",
-    role: "People Operations",
-    company: "Meraki Labs",
-    initials: "KM",
+      "Every engagement is on one board now — I can see what's due and who owns it without calling a meeting.",
+    name: "Rahul Deshpande",
+    role: "Delivery Lead",
+    company: "Krishna Consultancy Services",
+    initials: "RD",
     accent: "blue",
   },
   {
     quote:
-      "Warehouse, retail, and office are finally on one system — our managers approve timesheets on their phones over chai.",
-    name: "Aisha Patel",
-    role: "Head of HR",
-    company: "Tilse",
-    initials: "AP",
+      "Every field punch is on the map now, inside the collection area or not — the argument about who was where just ended.",
+    name: "Imran Shaikh",
+    role: "Field Supervisor",
+    company: "Krishna Diagnostics",
+    initials: "IS",
     accent: "green",
-    rating: 4,
   },
   {
     quote:
-      "Setup took an afternoon, not a quarter. Our managers approve leave from their phone now — adoption was instant.",
-    name: "Karthik Iyer",
-    role: "Operations Director",
-    company: "Anvaya",
-    initials: "KI",
+      "I can see headcount and attendance for every event in real time. The report I used to spend a day on takes minutes.",
+    name: "Vivek Menon",
+    role: "Operations Lead",
+    company: "Memora Events",
+    initials: "VM",
     accent: "purple",
-  },
-  {
-    quote:
-      "Every approval has a paper trail now — my last compliance review was a five-minute export.",
-    name: "Vidya Nair",
-    role: "People Partner",
-    company: "Kavya Health",
-    initials: "VN",
-    accent: "amber",
   },
 ];
 
-// Fictional, India-flavoured showcase brands. The six leading names are the
-// case-study companies in lib/customers.ts; the rest add density.
+// Real SignHR customers, shown as a scrolling text marquee. The first three are
+// the case-study companies in lib/customers.ts.
 export const LOGO_NAMES = [
-  "Vyom Pay",
-  "Meraki Labs",
-  "Tilse",
-  "Kavya Health",
-  "Vayu Logistics",
-  "Anvaya",
-  "Zolva",
-  "Indara Labs",
-  "Suvarna Retail",
-  "Nuvora",
-  "Brij Traders",
-  "Sankalp Tech",
+  "Krishna Consultancy Services",
+  "Krishna Diagnostics",
+  "Memora Events Pvt Ltd",
+  "SignatureTech",
+  "Accountune",
+  "FirstIn",
 ] as const;
 
 export const STATS = [

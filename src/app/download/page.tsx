@@ -23,6 +23,13 @@ export const metadata: Metadata = {
   description:
     "Get the SignHR app — punch in, approve leave and check payslips on iOS & Android, and run the full dashboard with native desktop apps for Windows, macOS and Linux.",
   alternates: { canonical: "/download" },
+  openGraph: {
+    title: "Download the SignHR HR App — iOS & Android",
+    description:
+      "Get the SignHR mobile app for iOS and Android — punch in, apply for leave, approve requests, and view payslips from your phone.",
+    type: "website",
+    url: "/download",
+  },
 };
 
 export const revalidate = 3600;
