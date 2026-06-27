@@ -1,12 +1,10 @@
 import Script from "next/script";
 
 /**
- * Third-party marketing/analytics pixels — Google Analytics 4, the LinkedIn
- * Insight Tag, and the Meta (Facebook) Pixel. Each is loaded once via
- * `next/script` (`afterInteractive`) and rendered in the root layout, with the
- * `<noscript>` fallbacks for LinkedIn and Meta. Every snippet fires its own
- * initial page view on load; SPA route-change page views are handled separately
- * (see the design spec).
+ * Google Analytics 4 (gtag.js) — the only third-party marketing tag loaded here.
+ * Loaded via `next/script` with `lazyOnload` so it stays off the critical path
+ * and fires on idle, after the page is interactive. SPA route-change page views
+ * are handled separately (see the design spec).
  */
 const GA_MEASUREMENT_ID = "G-G1WBN3X6ZT";
 
@@ -16,9 +14,9 @@ export function MarketingScripts() {
       {/* Google Analytics (gtag.js) */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
-      <Script id="ga4-init" strategy="afterInteractive">
+      <Script id="ga4-init" strategy="lazyOnload">
         {`window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());

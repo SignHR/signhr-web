@@ -97,6 +97,14 @@ export default function RootLayout({
         suppressHydrationWarning
         className="flex min-h-screen flex-col bg-background text-foreground antialiased"
       >
+        {/* Cross-origin resource hints (React 19 hoists these to <head>). GA is
+            the only third-party the browser connects to; fonts and images are
+            same-origin (next/font self-hosts; next/image proxies through
+            /_next/image), so they need no hints. */}
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
         <OpenPanelComponent
           apiUrl={process.env.NEXT_PUBLIC_OPENPANEL_API_URL}
           scriptUrl={process.env.NEXT_PUBLIC_OPENPANEL_SCRIPT_URL}
